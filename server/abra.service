@@ -1,0 +1,12 @@
+[Unit]
+Description=Abra socket.io app
+After=network.target
+
+[Service]
+User=http
+ExecStart=/usr/bin/node /srv/http/abra/server/typerace.js
+
+[Install]
+WantedBy=multi-user.target
+
+# vim: ft=systemd

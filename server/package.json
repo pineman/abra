@@ -1,0 +1,27 @@
+{
+  "name": "abra",
+  "version": "1.0.0",
+  "description": "its a game folks",
+  "main": "abra.js",
+  "dependencies": {
+    "socket.io": "^1.4.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node abra.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pineman/abra.git"
+  },
+  "keywords": [
+    "typing",
+    "game"
+  ],
+  "author": "João Pinheiro, Diogo Almiro, Diogo Tito",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pineman/abra/issues"
+  },
+  "homepage": "https://github.com/pineman/abra#readme"
+}
