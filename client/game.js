@@ -1,5 +1,6 @@
 /* Global io */
 
+//avalable colors for players
 var COLORS = [
 		"#f44336",
 		"#e91e63",
@@ -23,6 +24,7 @@ var COLORS = [
 		"#ffffff",
 		"#000000"
 ]
+//color selected by user (default:last color of the list)
 var mainColor = COLORS[COLORS.length - 1]
 
 function selectMainColor (){
@@ -30,7 +32,16 @@ function selectMainColor (){
 	if( lastElement )
 		lastElement.className = "";
 	this.className = "selected";
+	mainColor = this.value
 
+}
+
+
+function hide( id ){
+	document.getElementById(id).style.display = "none"
+}
+function show( id ){
+	document.getElementById(id).style.display = "block"
 }
 
 
@@ -54,5 +65,65 @@ window.addEventListener("load",function() {
 			name : document.querySelector("#getname > input").value,
 			color : mainColor
 		})
+		manageSocketEvents( socket )
+		hide("intro")
+		show("game")
 	}
 })
+
+
+function manageSocketEvents( socket ){
+	var Room = {
+		name : "",			//
+		players : [],
+		numFinished : 0,
+		timeLeft : 0, 		// ?
+		startTime : new Date(),
+		endTime : new Date(),
+		playing : [],
+		finished : []
+	}
+	socket.on("foundroom",function( room ){
+		Room = room
+		// TODO
+	})
+	socket.on("playierentered",function( player ){
+		Room.players.push( player )
+		// TODO
+	})
+	socket.on("gamestart",function( text ){
+		Room.startTime = new Date();
+		Room.playing = Room.players;
+		// TODO
+	})
+	socket.on("typed",function( data ){
+		// data = {
+		//	id,
+		//	index
+		// }
+		// TODO	
+	})
+	socket.on("finish",function( data ){
+		// data = {id}
+		var i = find( data.id, Room.playing )
+		if( i == -1 )
+			return;
+
+		Room.playing.slice(i ,1)
+		Room.finished.push( Room.players[i] )
+		Room.players[i].timeSpent = (new Date()) - Room.startTime
+		Room.numFinished++;
+	})
+	socket.on("end",function(){
+		Room.endTime = new Date();
+		hide("game")
+		show("stats")
+		// generateStats( Room ) - ?
+	})
+}
+function find( id , players){
+	for (var i = 0; i < players.length; i++)
+		if( players[i].id == id )
+			return i;
+	return -1;
+}
