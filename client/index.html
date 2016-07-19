@@ -2,10 +2,35 @@
 <html>
 	<head>
 		<title>ABRA</title>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300italic' rel='stylesheet' type='text/css'>
+		<link rel="icon" href="favicon.ico"/>
+		<link rel="stylesheet" type="text/css" href="style.css">
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="game.js"></script>
 	</head>
 	<body>
+		<div id="intro">
+			<!--
+			{LOGO}
+			Name: {input}
+			{ColorBox}
+			Start
 
+			gitlinks options //footer
+			-->
+			<div id="title"><img src="favicon.png"><h1>ABRA</h1></div>
+			<div id="getname"><input type="text" name="name" placeholder="Name" maxlength="20"></div>
+			<div id="getcolor"><!-- javascript work --></div>
+			<div id="start">Start</div>
+			<div id="options"></div>
+			<footer><h4>GitLinks | 2016 | Options</h4></footer>
+		</div>
+		<div id="game">
+			<!--
+			Text 75%
+
+			Info
+			-->
+		</div>
 	</body>
 </html>
