@@ -30,7 +30,7 @@ function getFileName(url) {
 const io = require('socket.io')(app);
 
 const ROOM_TIMEOUT = 30 * 1000;
-const MAX_PER_ROOM = 5;
+const MAX_PER_ROOM = 2;
 
 var texts = require('./texts.js');
 
@@ -64,7 +64,8 @@ function findRoom() {
 
 // Emit gamestart to all players in a room
 function emitGameStart(room) {
-	io.to(room.id).emit("gamestart", getText());
+	var text = getText();
+	io.to(room.id).emit("gamestart", text);
 };
 
 // Select a random text
@@ -99,7 +100,7 @@ io.on("connection", function (socket) {
 			setInterval(emitGameStart, ROOM_TIMEOUT, room);
 		}
 
-		socket.join(room);
+		socket.join(room.id);
 		// No need to inform the player of itself, emit before append
 		socket.emit("foundroom", room);
 		room.players.push(newPlayer);

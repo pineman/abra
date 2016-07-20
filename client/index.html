@@ -2,11 +2,18 @@
 <html>
 	<head>
 		<title>ABRA</title>
+
+		<meta charset="UTF-8">
+		
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300italic' rel='stylesheet' type='text/css'>
 		<link rel="icon" href="favicon.ico"/>
 		<link rel="stylesheet" type="text/css" href="style.css">
+		
 		<script src="/socket.io/socket.io.js"></script>
+		<script src="Player.js"></script>
+		<!-- Last script to import -->
 		<script src="game.js"></script>
+
 	</head>
 	<body>
 		<div id="intro">
@@ -32,7 +39,10 @@
 			Info
 			-->
 			<div id="text"></div>
-			<div id="stats"></div>
+			<div id="stats">
+				<div id="roominfo">Connecting to server...</div>
+				<ul id="players"></ul>
+			</div>
 		</div>
 		<dir id="end" style="display:none;">
 			<!-- 

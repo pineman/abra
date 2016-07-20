@@ -1,29 +1,8 @@
-/* Global io */
+/* Global io, Player */
 
 //avalable colors for players
-var COLORS = [
-		"#f44336",
-		"#e91e63",
-		"#9c27b0",
-		"#673ab7",
-		"#3f51b5",
-		"#2196f3",
-		"#03a9f4",
-		"#00bcd4",
-		"#009688",
-		"#4caf50",
-		"#8bc34a",
-		"#cddc39",
-		"#ffeb3b",
-		"#ffc107",
-		"#ff9800",
-		"#ff5722",
-		"#795548",
-		"#9e9e9e",
-		"#607d8b",
-		"#ffffff",
-		"#000000"
-]
+var COLORS = ["#f44336","#e91e63","#9c27b0","#673ab7","#3f51b5","#2196f3","#03a9f4","#00bcd4","#009688","#4caf50","#8bc34a","#cddc39","#ffeb3b","#ffc107","#ff9800","#ff5722","#795548","#9e9e9e","#607d8b","#ffffff","#000000"]
+
 //color selected by user (default:last color of the list)
 var mainColor = COLORS[COLORS.length - 1]
 
@@ -65,6 +44,10 @@ window.addEventListener("load",function() {
 			name : document.querySelector("#getname > input").value,
 			color : mainColor
 		})
+		showPlayer({
+			name : document.querySelector("#getname > input").value,
+			color : mainColor
+		})
 		manageSocketEvents( socket )
 		hide("intro")
 		show("game")
@@ -74,7 +57,7 @@ window.addEventListener("load",function() {
 
 function manageSocketEvents( socket ){
 	var Room = {
-		name : "",			//
+		id : "",			//
 		players : [],
 		numFinished : 0,
 		timeLeft : 0, 		// ?
@@ -84,17 +67,21 @@ function manageSocketEvents( socket ){
 		finished : []
 	}
 	socket.on("foundroom",function( room ){
-		Room = room
-		// TODO
+		Room = room;
+		document.getElementById("roominfo").innerHTML = "In room: " + room.id;
+		for (var i = 0; i < Room.players.length; i++) {
+			showPlayer(Room.players[i])
+		}
 	})
-	socket.on("playierentered",function( player ){
+	socket.on("playerentered",function( player ){
 		Room.players.push( player )
-		// TODO
+		showPlayer( player )
 	})
 	socket.on("gamestart",function( text ){
+		console.log("gamestarted" + text)
 		Room.startTime = new Date();
 		Room.playing = Room.players;
-		// TODO
+		document.getElementById("text").innerHTML = text;
 	})
 	socket.on("typed",function( data ){
 		// data = {
@@ -121,9 +108,17 @@ function manageSocketEvents( socket ){
 		// generateStats( Room ) - ?
 	})
 }
+
 function find( id , players){
 	for (var i = 0; i < players.length; i++)
 		if( players[i].id == id )
 			return i;
 	return -1;
+}
+
+function showPlayer( player ){
+	var li = document.createElement("li")
+	li.innerHTML = player.name;
+	li.style.border = "1px solid "+player.color
+	document.getElementById("players").appendChild(li)
 }

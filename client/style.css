@@ -1,7 +1,3 @@
-
-
-
-
 body {
     margin: 0;
     padding: 0;
@@ -40,17 +36,16 @@ input[type="text"] {
     font: inherit;
     font-size: 17px;
 }
+
 input[type="text"]::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: #8fa9a9;
+ 	color: #8fa9a9;
 }
 input[type="text"]::-moz-placeholder { /* Firefox 19+ */
-  color: #8fa9a9;
+	opacity: 1;
+ 	color: #8fa9a9;
 }
 input[type="text"]:-ms-input-placeholder { /* IE 10+ */
-  color: #8fa9a9;
-}
-input[type="text"]:-moz-placeholder { /* Firefox 18- */
-  color: #8fa9a9;
+ 	color: #8fa9a9;
 }
 
 #start {
@@ -71,7 +66,8 @@ input[type="text"]:-moz-placeholder { /* Firefox 18- */
 #getcolor {
     padding: 5px;
     background: #000;
-    margin: 20px 10%;
+    margin: 20px auto;
+    max-width: 400px;
     border: 1px solid #333;
 }
 #getcolor > div {
@@ -99,4 +95,12 @@ footer {
 footer > h4{
 	margin: 0;
 	font-weight: normal;
+}
+#text {
+	font: 25px Monospace;
+	margin: 30px;
+	padding: 30px;
+	background: #eee;
+	color: #000;
+	border-radius: 3px;
 }
