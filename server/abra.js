@@ -29,10 +29,8 @@ function getFileName(url) {
 // socket.io
 const io = require('socket.io')(app);
 
-const ROOM_TIMEOUT = 30 * 1000;
-const MAX_PER_ROOM = 2;
-
-var texts = require('./texts.js');
+const config = require('./config.js');
+const texts = require('./texts.js');
 
 var Player = function (name, color, id) {
 	this.name = name;
@@ -45,7 +43,7 @@ var Room = function (id) {
 	this.id = id;
 	this.players = [];
 	this.numFinished = 0;
-	this.timeLeft = ROOM_TIMEOUT;
+	this.timeLeft = config.ROOM_TIMEOUT;
 	this.timer = undefined;
 	this.status = "open"; // open, closed
 };
@@ -107,7 +105,7 @@ io.on("connection", function (socket) {
 		room.players.push(newPlayer);
 
 		// Start the game if the room has enough players
-		if (room.players.length === MAX_PER_ROOM) {
+		if (room.players.length === config.MAX_PER_ROOM) {
 			clearTimeout(room.timer);
 			emitGameStart(room);
 		}
