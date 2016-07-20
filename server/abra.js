@@ -46,6 +46,7 @@ var Room = function (id) {
 	this.players = [];
 	this.numFinished = 0;
 	this.timeLeft = ROOM_TIMEOUT;
+	this.timer = undefined;
 	this.status = "open"; // open, closed
 };
 
@@ -95,9 +96,9 @@ io.on("connection", function (socket) {
 			// http://socket.io/docs/rooms-and-namespaces/
 			room = new Room(socket.id);
 			rooms.push(room);
-			// Start the game regardless of how many players
-			// are in the room in ROOM_TIMEOUT miliseconds
-			setInterval(emitGameStart, ROOM_TIMEOUT, room);
+			// Start the game in ROOM_TIMEOUT miliseconds
+			// regardless of how many players are waiting
+			room.timer = setTimeout(emitGameStart, ROOM_TIMEOUT, room);
 		}
 
 		socket.join(room.id);
@@ -105,10 +106,10 @@ io.on("connection", function (socket) {
 		socket.emit("foundroom", room);
 		room.players.push(newPlayer);
 
-		// Start the game if we have enough players
+		// Start the game if the room has enough players
 		if (room.players.length === MAX_PER_ROOM) {
+			clearTimeout(room.timer);
 			emitGameStart(room);
 		}
 	});
-
 });
