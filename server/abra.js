@@ -2,8 +2,10 @@
 // HTTP server
 var PORT = process.argv[2] || 80;
 
-const app = require('http').createServer(handler)
+const app = require('http').createServer(handler);
 const fs = require('fs');
+
+const namegen = require('./namegen');
 
 app.listen(PORT);
 
@@ -41,6 +43,7 @@ var Player = function (name, color, id) {
 
 var Room = function (id) {
 	this.id = id;
+    this.name = namegen.wordFor(id);
 	this.players = [];
 	this.numFinished = 0;
 	this.timeLeft = config.ROOM_TIMEOUT;
@@ -102,7 +105,7 @@ io.on("connection", function (socket) {
 		socket.join(room.id);
 		// No need to inform the player of itself, emit before append
 		socket.emit("foundroom", {
-			id: room.id,
+            name: room.name,
 			players: room.players,
 			numFinished: room.numFinished,
 			timeLeft: room.timeLeft
