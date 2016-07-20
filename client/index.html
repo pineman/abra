@@ -3,8 +3,8 @@
 	<head>
 		<title>ABRA</title>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300italic' rel='stylesheet' type='text/css'>
-		<link rel="icon" href="favicon.ico"/>
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script src="/socket.io/socket.io.js"></script>
 		<!-- Last script to import -->
@@ -12,22 +12,25 @@
 		<script src="intro.js"></script>
 		<script src="game.js"></script>
 		<script type="text/javascript">
-window.onload = function () {
-	generateBoxColors( document.getElementById("getcolor") );
-	initGame();
-}
+			window.onload = function () {
+				generateBoxColors( document.getElementById("getcolor") );
+				initGame();
+			}
 		</script>
 	</head>
 
 	<body>
-
 		<div id="intro">
-			<div id="title"><img src="favicon.png"><h1>ABRA</h1></div>
+		<div id="intro-wrap">
+			<div id="title">
+				<img src="assets/favicon.png">
+				<h1>ABRA</h1>
+			</div>
 			<div id="getname"><input type="text" name="name" placeholder="Name" maxlength="20"></div>
 			<div id="getcolor"><!-- javascript work --></div>
 			<div id="start">Start</div>
-			<div id="options"></div>
-			<footer><h4>GitLinks | 2016 | Options</h4></footer>
+			<footer><h4>github</h4></footer>
+		</div>
 		</div>
 
 		<div id="game" style="display:none;">
