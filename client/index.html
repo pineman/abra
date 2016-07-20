@@ -2,29 +2,19 @@
 <html>
 	<head>
 		<title>ABRA</title>
-
 		<meta charset="UTF-8">
-		
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300italic' rel='stylesheet' type='text/css'>
 		<link rel="icon" href="favicon.ico"/>
 		<link rel="stylesheet" type="text/css" href="style.css">
-		
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="Player.js"></script>
 		<!-- Last script to import -->
 		<script src="game.js"></script>
-
 	</head>
-	<body>
-		<div id="intro">
-			<!--
-			{LOGO}
-			Name: {input}
-			{ColorBox}
-			Start
 
-			gitlinks options //footer
-			-->
+	<body>
+
+		<div id="intro">
 			<div id="title"><img src="favicon.png"><h1>ABRA</h1></div>
 			<div id="getname"><input type="text" name="name" placeholder="Name" maxlength="20"></div>
 			<div id="getcolor"><!-- javascript work --></div>
@@ -32,22 +22,14 @@
 			<div id="options"></div>
 			<footer><h4>GitLinks | 2016 | Options</h4></footer>
 		</div>
-		<div id="game" style="display:none;">
-			<!--
-			Text 75%
 
-			Info
-			-->
+		<div id="game" style="display:none;">
 			<div id="text"></div>
 			<div id="stats">
 				<div id="roominfo">Connecting to server...</div>
 				<ul id="players"></ul>
 			</div>
 		</div>
-		<dir id="end" style="display:none;">
-			<!-- 
-			
-			-->
-		</dir>
+
 	</body>
 </html>

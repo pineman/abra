@@ -81,7 +81,7 @@ io.on("connection", function (socket) {
 
 		if (room) {
 			// Close the room as soon as possible.
-			if (room.players.length === MAX_PER_ROOM - 1) {
+			if (room.players.length === config.MAX_PER_ROOM - 1) {
 				room.status = "closed";
 			}
 			// Inform the players in the room that a new player
@@ -96,12 +96,17 @@ io.on("connection", function (socket) {
 			rooms.push(room);
 			// Start the game in ROOM_TIMEOUT miliseconds
 			// regardless of how many players are waiting
-			room.timer = setTimeout(emitGameStart, ROOM_TIMEOUT, room);
+			room.timer = setTimeout(emitGameStart, config.ROOM_TIMEOUT, room);
 		}
 
 		socket.join(room.id);
 		// No need to inform the player of itself, emit before append
-		socket.emit("foundroom", room);
+		socket.emit("foundroom", {
+			id: room.id,
+			players: room.players,
+			numFinished: room.numFinished,
+			timeLeft: room.timeLeft
+		});
 		room.players.push(newPlayer);
 
 		// Start the game if the room has enough players

@@ -7,7 +7,6 @@ body {
     color: #fff;
 }
 
-
 #intro {
     margin: 30px 25%;
     text-align: center;
@@ -17,6 +16,7 @@ body {
     width: 75px;
     margin: 5px 25px 5px 0;
 }
+
 #title > * {
 	display: inline;
     vertical-align: middle;
@@ -40,10 +40,12 @@ input[type="text"] {
 input[type="text"]::-webkit-input-placeholder { /* Chrome/Opera/Safari */
  	color: #8fa9a9;
 }
+
 input[type="text"]::-moz-placeholder { /* Firefox 19+ */
 	opacity: 1;
  	color: #8fa9a9;
 }
+
 input[type="text"]:-ms-input-placeholder { /* IE 10+ */
  	color: #8fa9a9;
 }
@@ -58,6 +60,7 @@ input[type="text"]:-ms-input-placeholder { /* IE 10+ */
 	transition: 1s;
 	text-transform: uppercase;
 }
+
 #start:hover{
 	background: #00e676;
 	transition: 0.3s;
@@ -70,6 +73,7 @@ input[type="text"]:-ms-input-placeholder { /* IE 10+ */
     max-width: 400px;
     border: 1px solid #333;
 }
+
 #getcolor > div {
     width: 30px;
     height: 30px;
@@ -80,10 +84,12 @@ input[type="text"]:-ms-input-placeholder { /* IE 10+ */
     cursor: pointer;
     transition: 1s;
 }
+
 #getcolor > div.selected {
     border-color: #fff;
     transition: 0.3s;
 }
+
 footer {
     position: fixed;
     bottom: 0;
@@ -92,10 +98,12 @@ footer {
     padding: 15px 0;
     background: #111111;
 }
+
 footer > h4{
 	margin: 0;
 	font-weight: normal;
 }
+
 #text {
 	font: 25px Monospace;
 	margin: 30px;
