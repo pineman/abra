@@ -37,7 +37,7 @@ var texts = require('./texts.js');
 var Player = function (name, color, id) {
 	this.name = name;
 	this.color = color;
-	this.id = color; // the player's socket.id
+	this.id = id; // the player's socket.id
 	this.pos = 0; // index in the text string
 };
 
@@ -64,12 +64,18 @@ function findRoom() {
 
 // Emit gamestart to all players in a room
 function emitGameStart(room) {
-	io.to(room.id).emit("gamestart");
+	io.to(room.id).emit("gamestart", getText());
 };
 
-io.on('connection', function (socket) {
+// Select a random text
+function getText() {
+	var rand = Math.floor(Math.random() * texts.length);
+	return texts[rand];
+};
+
+io.on("connection", function (socket) {
 	// New player, find him a room
-	socket.on('newplayer', function (data) {
+	socket.on("newplayer", function (data) {
 		var newPlayer = new Player(data.name, data.color, data.id);
 		var room = findRoom();
 
