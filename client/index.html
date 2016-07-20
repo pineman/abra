@@ -7,9 +7,16 @@
 		<link rel="icon" href="favicon.ico"/>
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script src="/socket.io/socket.io.js"></script>
-		<script src="Player.js"></script>
 		<!-- Last script to import -->
+		<script src="Player.js"></script>
+		<script src="intro.js"></script>
 		<script src="game.js"></script>
+		<script type="text/javascript">
+window.onload = function () {
+	generateBoxColors( document.getElementById("getcolor") );
+	initGame();
+}
+		</script>
 	</head>
 
 	<body>

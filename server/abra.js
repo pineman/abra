@@ -76,7 +76,7 @@ function getText() {
 io.on("connection", function (socket) {
 	// New player, find him a room
 	socket.on("newplayer", function (data) {
-		var newPlayer = new Player(data.name, data.color, data.id);
+		var newPlayer = new Player(data.name, data.color, socket.id);
 		var room = findRoom();
 
 		if (room) {

@@ -1,118 +1,111 @@
-/* Global io, Player */
+/* Global io, Player, Room, mainColor */
+var player;
 
-// Available colors for players
-var COLORS = ["#f44336","#e91e63","#9c27b0","#673ab7","#3f51b5","#2196f3","#03a9f4","#00bcd4","#009688","#4caf50","#8bc34a","#cddc39","#ffeb3b","#ffc107","#ff9800","#ff5722","#795548","#9e9e9e","#607d8b","#ffffff","#000000"];
-
-// Color selected by user (default:last color of the list)
-var mainColor = COLORS[COLORS.length - 1];
-
-function selectMainColor() {
-	var lastElement = document.querySelector("#getcolor > .selected")
-	if (lastElement)
-		lastElement.className = "";
-	this.className = "selected";
-	mainColor = this.value
-
+function showPlayer(player) {
+	var li = document.createElement("li");
+	li.innerHTML = player.name;
+	li.style.border = "1px solid " + player.color;
+	document.getElementById("players").appendChild(li);
 };
 
-function hide (id) {
-	document.getElementById(id).style.display = "none"
+
+function initGame() {
+	var startButtom = document.getElementById("start");
+	startButtom.onclick = startIO;
+}
+
+function startIO() {
+	player = new Player(
+				document.querySelector("#getname > input").value,
+				mainColor,
+				"MYSELF"
+			);
+
+	var socket = io(window.location.href);
+	socket.emit("newplayer", {
+			name: player.name,
+			color: player.color
+	});
+	hide("intro");
+	show("game");
+	showPlayer(player);
+	manageSocketEvents(socket);
+}
+
+function hide(id) {
+	document.getElementById(id).style.display = "none";
 };
 
-function show (id) {
-	document.getElementById(id).style.display = "block"
+function show(id) {
+	document.getElementById(id).style.display = "block";
 };
-
-window.addEventListener("load", function() {
-	// Select Main Color
-	var element = document.getElementById("getcolor");
-	var colorbox;
-	for (var i = 0; i < COLORS.length; i++) {
-		colorbox = document.createElement("div");
-		colorbox.style.background = COLORS[i];
-		colorbox.value = COLORS[i];
-		colorbox.onclick = selectMainColor;
-		element.appendChild(colorbox);
-	}
-	colorbox.className = "selected";
-
-	// Find a room, initialize socket.io
-	document.getElementById("start").onclick = function() {
-		var socket = io(window.location.href);
-		socket.emit("newplayer", {
-			name : document.querySelector("#getname > input").value,
-			color : mainColor
-		});
-		showPlayer({
-			name : document.querySelector("#getname > input").value,
-			color : mainColor
-		});
-		manageSocketEvents(socket);
-		hide("intro");
-		show("game");
-	}
-});
+function convertToPlayer( player ){
+	return new Player(player.name, player.color, player.id);
+}
 
 function manageSocketEvents(socket) {
-	var Room = {
-		id : "",
-		players : [],
-		numFinished : 0,
-		timeLeft : 0,
-		startTime : new Date(),
-		endTime : new Date(),
-		playing : [],
-		finished : []
-	};
+	var room = new Room();
+	socket.on("foundroom", function (newRoom) {
+		
+		room.name = newRoom.name;
+		room.players = newRoom.players;
+		room.numFinished = newRoom.numFinished;
+		room.timeLeft = newRoom.timeLeft;
 
-	socket.on("foundroom", function (room) {
-		Room = room;
 		document.getElementById("roominfo").innerHTML = "In room: " + room.id;
-		for (var i = 0; i < Room.players.length; i++) {
-			showPlayer(Room.players[i]);
+	
+		for (var i = 0; i < room.players.length; i++) {
+			room.players[i]  = convertToPlayer( players[i] );
+			showPlayer(room.players[i]);
 		}
 	});
 
-	socket.on("playerentered", function (player) {
-		Room.players.push(player);
+	socket.on("playerentered", function ( player) {
+		player = convertToPlayer(player);
+		room.players.push(player);
 		showPlayer(player);
+		player.displayCursor();
 	});
 
 	socket.on("gamestart", function (text) {
-		console.log("gamestarted" + text)
-		Room.startTime = new Date();
-		Room.playing = Room.players;
+
+		room.startTime = new Date();
+		room.playing = room.players.slice();
 		document.getElementById("text").innerHTML = text;
+		setTimeout(startGame, 5000, socket, text)
 	});
 
 	socket.on("typed", function (data) {
-		// data = {
-		//	id,
-		//	index
-		// }
-		// TODO
+		var player = findPlayer(data.index, room.playing);
+		if(!player) {
+			return;
+		}
+		player.typed(data.index);
 	});
 
 	socket.on("finish", function (data) {
 		// data = {id}
-		var i = find(data.id, Room.playing)
-		if (i == -1) {
+		var i = find(data.id, room.playing)
+		if(i==-1)
 			return;
-		}
-
-		Room.playing.slice(i ,1);
-		Room.finished.push( Room.players[i] );
-		Room.players[i].timeSpent = (new Date()) - Room.startTime;
-		Room.numFinished++;
+		room.playing[i].endTime = new Date();
+		room.finished.push( room.playing.slice(i ,1)[0] );
+		room.numFinished++;
 	});
 
 	socket.on("end", function () {
-		Room.endTime = new Date();
-		hide("game");
-		show("stats");
-		// generateStats( Room ) - ?
+		room.endTime = new Date();
+		finishGame();
+		// generateStats( room ) - ?
 	});
+
 };
+
+function findPlayer(id, players){
+	for (var i = 0; i < players.length; i++)
+		if (players[i].id == id)
+			return players[i];
+}
 
 function find(id, players) {
 	for (var i = 0; i < players.length; i++)
@@ -121,9 +114,22 @@ function find(id, players) {
 	return -1;
 };
 
-function showPlayer(player) {
-	var li = document.createElement("li");
-	li.innerHTML = player.name;
-	li.style.border = "1px solid " + player.color;
-	document.getElementById("players").appendChild(li);
-};
+function startGame( socket, text ){
+	addEventListener("keypressed", keypressed, socket, text)
+}
+function finishGame( room ){
+
+}
+
+function keypressed(e, socket, text){
+	// TODO
+	var key = e.key
+	if( text[player.pos + 1].test(/\W/) )
+		socket.emit("typed", {
+			pos: player.pos
+		});
+	if( text.length == player.pos )
+		socket.emit("finish",{
+			time : 1
+		})
+}
