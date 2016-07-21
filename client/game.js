@@ -104,11 +104,11 @@ function manageSocketEvents(socket) {
 		for (var i = 0; i < text.length; i++) {
 			var span = document.createElement("span")
 			span.innerHTML = text[i];
-			document.getElementById("text").appendChild(span)
+			document.getElementById("text").appendChild(span);
 		}
 		player.typed(0);
-		for (var i = 0; i < romm.playing.length; i++) {
-			romm.playing[i].typed(0);
+		for (var i = 0; i < room.playing.length; i++) {
+			room.playing[i].typed(0);
 		}
 	});
 
