@@ -22,14 +22,15 @@
 	</head>
 
 	<body>
+		<!-- Initial screen -->
 		<div id="intro">
 		<div id="intro-flexy">
 			<div id="header-wrap">
 				<div id="header">
 					<img id="logo" src="assets/favicon.png">
 					<span id="title">ABRA</span>
-				</div>
 					<input id="getname" type="text" name="name" placeholder="Name" maxlength="15">
+				</div>
 			</div>
 
 			<div id="getcolor"><!-- javascript work --></div>
@@ -37,14 +38,25 @@
 			<footer><h5><a href="https://github.com/pineman/abra">source</a></h5></footer>
 		</div>
 		</div>
+		<!-- Intro -->
 
+		<!-- Game screen -->
 		<div id="game" style="display:none;">
-			<div id="text"></div>
-			<div id="stats">
-				<div id="roominfo">Connecting to server...</div>
-				<ul id="players"></ul>
+		<div id="game-box">
+
+			<div id="text">
 			</div>
+
+			<div id="lobby">
+				<h1>Room <span id="room-name"></span></h1>
+				<h6>status: <span id="status">Connecting to server...</span></h6>
+				<ul id="players">
+				</ul>
+			</div>
+
 		</div>
+		</div>
+		<!-- Game -->
 
 	</body>
 </html>

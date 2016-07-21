@@ -4,9 +4,9 @@ var player;
 function showPlayer(player) {
 	var li = document.createElement("li");
 	li.innerHTML = player.name;
-	li.style.border = "1px solid " + player.color;
+	li.style.color = player.color;
 	document.getElementById("players").appendChild(li);
-};
+}
 
 
 function initGame() {
@@ -34,13 +34,38 @@ function startIO() {
 
 function hide(id) {
 	document.getElementById(id).style.display = "none";
-};
+}
 
 function show(id) {
 	document.getElementById(id).style.display = "block";
-};
+}
 function convertToPlayer( player ){
 	return new Player(player.name, player.color, player.id);
+}
+
+function showStatus(status) {
+	document.getElementById("status").innerHTML = status;
+}
+
+function countToGame(room) {
+	room.timeLeft--;
+	if (room.timeLeft) {
+		showStatus("Finding players... " + room.timeLeft);
+	} else {
+		clearInterval(room.timer);
+		showStatus("Game starting... ");
+	}
+}
+
+function countToStart(tmp, room) {
+	if (room.timer) clearInterval(room.timer);
+	if (tmp.time) {
+		showStatus("Start in " + tmp.time);
+	} else {
+		clearInterval(tmp.timer);
+		showStatus("Go!");
+	}
+	tmp.time--;
 }
 
 function manageSocketEvents(socket) {
@@ -51,12 +76,15 @@ function manageSocketEvents(socket) {
 		room.numFinished = newRoom.numFinished;
 		room.timeLeft = newRoom.timeLeft;
 
-		document.getElementById("roominfo").innerHTML = "In room: " + room.name;
+		document.getElementById("room-name").innerHTML += room.name;
 
 		for (var i = 0; i < room.players.length; i++) {
 			room.players[i]  = convertToPlayer(room.players[i]);
 			showPlayer(room.players[i]);
 		}
+
+		showStatus("Finding players... " + room.timeLeft);
+		room.timer = setInterval(countToGame, 1000, room);
 	});
 
 	socket.on("playerentered", function (player) {
@@ -67,11 +95,12 @@ function manageSocketEvents(socket) {
 	});
 
 	socket.on("gamestart", function (text) {
-
 		room.startTime = new Date();
 		room.playing = room.players.slice();
-		// document.getElementById("text").innerHTML = text;
 		setTimeout(startGame, 5000, socket, text);
+		var tmp = {time: 5};
+		tmp.timer = setInterval(countToStart, 1000, tmp, room);
+
 		for (var i = 0; i < text.length; i++) {
 			var span = document.createElement("span")
 			span.innerHTML = text[i];
@@ -106,7 +135,7 @@ function manageSocketEvents(socket) {
 		// generateStats( room ) - ?
 	});
 
-};
+}
 
 function findPlayer(id, players){
 	for (var i = 0; i < players.length; i++)
@@ -119,7 +148,7 @@ function find(id, players) {
 		if (players[i].id == id)
 			return i;
 	return -1;
-};
+}
 
 function startGame( socket, text ){
 	addEventListener("keypress", function(e){

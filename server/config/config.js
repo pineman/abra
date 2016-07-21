@@ -1,5 +1,5 @@
 const config = {
-	ROOM_TIMEOUT: 30 * 1000,
+	ROOM_TIMEOUT: 30, // seconds
 	MAX_PER_ROOM: 2
 };
 

@@ -3,12 +3,12 @@ body {
     padding: 0;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
-    background: @black;
     color: white;
     height: 100vh;
 }
 
 #intro {
+	background: @black;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -22,7 +22,6 @@ body {
 
 #header {
 	margin: 0 auto;
-	margin-bottom: 20px;
 	width: 242px;
 	#title {
 		font-size: 55px;
@@ -94,7 +93,8 @@ footer {
 	h5 {
 		font-weight: normal;
 	}
-	a {
-		border-bottom: 1px dotted grey;
+	a:hover {
+		border-bottom: 1px  grey;
+		cursor: pointer;
 	}
 }

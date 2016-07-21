@@ -1,10 +1,33 @@
+#game {
+	height: 100%;
+}
+
+#game-box {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
 #text {
-	font: 25px Monospace;
-	margin: 30px;
-	padding: 30px;
-	background: #eee;
-	color: #000;
-	border-radius: 3px;
+	font: 25px monospace;
+	padding: 10px;
+	background: @dark-white;
+	color: black;
+}
+
+#lobby {
+	height: 100%;
+	background: @black;
+	padding: 5px;
+
+	ul {
+		margin: 20px;
+	}
+
+	li {
+		margin-bottom: 10px;
+		border-bottom: 1px solid;
+	}
 }
 #text span {
 	border: 1px solid rgba(0,0,0,0);

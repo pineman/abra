@@ -38,7 +38,7 @@ var Player = function (name, color, id) {
 	this.color = color;
 	this.id = id; // the player's socket.id
 	this.pos = 0; // index in the text string
-};
+}
 
 var Room = function (id) {
 	this.id = id;
@@ -48,7 +48,7 @@ var Room = function (id) {
 	this.timeLeft = config.ROOM_TIMEOUT;
 	this.timer = undefined;
 	this.status = "open"; // open, closed
-};
+}
 
 var rooms = [];
 
@@ -61,19 +61,26 @@ function findRoom() {
 
 	// No open room was found (undefined)
 	return;
-};
-
-// Emit gamestart to all players in a room
-function emitGameStart(room) {
-	var text = getText();
-	io.to(room.id).emit("gamestart", text);
-};
+}
 
 // Select a random text
 function getText() {
 	var rand = Math.floor(Math.random() * texts.length);
 	return texts[rand];
-};
+}
+
+// Emit gamestart to all players in a room
+function emitGameStart(room) {
+	var text = getText();
+	io.to(room.id).emit("gamestart", text);
+}
+
+function countGameStart(room) {
+	room.timeLeft--;
+	if (!room.timeLeft) {
+		emitGameStart(room);
+	}
+}
 
 io.on("connection", function (socket) {
 	// New player, find him a room
@@ -98,7 +105,7 @@ io.on("connection", function (socket) {
 			rooms.push(room);
 			// Start the game in ROOM_TIMEOUT miliseconds
 			// regardless of how many players are waiting
-			room.timer = setTimeout(emitGameStart, config.ROOM_TIMEOUT, room);
+			room.timer = setInterval(countGameStart, 1000, room);
 		}
 
 		socket.join(room.id);
