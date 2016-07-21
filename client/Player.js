@@ -33,9 +33,9 @@ function hexToRgba( color, opacity ){
 		g = parseInt( color.substr(2,2), 16 );
 		b = parseInt( color.substr(4,2), 16 );
 	} else if( color.length == 3 ){
-		r = parseInt( color.substr(0,1), 16 ) * 16;
-		g = parseInt( color.substr(1,1), 16 ) * 16;
-		b = parseInt( color.substr(2,1), 16 ) * 16;
+		r = parseInt( color.substr(0,1), 16 ) * 16 + 15;
+		g = parseInt( color.substr(1,1), 16 ) * 16 + 15;
+		b = parseInt( color.substr(2,1), 16 ) * 16 + 15;
 	}
 	return "rgba(${r},${g},${b},${opacity})".replace("${r}",r).replace("${g}",g).replace("${b}",b).replace("${opacity}",opacity)
 }
