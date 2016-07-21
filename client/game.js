@@ -114,11 +114,11 @@ function manageSocketEvents(socket) {
 	});
 
 	socket.on("typed", function (data) {
-		var player = findPlayer(data.index, room.playing);
+		var player = findPlayer(data.id, room.playing);
 		if (!player) {
 			return;
 		}
-		player.typed(data.index);
+		player.typed(data.pos);
 	});
 
 	socket.on("finish", function (data) {
