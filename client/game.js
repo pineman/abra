@@ -52,10 +52,10 @@ function manageSocketEvents(socket) {
 		room.numFinished = newRoom.numFinished;
 		room.timeLeft = newRoom.timeLeft;
 
-		document.getElementById("roominfo").innerHTML = "In room: " + room.id;
+		document.getElementById("roominfo").innerHTML = "In room: " + room.name;
 	
 		for (var i = 0; i < room.players.length; i++) {
-			room.players[i]  = convertToPlayer( players[i] );
+			room.players[i]  = convertToPlayer( room.players[i] );
 			showPlayer(room.players[i]);
 		}
 	});
