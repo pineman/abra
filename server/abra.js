@@ -128,13 +128,10 @@ io.on("connection", function (socket) {
 			emitGameStart(room);
 		}
 	});
-	
-	socket.on("typed", function(pos) {
-		socket.player.pos = pos;
-		var dataToSend = {id: socket.player.id, pos: pos};
-		console.log("=========== typed ===========");
-		console.log("socket.room.id: " + socket.room.id);
-		console.log("socket.player.id: " + socket.player.id);
+
+	socket.on("typed", function(data) {
+		var dataToSend = {id: socket.id, pos: data.pos};
+		// TODO: broadcast
 		io.to(socket.room.id).emit("typed", dataToSend);
 	})
 });

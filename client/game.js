@@ -115,9 +115,7 @@ function manageSocketEvents(socket) {
 
 	socket.on("typed", function (data) {
 		var player = findPlayer(data.id, room.playing);
-		if (!player) {
-			return;
-		}
+		if (!player) return;
 		player.typed(data.pos);
 	});
 
@@ -164,14 +162,22 @@ function finishGame( room ){
 function keypress(e, socket, text){
 	// TODO
 	var char = keysight(e).char;
-	if( char == text[player.pos])
-		player.typed( player.pos + 1 );
-	if( text.length == player.pos ) {
-		socket.emit("finish",{
-			time : 1
+
+	if (char == text[player.pos]) {
+		player.typed(player.pos + 1);
+	} else {
+		// Wrong keypress
+		return;
+	}
+
+	if (text.length === player.pos) {
+		// TODO
+		socket.emit("finish", {
+			time: 1
 		})
 		finishGame();
-	} else if( text[player.pos].match(/\W/) ){
+	//} else if (text[player.pos].match(/\W/)) {
+	} else {
 		socket.emit("typed", {
 			pos: player.pos
 		});

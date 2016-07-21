@@ -18,7 +18,7 @@ Player.prototype.typed = function( pos ) {
 
 Player.prototype.displayCursor = function() {
 	var span = document.getElementById("text").children[this.pos];
-	if(span){
+	if (span) {
 		var backcolor = hexToRgba(this.color, 0.7)
 		span.style.border = "1px solid "+this.color;
 		span.style.background = backcolor;
