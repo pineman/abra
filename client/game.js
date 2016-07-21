@@ -70,8 +70,13 @@ function manageSocketEvents(socket) {
 
 		room.startTime = new Date();
 		room.playing = room.players.slice();
-		document.getElementById("text").innerHTML = text;
+		// document.getElementById("text").innerHTML = text;
 		setTimeout(startGame, 5000, socket, text);
+		for (var i = 0; i < text.length; i++) {
+			var span = document.createElement("span")
+			span.innerHTML = text[i];
+			document.getElementById("text").appendChild(span)
+		}
 	});
 
 	socket.on("typed", function (data) {
@@ -113,21 +118,28 @@ function find(id, players) {
 };
 
 function startGame( socket, text ){
-	addEventListener("keypressed", keypressed, socket, text)
+	addEventListener("keypress", function(e){
+		e.preventDefault();
+		keypress(e,socket,text);
+	});
 }
 function finishGame( room ){
-
+	removeEventListener("keypress")
 }
 
-function keypressed(e, socket, text){
+function keypress(e, socket, text){
 	// TODO
-	var key = e.key
-	if( text[player.pos + 1].test(/\W/) )
-		socket.emit("typed", {
-			pos: player.pos
-		});
-	if( text.length == player.pos )
+	var char = keysight(e).char;
+	if( char == text[player.pos])
+		player.typed( player.pos + 1 );
+	if( text.length == player.pos ) {
 		socket.emit("finish",{
 			time : 1
 		})
+		finishGame();
+	} else if( text[player.pos + 1].match(/\W/) ){
+		socket.emit("typed", {
+			pos: player.pos
+		});
+	}
 }
