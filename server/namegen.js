@@ -15,4 +15,3 @@ function wordFor(idStr) {
 }
 
 module.exports = {stringHash, wordFor};
-

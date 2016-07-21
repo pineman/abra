@@ -28,6 +28,7 @@ function startIO() {
 	});
 	hide("intro");
 	show("game");
+
 	showPlayer(player);
 	manageSocketEvents(socket);
 }
@@ -170,7 +171,7 @@ function keypress(e, socket, text){
 			time : 1
 		})
 		finishGame();
-	} else if( text[player.pos + 1].match(/\W/) ){
+	} else if( text[player.pos].match(/\W/) ){
 		socket.emit("typed", {
 			pos: player.pos
 		});

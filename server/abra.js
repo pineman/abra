@@ -28,6 +28,7 @@ function getFileName(url) {
 /* ------------------------------------------------------------ */
 // socket.io
 const io = require('socket.io')(app);
+// io.serveClient(true);
 
 const config = require('./config/config.js');
 const texts = require('./texts.js');
@@ -118,10 +119,22 @@ io.on("connection", function (socket) {
 		});
 		room.players.push(newPlayer);
 
+		socket.room = room;
+		socket.player = newPlayer;
+
 		// Start the game if the room has enough players
 		if (room.players.length === config.MAX_PER_ROOM) {
 			clearTimeout(room.timer);
 			emitGameStart(room);
 		}
 	});
+	
+	socket.on("typed", function(pos) {
+		socket.player.pos = pos;
+		var dataToSend = {id: socket.player.id, pos: pos};
+		console.log("=========== typed ===========");
+		console.log("socket.room.id: " + socket.room.id);
+		console.log("socket.player.id: " + socket.player.id);
+		io.to(socket.room.id).emit("typed", dataToSend);
+	})
 });
