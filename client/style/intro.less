@@ -15,42 +15,41 @@ body {
 	height: 100%;
 }
 
-#intro-wrap {
+#intro-flexy {
     text-align: center;
-    min-height: 477px;
-    min-width: 412px;
+    min-width: 270px;
 }
 
-#title {
-	> * {
-		display: inline;
-		vertical-align: middle;
-		font-weight: normal;
+#header {
+	margin: 0 auto;
+	margin-bottom: 20px;
+	width: 242px;
+	#title {
+		font-size: 55px;
 		letter-spacing: 5px;
+		vertical-align: middle;
 	}
 
-	img {
-		width: 75px;
-		margin: 5px 25px 5px 0;
+	#logo {
+		width: 60px;
+		margin: 5px 15px 5px 0;
+		vertical-align: middle;
 	}
 }
 
 #getname {
-	input {
-		margin: 5px;
-		padding: 10px;
-		border: 0;
-		outline: 0;
-		background: inherit;
-		text-align: center;
-		border-bottom: 1px solid;
-		color: white;
-		font: inherit;
-		font-size: 17px;
-	}
-	input::placeholder {
-		color: @grey-placeholder;
-	}
+	padding: 10px;
+	border: 0;
+	outline: 0;
+	background: inherit;
+	text-align: center;
+	border-bottom: 1px solid;
+	color: white;
+	font: inherit;
+	font-size: 17px;
+}
+#getname::placeholder {
+	color: @grey-placeholder;
 }
 
 #getcolor {
@@ -81,7 +80,6 @@ body {
 	padding: 15px 50px;
 	background: @green;
 	border-radius: 3px;
-	margin: 20px;
 	cursor: pointer;
 	transition: 1s;
 	text-transform: uppercase;
@@ -92,8 +90,11 @@ body {
 }
 
 footer {
-	h4 {
+	margin-top: 20px;
+	h5 {
 		font-weight: normal;
-		margin: 0;
+	}
+	a {
+		border-bottom: 1px dotted grey;
 	}
 }

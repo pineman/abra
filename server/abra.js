@@ -5,8 +5,6 @@ var PORT = process.argv[2] || 80;
 const app = require('http').createServer(handler);
 const fs = require('fs');
 
-const namegen = require('./namegen');
-
 app.listen(PORT);
 
 function handler(req, res) {
@@ -31,8 +29,9 @@ function getFileName(url) {
 // socket.io
 const io = require('socket.io')(app);
 
-const config = require('./config.js');
+const config = require('./config/config.js');
 const texts = require('./texts.js');
+const namegen = require('./namegen');
 
 var Player = function (name, color, id) {
 	this.name = name;

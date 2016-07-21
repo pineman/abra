@@ -24,13 +24,14 @@ const COLORS = [
 ];
 
 // Color selected by user
-var mainColor = COLORS[ COLORS.lenght - 1 ];
+var mainColor = COLORS[COLORS.length - 1];
 
-// Select other color 
+// Select other color
 function selectMainColor(argument) {
-	var lastElement = document.getElementById("#getcolor > .selected");
-	if( lastElement )
+	var lastElement = document.querySelector("#getcolor > .selected");
+	if (lastElement) {
 		lastElement.className = "";
+	}
 	this.className = "selected";
 	mainColor = this.value;
 }
@@ -45,5 +46,4 @@ function generateBoxColors(parent){
 		colorBox.style.background = COLORS[i];
 		parent.appendChild(colorBox);
 	}
-	colorBox.className = "selected";
 }

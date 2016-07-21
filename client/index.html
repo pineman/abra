@@ -2,10 +2,11 @@
 <html>
 	<head>
 		<title>ABRA</title>
+		<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300italic' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="style/style.css">
 		<script src="/socket.io/socket.io.js"></script>
 		<!-- Last script to import -->
 		<script src="Player.js"></script>
@@ -21,15 +22,18 @@
 
 	<body>
 		<div id="intro">
-		<div id="intro-wrap">
-			<div id="title">
-				<img src="assets/favicon.png">
-				<h1>ABRA</h1>
+		<div id="intro-flexy">
+			<div id="header-wrap">
+				<div id="header">
+					<img id="logo" src="assets/favicon.png">
+					<span id="title">ABRA</span>
+				</div>
+					<input id="getname" type="text" name="name" placeholder="Name" maxlength="15">
 			</div>
-			<div id="getname"><input type="text" name="name" placeholder="Name" maxlength="20"></div>
+
 			<div id="getcolor"><!-- javascript work --></div>
 			<div id="start">Start</div>
-			<footer><h4>github</h4></footer>
+			<footer><h5><a href="https://github.com/pineman/abra">source</a></h5></footer>
 		</div>
 		</div>
 
