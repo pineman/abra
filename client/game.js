@@ -77,6 +77,10 @@ function manageSocketEvents(socket) {
 			span.innerHTML = text[i];
 			document.getElementById("text").appendChild(span)
 		}
+		player.typed(0);
+		for (var i = 0; i < romm.playing.length; i++) {
+			romm.playing[i].typed(0);
+		}
 	});
 
 	socket.on("typed", function (data) {
