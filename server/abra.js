@@ -43,7 +43,7 @@ var Player = function (name, color, id) {
 
 var Room = function (id) {
 	this.id = id;
-    this.name = namegen.wordFor(id);
+	this.name = namegen.wordFor(id);
 	this.players = [];
 	this.numFinished = 0;
 	this.timeLeft = config.ROOM_TIMEOUT;
@@ -112,8 +112,8 @@ io.on("connection", function (socket) {
 
 		socket.join(room.id);
 		// No need to inform the player of itself, emit before append
-		socket.emit("foundroom", {
-            name: room.name,
+		socket.emit("foundroom", 
+			name: room.name,
 			players: room.players,
 			numFinished: room.numFinished,
 			timeLeft: room.timeLeft
@@ -132,6 +132,6 @@ io.on("connection", function (socket) {
 
 	socket.on("typed", function(data) {
 		var dataToSend = {id: socket.id, pos: data.pos};
-		socket.broadcast..to(socket.room.id).emit("typed", dataToSend);
+		socket.broadcast.to(socket.room.id).emit("typed", dataToSend);
 	})
 });
