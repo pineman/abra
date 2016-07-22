@@ -23,27 +23,24 @@ const COLORS = [
 	"#000000"
 ];
 
-// Color selected by user
-var mainColor = COLORS[COLORS.length - 1];
-
 // Select other color
 function selectMainColor(argument) {
-	var lastElement = document.querySelector("#getcolor > .selected");
+	var lastElement = document.querySelector("#getcolor > .selected-color");
 	if (lastElement) {
+		// Deactivate last selected color
 		lastElement.className = "";
 	}
-	this.className = "selected";
-	mainColor = this.value;
+	this.className = "selected-color";
 }
 
-// Show colors selection box
-function generateBoxColors(parent){
+// Generate color selection boxes
+function generateBoxColors(getcolor){
 	var colorBox;
 	for (var i = 0; i < COLORS.length; i++) {
 		colorBox = document.createElement("div");
-		colorBox.value = COLORS[i];
 		colorBox.onclick = selectMainColor;
 		colorBox.style.background = COLORS[i];
-		parent.appendChild(colorBox);
+		colorBox.value = COLORS[i];
+		getcolor.appendChild(colorBox);
 	}
 }

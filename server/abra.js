@@ -85,6 +85,9 @@ function countGameStart(room) {
 }
 
 io.on("connection", function (socket) {
+	// TODO: Don't forget to sanitize all incoming data!
+	// TODO: Other security concerns
+
 	// New player, find him a room
 	socket.on("newplayer", function (data) {
 		var newPlayer = new Player(data.name, data.color, socket.id);
