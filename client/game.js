@@ -75,14 +75,14 @@ function showPreGame(room, text) {
 	player.showCursor();
 }
 
-function startGame( socket, text ){
-	addEventListener("keypress", function(e){
+function startGame(socket, text) {
+	addEventListener("keypress", function(e) {
 		e.preventDefault();
-		keypress(e,socket,text);
+		keypress(e, socket, text);
 	});
 }
 
-function keypress(e, socket, text){
+function keypress(e, socket, text) {
 	var char = keysight(e).char;
 
 	if (char == text[player.pos]) {
@@ -90,10 +90,10 @@ function keypress(e, socket, text){
 	} else return; // Wrong keypress
 
 	if (text.length === player.pos) {
-		// TODO: finish
+		// TODO: end game
 		socket.emit("finish", {
 			time: 1
-		})
+		});
 		finishGame();
 	} else if (TYPED_PER_LETTER || text[player.pos].match(/\W/)) {
 		socket.emit("typed", {
@@ -104,5 +104,5 @@ function keypress(e, socket, text){
 
 // TODO: below needs work
 function finishGame( room ){
-	removeEventListener("keypress")
+	removeEventListener("keypress");
 }

@@ -17,19 +17,16 @@ function convertToPlayer (player) {
 
 // Handle player typing event
 Player.prototype.typed = function(pos) {
-	var oldPos= document.getElementById("text").children[this.pos]
-	oldPos.style.border = "";
-	oldPos.style.background = "";
+	var oldPos= document.getElementById("text").children[this.pos];
+	oldPos.classList.remove(this.color.replace("#", "_"));
 	this.pos = pos;
 	this.showCursor();
 };
 
 Player.prototype.showCursor = function() {
-	var span = document.getElementById("text").children[this.pos];
-	if (span) {
-		var cursorColor = hexToRGBA(this.color, CURSOR_OPACITY);
-		span.style.border = "1px solid " + this.color;
-		span.style.background = cursorColor;
+	var newPos = document.getElementById("text").children[this.pos];
+	if (newPos) {
+		newPos.classList.add(this.color.replace("#", "_"));
 	}
 }
 
