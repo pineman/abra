@@ -6,7 +6,7 @@ function startWSocket() {
 	var player = new Player(
 		document.querySelector("#getname").value,
 		document.querySelector("#getcolor > .selected-color").value,
-		"MYSELF"
+		USER_ID
 	);
 
 	socket.emit("newplayer", {

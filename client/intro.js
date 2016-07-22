@@ -34,11 +34,11 @@ function selectMainColor() {
 function generateBoxColors(getcolor){
 	var colorBox;
 	for (var i = 0; i < COLORS.length; i++) {
+		var color = COLORS[i].replace("_","#");
 		colorBox = document.createElement("div");
 		colorBox.onclick = selectMainColor;
-		colorBox.classList.add(COLORS[i]);
-		colorBox.style.background = COLORS[i];
-		colorBox.value = COLORS[i];
+		colorBox.value = color;
+		colorBox.style.background = color;
 		getcolor.appendChild(colorBox);
 	}
 	getcolor.children[0].classList.add("selected-color");

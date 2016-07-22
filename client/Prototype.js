@@ -1,5 +1,5 @@
 const ROOM_READY_TIME = 5;
-const CURSOR_OPACITY = 0.7;
+const USER_ID = "MYSELF";
 
 var Player = function (name, color, id) {
 	this.name = name;
@@ -7,20 +7,39 @@ var Player = function (name, color, id) {
 	this.id = id;
 	this.pos = 0;
 	this.endTime = -1;
+	this.isUser = id === USER_ID;
 }
 
 // Handle player typing event
 Player.prototype.typed = function(pos) {
-	var oldPos= document.getElementById("text").children[this.pos];
-	oldPos.classList.remove(this.color.replace("#", "_"));
+	var oldSpan = document.getElementById("text").children[this.pos]
+	if( !oldSpan ){
+		return;
+	}
+	var i = findPlayerIndex(this.id, oldSpan.players);
+	if(i!=-1)
+		oldSpan.players.splice(i,1);
+	
 	this.pos = pos;
 	this.showCursor();
+	oldSpan.className = "";
+	for (var i = 0; i < oldSpan.players.length; i++) {
+		oldSpan.className = oldSpan.players[i].color.replace("#","_");
+		if( oldSpan.players[i].isUser )
+			break;
+	}
 };
 
 Player.prototype.showCursor = function() {
-	var newPos = document.getElementById("text").children[this.pos];
-	if (newPos) {
-		newPos.classList.add(this.color.replace("#", "_"));
+	var newSpan = document.getElementById("text").children[this.pos];
+	if( !newSpan ){
+		return;
+	}
+	newSpan.players.push( this );
+	for (var i = 0; i < newSpan.players.length; i++) {
+		newSpan.className = newSpan.players[i].color.replace("#","_");
+		if( newSpan.players[i].isUser )
+			break;
 	}
 }
 

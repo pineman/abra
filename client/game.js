@@ -69,10 +69,13 @@ function showPreGame(room, text, userPlayer) {
 	for (var i = 0; i < text.length; i++) {
 		var span = document.createElement("span")
 		span.innerHTML = text[i];
+		span.players = [];
 		document.getElementById("text").appendChild(span);
 	}
-
-	userPlayer.showCursor();
+	for (var i = 0; i < room.playing.length; i++) {
+		room.playing[i].typed(0);	
+	}
+	userPlayer.typed(0);
 }
 
 var listener;
@@ -88,7 +91,14 @@ function keypress(e, socket, text, userPlayer) {
 
 	if (char == text[userPlayer.pos]) {
 		userPlayer.typed(userPlayer.pos + 1);
-	} else return; // Wrong keypress
+	} else { 
+		var span = document.getElementById("text").children[userPlayer.pos];
+		span.id = "wrong";
+		setTimeout(function(){
+			span.id = "";
+		},100)
+		return; // Wrong keypress
+	}
 
 	if (text.length === userPlayer.pos) {
 		// TODO: end game
