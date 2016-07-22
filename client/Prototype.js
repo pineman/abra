@@ -18,7 +18,11 @@ function convertToPlayer (player) {
 // Handle player typing event
 Player.prototype.typed = function(pos) {
 	var oldPos= document.getElementById("text").children[this.pos];
-	oldPos.classList.remove(this.color.replace("#", "_"));
+	if (this.id === "MYSELF") {
+		oldPos.classList.remove(this.color.replace("#", "_i"));
+	} else {
+		oldPos.classList.remove(this.color.replace("#", "_"));
+	}
 	this.pos = pos;
 	this.showCursor();
 };
@@ -26,7 +30,11 @@ Player.prototype.typed = function(pos) {
 Player.prototype.showCursor = function() {
 	var newPos = document.getElementById("text").children[this.pos];
 	if (newPos) {
-		newPos.classList.add(this.color.replace("#", "_"));
+		if (this.id === "MYSELF") {
+			newPos.classList.add(this.color.replace("#", "_i"));
+		} else {
+			newPos.classList.add(this.color.replace("#", "_"));
+		}
 	}
 }
 

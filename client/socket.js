@@ -29,6 +29,7 @@ function manageSocketEvents(socket) {
 		room = convertToRoom(foundRoom);
 		showNewRoom(room);
 		showRoomStatus("foundroom", room);
+		room.players.push(localPlayer);
 	});
 
 	socket.on("playerentered", function (player) {
