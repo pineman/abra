@@ -1,14 +1,11 @@
 const WS_SERVER = window.location.href;
 
-// Global var: Local player
-var player;
-
 function startWSocket() {
 	var socket = io(WS_SERVER);
 
 	player = new Player(
 		document.querySelector("#getname").value,
-		document.querySelector("#getcolor > .selected-color").style.background,
+		document.querySelector("#getcolor > .selected-color").value,
 		"MYSELF"
 	);
 
@@ -29,13 +26,7 @@ function manageSocketEvents(socket) {
 
 	socket.on("foundroom", function (foundRoom) {
 		room = convertToRoom(foundRoom);
-
-		document.getElementById("room-name").innerHTML += room.name;
-		// Show the players already in the room
-		for (var i = 0; i < room.players.length; i++) {
-			room.players[i] = convertToPlayer(room.players[i]);
-			showPlayer(room.players[i]);
-		}
+		showNewRoom(room);
 		showRoomStatus("foundroom", room);
 	});
 
@@ -76,5 +67,4 @@ function manageSocketEvents(socket) {
 		finishGame();
 		// generateStats( room ) - ?
 	});
-
 }

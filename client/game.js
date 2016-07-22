@@ -8,6 +8,16 @@ function showPlayer(player) {
 	document.getElementById("players").appendChild(li);
 }
 
+function showNewRoom(room) {
+	document.getElementById("room-name").innerHTML += room.name;
+
+	// Show the players already in the room
+	for (var i = 0; i < room.players.length; i++) {
+		room.players[i] = convertToPlayer(room.players[i]);
+		showPlayer(room.players[i]);
+	}
+}
+
 function showStatus(status) {
 	document.getElementById("status").innerHTML = status;
 }
@@ -80,7 +90,7 @@ function keypress(e, socket, text){
 	} else return; // Wrong keypress
 
 	if (text.length === player.pos) {
-		// TODO
+		// TODO: finish
 		socket.emit("finish", {
 			time: 1
 		})
@@ -90,28 +100,6 @@ function keypress(e, socket, text){
 			pos: player.pos
 		});
 	}
-}
-
-function findPlayer(id, players){
-	for (var i = 0; i < players.length; i++)
-		if (players[i].id == id)
-			return players[i];
-}
-
-function hide(id) {
-	document.getElementById(id).style.display = "none";
-}
-
-function show(id) {
-	document.getElementById(id).style.display = "block";
-}
-
-// ???????
-function find(id, players) {
-	for (var i = 0; i < players.length; i++)
-		if (players[i].id == id)
-			return i;
-	return -1;
 }
 
 // TODO: below needs work

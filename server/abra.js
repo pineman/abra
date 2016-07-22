@@ -132,7 +132,6 @@ io.on("connection", function (socket) {
 
 	socket.on("typed", function(data) {
 		var dataToSend = {id: socket.id, pos: data.pos};
-		// TODO: broadcast
-		io.to(socket.room.id).emit("typed", dataToSend);
+		socket.broadcast.to(socket.room.id).emit("typed", dataToSend);
 	})
 });

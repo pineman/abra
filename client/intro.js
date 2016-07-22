@@ -40,6 +40,7 @@ function generateBoxColors(getcolor){
 		colorBox = document.createElement("div");
 		colorBox.onclick = selectMainColor;
 		colorBox.style.background = COLORS[i];
+		colorBox.value = COLORS[i];
 		getcolor.appendChild(colorBox);
 	}
 }

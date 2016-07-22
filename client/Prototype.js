@@ -1,4 +1,5 @@
 const ROOM_READY_TIME = 5;
+const CURSOR_OPACITY = 0.7;
 
 var Player = function (name, color, id) {
 	this.name = name;
@@ -26,8 +27,9 @@ Player.prototype.typed = function(pos) {
 Player.prototype.showCursor = function() {
 	var span = document.getElementById("text").children[this.pos];
 	if (span) {
+		var cursorColor = hexToRGBA(this.color, CURSOR_OPACITY);
 		span.style.border = "1px solid " + this.color;
-		span.style.background = this.color;
+		span.style.background = cursorColor;
 	}
 }
 

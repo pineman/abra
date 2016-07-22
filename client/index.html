@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ABRA</title>
-		<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>ABRA</title>
+		<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300italic' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="style/style.css">
+
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/keysight.umd.js"></script>
-		<!-- Last script to import -->
+
 		<script src="intro.js"></script>
+		<script src="util.js"></script>
 		<script src="socket.js"></script>
 		<script src="Player.js"></script>
 		<script src="game.js"></script>
+
 		<script type="text/javascript">
 			window.onload = function () {
 				generateBoxColors(document.getElementById("getcolor"));
