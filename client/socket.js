@@ -1,4 +1,5 @@
 const WS_SERVER = window.location.href;
+const WORD_SIZE = 5;
 
 function startWSocket() {
 	var socket = io(WS_SERVER);
@@ -37,11 +38,9 @@ function manageSocketEvents(socket, userPlayer) {
 	});
 
 	socket.on("gamestart", function (text) {
-		// TODO: não esquecer os segundos de room.readyTime
-		room.startTime = new Date();
 		room.playing = room.players.slice();
-
-		setTimeout(startGame, room.readyTime*1000, socket, text, userPlayer);
+		room.wordCount = text.length / WORD_SIZE;
+		setTimeout(startGame, room.readyTime*1000, room, socket, text, userPlayer);
 		showPreGame(room, text, userPlayer);
 		showRoomStatus("gamestart", room);
 	});
@@ -52,19 +51,9 @@ function manageSocketEvents(socket, userPlayer) {
 		player.typed(data.pos);
 	});
 
-	// TODO: below needs work
-	socket.on("finish", function (data) {
-		// data = {id}
-		var i = find(data.id, room.playing)
-		if (i == -1) return;
-		room.playing[i].endTime = new Date();
-		room.finished.push(room.playing.slice(i ,1)[0]);
-		room.numFinished++;
-	});
-
-	socket.on("end", function () {
-		room.endTime = new Date();
-		finishGame();
-		// generateStats( room ) - ?
+	socket.on("end", function (data) {
+		endGame();
+		var stats = calcStats(data.stats, room);
+		genStats(stats, room);
 	});
 }

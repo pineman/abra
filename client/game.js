@@ -73,37 +73,45 @@ function showPreGame(room, text, userPlayer) {
 		document.getElementById("text").appendChild(span);
 	}
 	for (var i = 0; i < room.playing.length; i++) {
-		room.playing[i].typed(0);	
+		room.playing[i].typed(0);
 	}
 	userPlayer.typed(0);
 }
 
 var listener;
-function startGame(socket, text, userPlayer) {
-	addEventListener("keypress", listener = function (e){
+function startGame(room, socket, text, userPlayer) {
+	addEventListener("keypress", listener = function (e) {
 		e.preventDefault();
-		keypress(e, socket, text, userPlayer);
+		keypress(e, room, socket, text, userPlayer);
 	});
+
+	room.startTime = new Date();
 }
 
-function keypress(e, socket, text, userPlayer) {
+function keypress(e, room, socket, text, userPlayer) {
 	var char = keysight(e).char;
 
 	if (char == text[userPlayer.pos]) {
 		userPlayer.typed(userPlayer.pos + 1);
-	} else { 
+	} else {
+		// Wrong keypress
+		userPlayer.errors++;
+
 		var span = document.getElementById("text").children[userPlayer.pos];
 		span.id = "wrong";
-		setTimeout(function(){
+		setTimeout(function() {
 			span.id = "";
-		},100)
-		return; // Wrong keypress
+		}, 100);
+
+		return;
 	}
 
-	if (text.length === userPlayer.pos) {
-		// TODO: end game
+	if (userPlayer.pos === text.length) {
+		userPlayer.endtime = new Date() - room.startTime;
 		socket.emit("finish", {
-			time: 1
+			time: userPlayer.endtime,
+			errors: userPlayer.errors,
+			name: userPlayer.name
 		});
 		finishGame();
 	} else if (TYPED_PER_LETTER || text[userPlayer.pos].match(/\W/)) {
@@ -113,7 +121,42 @@ function keypress(e, socket, text, userPlayer) {
 	}
 }
 
-// TODO: below needs work
-function finishGame( room ){
+function finishGame() {
 	removeEventListener("keypress", listener);
+}
+
+function endGame() {
+	hide("game");
+	show("stats");
+}
+
+function calcStats(data, room) {
+	var stats = [];
+
+	for (var i = 0; i < data.length; i++ ) {
+		var curPlayer = [];
+		curPlayer[0] = data[i].name;
+		curPlayer[1] = data[i].time;
+		curPlayer[2] = Math.round(room.wordCount / data[i].time);
+		curPlayer[3] = data[i].errors;
+		stats.push(curPlayer);
+	}
+	stats.sort((p1, p2) => p1[1] - p2[1]);
+
+	return stats;
+}
+
+function genStats(stats) {
+	var table = document.getElementById("stats-table").tBodies[0];
+
+	for (var row = 0; row < stats.length; row++) {
+		var tr = table.insertRow();
+		var td = tr.insertCell();
+		td.innerHTML = row + 1;
+
+		for (var col = 0; col < stats[row].length; col++) {
+			var td = tr.insertCell();
+			td.innerHTML = stats[row][col];
+		}
+	}
 }

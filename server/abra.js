@@ -39,6 +39,8 @@ var Player = function (name, color, id) {
 	this.color = color;
 	this.id = id; // the player's socket.id
 	this.pos = 0; // index in the text string
+	this.time = 0; // time spent writing
+	this.errors = 0;
 }
 
 var Room = function (id) {
@@ -134,8 +136,30 @@ io.on("connection", function (socket) {
 		}
 	});
 
-	socket.on("typed", function(data) {
+	socket.on("typed", function (data) {
 		var dataToSend = {id: socket.id, pos: data.pos};
 		socket.broadcast.to(socket.room.id).emit("typed", dataToSend);
-	})
+	});
+
+	socket.on("finish", function (data) {
+		socket.player.time = data.time;
+		socket.player.errors = data.errors;
+		socket.room.numFinished++;
+
+		if (socket.room.numFinished === socket.room.players.length) {
+			var stats = [];
+			for (var i = 0; i < socket.room.players.length; i++) {
+				stats[i] = {
+					id: socket.room.players[i].id,
+					time: socket.room.players[i].time,
+					errors: socket.room.players[i].errors,
+					name: socket.room.players[i].name
+				};
+			}
+
+			io.to(socket.room.id).emit("end", {
+				stats: stats
+			});
+		}
+	});
 });

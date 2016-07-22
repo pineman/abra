@@ -8,6 +8,7 @@ var Player = function (name, color, id) {
 	this.pos = 0;
 	this.endTime = -1;
 	this.isUser = id === USER_ID;
+	this.errors = 0;
 }
 
 // Handle player typing event
@@ -19,7 +20,7 @@ Player.prototype.typed = function(pos) {
 	var i = findPlayerIndex(this.id, oldSpan.players);
 	if(i!=-1)
 		oldSpan.players.splice(i,1);
-	
+
 	this.pos = pos;
 	this.showCursor();
 	oldSpan.className = "";
@@ -54,10 +55,9 @@ var Room = function (name, players, numFinished, timeLeft) {
 	this.players = players;
 	this.numFinished = numFinished;
 	this.timeLeft = timeLeft;
-	this.startTime = 0;
-	this.endTime = 0;
 	this.readyTime = ROOM_READY_TIME;
-	this.finished = [];
+	this.startTime = 0;
+	this.wordCount = 0;
 }
 
 function convertToRoom(room) {
