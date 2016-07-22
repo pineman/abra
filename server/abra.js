@@ -1,38 +1,44 @@
-/* ------------------------------------------------------------ */
-// HTTP server
-var PORT = process.argv[2] || 80;
+const config = require('./config/config.js');
+var io;
+var app;
 
-const app = require('http').createServer(handler);
-const fs = require('fs');
+if (process.argv[2] !== "server") {
+	// HTTP server
+	var PORT = process.argv[2] || 80;
 
-app.listen(PORT);
+	app = require('http').createServer(handler);
+	const fs = require('fs');
 
-function handler(req, res) {
-  fs.readFile(getFileName(req.url), function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading ' + getFileName(req.url));
-    }
-    res.writeHead(200);
-    res.end(data);
-  });
+	app.listen(PORT);
+
+	function handler(req, res) {
+	fs.readFile(getFileName(req.url), function (err, data) {
+		if (err) {
+		res.writeHead(500);
+		return res.end('Error loading ' + getFileName(req.url));
+		}
+		res.writeHead(200);
+		res.end(data);
+	});
+	}
+
+	// |-|4xX0rzZ
+	var base = __dirname.split("/").slice(0, -1).join("/") + "/client";
+	function getFileName(url) {
+		return base + (url === "/" ? "/index.html" : url);
+	}
+} else {
+	app = config.SOCKET_PORT;
 }
 
-// |-|4xX0rzZ
-var base = __dirname.split("/").slice(0, -1).join("/") + "/client";
-function getFileName(url) {
-  return base + (url === "/" ? "/index.html" : url);
-}
-
-
-/* ------------------------------------------------------------ */
 // socket.io
-const io = require('socket.io')(app);
+io = require('socket.io')(app);
 // io.serveClient(true);
 
-const config = require('./config/config.js');
+/* ------------------------------------------------------------ */
 const texts = require('./texts.js');
 const namegen = require('./namegen');
+
 
 var Player = function (name, color, id) {
 	this.name = name;
