@@ -12,6 +12,7 @@ Typing game VERY MUCH IN PROGRESS
  * Animations
  * Sound
  * Private rooms
+ * Global ranking boards
  * Text chooser (also language)
  * Various game modes
  * More? Accounts?
