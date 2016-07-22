@@ -149,14 +149,15 @@ function find(id, players) {
 	return -1;
 }
 
+var listener;
 function startGame( socket, text ){
-	addEventListener("keypress", function(e){
+	addEventListener("keypress", listener = function (e){
 		e.preventDefault();
 		keypress(e,socket,text);
 	});
 }
 function finishGame( room ){
-	removeEventListener("keypress")
+	removeEventListener("keypress", listener)
 }
 
 function keypress(e, socket, text){
