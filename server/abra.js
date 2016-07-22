@@ -79,6 +79,7 @@ function emitGameStart(room) {
 function countGameStart(room) {
 	room.timeLeft--;
 	if (!room.timeLeft) {
+		room.status = "closed";
 		emitGameStart(room);
 	}
 }

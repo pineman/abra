@@ -1,5 +1,5 @@
-/* Global io, Player, Room, mainColor */
-var player;
+/* Game room control */
+const TYPED_PER_LETTER = true;
 
 function showPlayer(player) {
 	var li = document.createElement("li");
@@ -8,29 +8,94 @@ function showPlayer(player) {
 	document.getElementById("players").appendChild(li);
 }
 
-
-function initGame() {
-	var startButtom = document.getElementById("start");
-	startButtom.onclick = startIO;
+function showStatus(status) {
+	document.getElementById("status").innerHTML = status;
 }
 
-function startIO() {
-	player = new Player(
-				document.querySelector("#getname").value,
-				mainColor,
-				"MYSELF"
-			);
+function showRoomStatus(statusCode, room) {
+	switch (statusCode) {
+	case "foundroom":
+		if (room.timeLeft <= 0) return;
+		showStatus("Finding players... " + room.timeLeft);
+		room.timer = setInterval(function () {
+			room.timeLeft--;
+			if (room.timeLeft) {
+				showStatus("Finding players... " + room.timeLeft);
+			} else {
+				clearInterval(room.timer);
+				room.timer = undefined;
+				showStatus("Game starting... ");
+			}
+		}, 1000, room);
+		break;
 
-	var socket = io(window.location.href);
-	socket.emit("newplayer", {
-			name: player.name,
-			color: player.color
+	case "gamestart":
+		if (room.readyTime <= 0) return;
+		if (room.timer) {
+			clearInterval(room.timer);
+			room.timer = undefined;
+		}
+
+		showStatus("Start in " + room.readyTime);
+		room.timer = setInterval(function () {
+			room.readyTime--;
+			if (room.readyTime) {
+				showStatus("Start in " + room.readyTime);
+			} else {
+				clearInterval(room.timer);
+				room.timer = undefined;
+				showStatus("Go!");
+			}
+		}, 1000, room);
+		break;
+
+	default:
+		break;
+	}
+}
+
+function showPreGame(room, text) {
+	// Show text (a <span> for each letter)
+	for (var i = 0; i < text.length; i++) {
+		var span = document.createElement("span")
+		span.innerHTML = text[i];
+		document.getElementById("text").appendChild(span);
+	}
+
+	player.showCursor();
+}
+
+function startGame( socket, text ){
+	addEventListener("keypress", function(e){
+		e.preventDefault();
+		keypress(e,socket,text);
 	});
-	hide("intro");
-	show("game");
+}
 
-	showPlayer(player);
-	manageSocketEvents(socket);
+function keypress(e, socket, text){
+	var char = keysight(e).char;
+
+	if (char == text[player.pos]) {
+		player.typed(player.pos + 1);
+	} else return; // Wrong keypress
+
+	if (text.length === player.pos) {
+		// TODO
+		socket.emit("finish", {
+			time: 1
+		})
+		finishGame();
+	} else if (TYPED_PER_LETTER || text[player.pos].match(/\W/)) {
+		socket.emit("typed", {
+			pos: player.pos
+		});
+	}
+}
+
+function findPlayer(id, players){
+	for (var i = 0; i < players.length; i++)
+		if (players[i].id == id)
+			return players[i];
 }
 
 function hide(id) {
@@ -40,108 +105,8 @@ function hide(id) {
 function show(id) {
 	document.getElementById(id).style.display = "block";
 }
-function convertToPlayer( player ){
-	return new Player(player.name, player.color, player.id);
-}
 
-function showStatus(status) {
-	document.getElementById("status").innerHTML = status;
-}
-
-function countToGame(room) {
-	room.timeLeft--;
-	if (room.timeLeft) {
-		showStatus("Finding players... " + room.timeLeft);
-	} else {
-		clearInterval(room.timer);
-		showStatus("Game starting... ");
-	}
-}
-
-function countToStart(tmp, room) {
-	if (room.timer) clearInterval(room.timer);
-	if (tmp.time) {
-		showStatus("Start in " + tmp.time);
-	} else {
-		clearInterval(tmp.timer);
-		showStatus("Go!");
-	}
-	tmp.time--;
-}
-
-function manageSocketEvents(socket) {
-	var room = new Room();
-	socket.on("foundroom", function (newRoom) {
-		room.name = newRoom.name;
-		room.players = newRoom.players;
-		room.numFinished = newRoom.numFinished;
-		room.timeLeft = newRoom.timeLeft;
-
-		document.getElementById("room-name").innerHTML += room.name;
-
-		for (var i = 0; i < room.players.length; i++) {
-			room.players[i]  = convertToPlayer(room.players[i]);
-			showPlayer(room.players[i]);
-		}
-
-		showStatus("Finding players... " + room.timeLeft);
-		room.timer = setInterval(countToGame, 1000, room);
-	});
-
-	socket.on("playerentered", function (player) {
-		player = convertToPlayer(player);
-		room.players.push(player);
-		showPlayer(player);
-		player.displayCursor();
-	});
-
-	socket.on("gamestart", function (text) {
-		room.startTime = new Date();
-		room.playing = room.players.slice();
-		setTimeout(startGame, 5000, socket, text);
-		var tmp = {time: 5};
-		tmp.timer = setInterval(countToStart, 1000, tmp, room);
-
-		for (var i = 0; i < text.length; i++) {
-			var span = document.createElement("span")
-			span.innerHTML = text[i];
-			document.getElementById("text").appendChild(span);
-		}
-		player.typed(0);
-		for (var i = 0; i < room.playing.length; i++) {
-			room.playing[i].typed(0);
-		}
-	});
-
-	socket.on("typed", function (data) {
-		var player = findPlayer(data.id, room.playing);
-		if (!player) return;
-		player.typed(data.pos);
-	});
-
-	socket.on("finish", function (data) {
-		// data = {id}
-		var i = find(data.id, room.playing)
-		if (i == -1) return;
-		room.playing[i].endTime = new Date();
-		room.finished.push(room.playing.slice(i ,1)[0]);
-		room.numFinished++;
-	});
-
-	socket.on("end", function () {
-		room.endTime = new Date();
-		finishGame();
-		// generateStats( room ) - ?
-	});
-
-}
-
-function findPlayer(id, players){
-	for (var i = 0; i < players.length; i++)
-		if (players[i].id == id)
-			return players[i];
-}
-
+// ???????
 function find(id, players) {
 	for (var i = 0; i < players.length; i++)
 		if (players[i].id == id)
@@ -149,37 +114,7 @@ function find(id, players) {
 	return -1;
 }
 
-function startGame( socket, text ){
-	addEventListener("keypress", function(e){
-		e.preventDefault();
-		keypress(e,socket,text);
-	});
-}
+// TODO: below needs work
 function finishGame( room ){
 	removeEventListener("keypress")
-}
-
-function keypress(e, socket, text){
-	// TODO
-	var char = keysight(e).char;
-
-	if (char == text[player.pos]) {
-		player.typed(player.pos + 1);
-	} else {
-		// Wrong keypress
-		return;
-	}
-
-	if (text.length === player.pos) {
-		// TODO
-		socket.emit("finish", {
-			time: 1
-		})
-		finishGame();
-	//} else if (text[player.pos].match(/\W/)) {
-	} else {
-		socket.emit("typed", {
-			pos: player.pos
-		});
-	}
 }
