@@ -64,7 +64,7 @@ function showRoomStatus(statusCode, room) {
 	}
 }
 
-function showPreGame(room, text) {
+function showPreGame(room, text, userPlayer) {
 	// Show text (a <span> for each letter)
 	for (var i = 0; i < text.length; i++) {
 		var span = document.createElement("span")
@@ -72,42 +72,38 @@ function showPreGame(room, text) {
 		document.getElementById("text").appendChild(span);
 	}
 
-	player.showCursor();
+	userPlayer.showCursor();
 }
 
 var listener;
-function startGame(socket, text) {
+function startGame(socket, text, userPlayer) {
 	addEventListener("keypress", listener = function (e){
 		e.preventDefault();
-		keypress(e, socket, text);
+		keypress(e, socket, text, userPlayer);
 	});
 }
 
-function finishGame(room) {
-	removeEventListener("keypress", listener)
-}
-
-function keypress(e, socket, text) {
+function keypress(e, socket, text, userPlayer) {
 	var char = keysight(e).char;
 
-	if (char == text[player.pos]) {
-		player.typed(player.pos + 1);
+	if (char == text[userPlayer.pos]) {
+		userPlayer.typed(userPlayer.pos + 1);
 	} else return; // Wrong keypress
 
-	if (text.length === player.pos) {
+	if (text.length === userPlayer.pos) {
 		// TODO: end game
 		socket.emit("finish", {
 			time: 1
 		});
 		finishGame();
-	} else if (TYPED_PER_LETTER || text[player.pos].match(/\W/)) {
+	} else if (TYPED_PER_LETTER || text[userPlayer.pos].match(/\W/)) {
 		socket.emit("typed", {
-			pos: player.pos
+			pos: userPlayer.pos
 		});
 	}
 }
 
 // TODO: below needs work
 function finishGame( room ){
-	removeEventListener("keypress");
+	removeEventListener("keypress", listener);
 }

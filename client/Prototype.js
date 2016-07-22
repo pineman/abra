@@ -9,12 +9,6 @@ var Player = function (name, color, id) {
 	this.endTime = -1;
 }
 
-// Convert an object with name, color and id attributes
-// to our local Player object (prototype)
-function convertToPlayer (player) {
-	return new Player(player.name, player.color, player.id);
-}
-
 // Handle player typing event
 Player.prototype.typed = function(pos) {
 	var oldPos= document.getElementById("text").children[this.pos];
@@ -28,6 +22,12 @@ Player.prototype.showCursor = function() {
 	if (newPos) {
 		newPos.classList.add(this.color.replace("#", "_"));
 	}
+}
+
+// Convert an object with name, color and id attributes
+// to our local Player object (prototype)
+function convertToPlayer (player) {
+	return new Player(player.name, player.color, player.id);
 }
 
 var Room = function (name, players, numFinished, timeLeft) {

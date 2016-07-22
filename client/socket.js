@@ -3,7 +3,7 @@ const WS_SERVER = window.location.href;
 function startWSocket() {
 	var socket = io(WS_SERVER);
 
-	player = new Player(
+	var player = new Player(
 		document.querySelector("#getname").value,
 		document.querySelector("#getcolor > .selected-color").value,
 		"MYSELF"
@@ -18,10 +18,10 @@ function startWSocket() {
 	show("game");
 
 	showPlayer(player);
-	manageSocketEvents(socket);
+	manageSocketEvents(socket, player);
 }
 
-function manageSocketEvents(socket) {
+function manageSocketEvents(socket, userPlayer) {
 	var room;
 
 	socket.on("foundroom", function (foundRoom) {
@@ -41,8 +41,8 @@ function manageSocketEvents(socket) {
 		room.startTime = new Date();
 		room.playing = room.players.slice();
 
-		setTimeout(startGame, room.readyTime*1000, socket, text);
-		showPreGame(room, text);
+		setTimeout(startGame, room.readyTime*1000, socket, text, userPlayer);
+		showPreGame(room, text, userPlayer);
 		showRoomStatus("gamestart", room);
 	});
 
