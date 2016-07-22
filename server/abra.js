@@ -111,6 +111,7 @@ io.on("connection", function (socket) {
 		}
 
 		socket.join(room.id);
+
 		// No need to inform the player of itself, emit before append
 		socket.emit("foundroom", {
 			name: room.name,
