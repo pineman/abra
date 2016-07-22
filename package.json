@@ -4,7 +4,7 @@
   "description": "it's a game folks",
   "main": "server/abra.js",
   "scripts": {
-    "test": "node server/abra.js"
+    "test": "cd server && node abra.js 8080"
   },
   "repository": {
     "type": "git",
