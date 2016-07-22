@@ -72,7 +72,9 @@ function showPreGame(room, text) {
 		document.getElementById("text").appendChild(span);
 	}
 
-	player.showCursor();
+	for (var i = 0; i < room.players.length; i++ ) {
+		room.players[i].showCursor();
+	}
 }
 
 function startGame(socket, text) {
@@ -85,19 +87,19 @@ function startGame(socket, text) {
 function keypress(e, socket, text) {
 	var char = keysight(e).char;
 
-	if (char == text[player.pos]) {
-		player.typed(player.pos + 1);
+	if (char == text[localPlayer.pos]) {
+		localPlayer.typed(localPlayer.pos + 1);
 	} else return; // Wrong keypress
 
-	if (text.length === player.pos) {
+	if (text.length === localPlayer.pos) {
 		// TODO: end game
 		socket.emit("finish", {
 			time: 1
 		});
 		finishGame();
-	} else if (TYPED_PER_LETTER || text[player.pos].match(/\W/)) {
+	} else if (TYPED_PER_LETTER || text[localPlayer.pos].match(/\W/)) {
 		socket.emit("typed", {
-			pos: player.pos
+			pos: localPlayer.pos
 		});
 	}
 }

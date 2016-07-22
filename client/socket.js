@@ -1,23 +1,24 @@
 const WS_SERVER = window.location.href;
+var localPlayer;
 
 function startWSocket() {
 	var socket = io(WS_SERVER);
 
-	player = new Player(
+	localPlayer = new Player(
 		document.querySelector("#getname").value,
 		document.querySelector("#getcolor > .selected-color").value,
 		"MYSELF"
 	);
 
 	socket.emit("newplayer", {
-		name: player.name,
-		color: player.color
+		name: localPlayer.name,
+		color: localPlayer.color
 	});
 
 	hide("intro");
 	show("game");
 
-	showPlayer(player);
+	showPlayer(localPlayer);
 	manageSocketEvents(socket);
 }
 
