@@ -179,6 +179,7 @@ io.on("connection", function (socket) {
 		socket.broadcast.to(socket.room.id).emit("disconnected", {
 			id: socket.id
 		});
+		socket.leave(socket.room.id);
 		// TODO: manage socket disconnection
 		// 
 		// if( socket.room.players.length == 0 ) // the room have no players
