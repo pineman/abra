@@ -33,3 +33,25 @@ function findPlayerIndex(id, players) {
 			return i;
 	return -1;
 }
+
+function getCookie(key) {
+	var name = key + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length,c.length);
+        }
+    }
+    return "";
+}
+function setCookie(key, value) {
+	var d = new Date();
+	var exdays = 2; // number of days until cookie disapears
+	d.setTime(d.getTime() + (exdays*24*60*60*1000));
+	var expires = "expires="+ d.toUTCString();
+	document.cookie = key + "=" + value + "; " + expires;
+}

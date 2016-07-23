@@ -22,24 +22,30 @@ const COLORS = [
 	"_ffffff",
 	"_000000"
 ];
+const COOKIE_COLOR_CLASS = "userColorClass";
 
 // Select other color
 function selectMainColor() {
 	var lastElement = document.querySelector("#getcolor > .selected-color");
 	lastElement.classList.remove("selected-color");
 	this.classList.add("selected-color");
+	setCookie(COOKIE_COLOR_CLASS, this.value.replace("#","_"));
 }
 
 // Generate color selection boxes
 function generateBoxColors(getcolor){
 	var colorBox;
+	var cachedColor = getCookie( COOKIE_COLOR_CLASS );
 	for (var i = 0; i < COLORS.length; i++) {
 		var color = COLORS[i].replace("_","#");
 		colorBox = document.createElement("div");
 		colorBox.onclick = selectMainColor;
 		colorBox.value = color;
 		colorBox.style.background = color;
+		if( cachedColor == COLORS[i] )
+			colorBox.classList.add("selected-color");
 		getcolor.appendChild(colorBox);
 	}
-	getcolor.children[0].classList.add("selected-color");
+	if( getcolor.getElementsByClassName("selected-color").length == 0 )
+		getcolor.children[0].classList.add("selected-color");
 }
