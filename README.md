@@ -7,6 +7,8 @@ Typing game VERY MUCH IN PROGRESS
 ## TODO:
  * Stats style
  * Disconnect & delete room
+ * Prevent backspace key
+ * Back and rematch buttons
  * More stats
  * Guarantee all sockets start at the same time (acknowledgement protocol)
  * Animations
