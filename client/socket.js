@@ -56,4 +56,14 @@ function manageSocketEvents(socket, userPlayer) {
 		var stats = calcStats(data.stats, room);
 		genStats(stats, room);
 	});
+
+	socket.on("disconnected", function(data){
+		// TODO: manage the disconection of some player
+		var i = findPlayerIndex(data.id, room.players);
+		var player = room.players[i];
+		room.players.splice(i,1); //remove from players
+		room.playing.splice(findPlayerIndex(data.id, room.playing));
+		player.typed(-1); //hide cursor
+		player.element.style.display = "none"; // remove from list of players
+	})
 }

@@ -6,6 +6,7 @@ function showPlayer(player) {
 	li.innerHTML = player.name;
 	li.style.color = player.color;
 	document.getElementById("players").appendChild(li);
+	player.element = li;
 }
 
 function showNewRoom(room) {

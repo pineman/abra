@@ -168,4 +168,23 @@ io.on("connection", function (socket) {
 			});
 		}
 	});
+
+	socket.on("disconnect", function(){
+		if(	!socket.room ){
+			// had problems without this somehow
+			return;
+		}
+		socket.room.players = socket.room.players.filter((p)=> p.id != socket.id);
+
+		socket.broadcast.to(socket.room.id).emit("disconnected", {
+			id: socket.id
+		});
+		// TODO: manage socket disconnection
+		// 
+		// if( socket.room.players.length == 0 ) // the room have no players
+		// 
+		// if( room.status == "closed" )
+		// 
+		// clear every timeout/interval of room (?)
+	})
 });

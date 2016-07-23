@@ -9,6 +9,7 @@ var Player = function (name, color, id) {
 	this.endTime = -1;
 	this.isUser = id === USER_ID;
 	this.errors = 0;
+	this.element; // saves the li element
 }
 
 // Handle player typing event
