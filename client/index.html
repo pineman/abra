@@ -1,86 +1,89 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>ABRA</title>
-		<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+	<title>ABRA</title>
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
 
-		<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300italic' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" type="text/css" href="style/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="style/style.css">
 
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="/keysight.umd.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/keysight.umd.js"></script>
 
-		<script src="intro.js"></script>
-		<script src="util.js"></script>
-		<script src="socket.js"></script>
-		<script src="Prototype.js"></script>
-		<script src="game.js"></script>
+	<script src="intro.js"></script>
+	<script src="util.js"></script>
+	<script src="socket.js"></script>
+	<script src="Prototype.js"></script>
+	<script src="game.js"></script>
+	<script src="stats.js"></script>
 
-		<script type="text/javascript">
-			window.onload = function () {
-				generateBoxColors(document.getElementById("getcolor"));
-				document.getElementById("start").onclick = startWSocket;
-			}
-		</script>
-	</head>
+	<script type="text/javascript">
+		window.onload = function () {
+			generateBoxColors(document.getElementById("getcolor"));
+			document.getElementById("start").onclick = startWSocket;
+		}
+	</script>
+</head>
 
-	<body>
-		<!-- Initial screen -->
-		<div id="intro">
-		<div id="intro-flexy">
-			<div id="header-wrap">
-				<div id="header">
-					<img id="logo" src="assets/favicon.png">
-					<span id="title">A<span id="mirrored-b">B</span>RA</span>
+<body>
+	<!-- Initial screen -->
+	<div id="intro">
+	<div id="intro-flexy">
+		<div id="header-wrap">
+			<div id="header">
+				<img id="logo" src="assets/favicon.png">
+				<span id="title">A<span id="mirrored-b">B</span>RA</span>
 
-					<input id="getname" type="text" name="name" placeholder="Name" maxlength="15">
-				</div>
+				<input id="getname" type="text" name="name" placeholder="Name" maxlength="15">
 			</div>
-
-			<div id="getcolor"><!-- generateBoxColors() --></div>
-			<div id="start">Start</div>
-			<footer><h5><a href="https://github.com/pineman/abra">source</a></h5></footer>
 		</div>
-		</div><!-- </intro> -->
 
-		<!-- Game screen -->
-		<div id="game" style="display:none;">
-		<div id="game-box">
+		<div id="getcolor"><!-- generateBoxColors() --></div>
+		<div id="start">Start</div>
+		<footer><h5><a href="https://github.com/pineman/abra">source</a></h5></footer>
+	</div>
+	</div><!-- </intro> -->
 
-			<div id="text">
-			</div>
+	<!-- Game screen -->
+	<div id="game" style="display:none;">
+	<div id="game-box">
 
-			<div id="lobby">
-				<h1>Room <span id="room-name"></span></h1>
-				<h6>status: <span id="status">Connecting to server...</span></h6>
-				<ul id="players">
-				</ul>
-			</div>
-
+		<div id="text">
 		</div>
-		</div><!-- </game> -->
 
-		<!-- Stats screen -->
-		<div id="stats">
-			<h1>Leaderboard</h1>
-
-			<table id="stats-table">
-				<thead>
-					<tr>
-						<th>pos</th>
-						<th>player</th>
-						<th>time</th>
-						<th>wpm</th>
-						<th>errors</th>
-					</tr>
-				</thead>
-
-				<tbody>
-				</tbody>
-			</table>
+		<div id="lobby">
+			<h1>Room <span id="room-name"></span></h1>
+			<h6>status: <span id="status">Connecting to server...</span></h6>
+			<ul id="players">
+			</ul>
 		</div>
-	</body>
+
+	</div>
+	</div><!-- </game> -->
+
+	<!-- Stats screen -->
+	<div id="stats">
+	<div id="stats-wrap">
+		<h1>Leaderboard</h1>
+
+		<table id="stats-table">
+			<thead>
+				<tr>
+					<th>pos</th>
+					<th>player</th>
+					<th>time</th>
+					<th>wpm</th>
+					<th>errors</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	</div> <!-- </stats> -->
+</body>
 </html>

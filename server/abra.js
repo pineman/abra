@@ -156,10 +156,10 @@ io.on("connection", function (socket) {
 			var stats = [];
 			for (var i = 0; i < socket.room.players.length; i++) {
 				stats[i] = {
-					id: socket.room.players[i].id,
 					time: socket.room.players[i].time,
 					errors: socket.room.players[i].errors,
-					name: socket.room.players[i].name
+					name: socket.room.players[i].name,
+					color: socket.room.players[i].color
 				};
 			}
 
