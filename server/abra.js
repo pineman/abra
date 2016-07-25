@@ -84,17 +84,15 @@ function findRoom() {
 // TODO: reutilização de room para evitar iterar por todas?
 // TODO: melhor busca?
 function leaveRoom(socket) {
-	socket.room.players = socket.room.players.filter((p) => p.id != socket.id);
-
-	// Uglier than above but more efficient (break)
-	// Im sure @tito97 will come up with a smarter way!
+	// Find the player's index in socket.room.players so that we can remove it
+	var playerIndex = socket.room.players.find( p => p.id === socket.id )
+	socket.room.players.splice(playerIndex, 1);
+	
+	// If the room gets empty, remove it
 	if (socket.room.players.length === 0) {
-		for (var i = 0; i < rooms.length; i++) {
-			if (rooms[i].id === socket.room.id) {
-				rooms.splice(i, 1);
-				break;
-			}
-		}
+		// Find the room's index in rooms so that we can remove it
+		var roomIndex = rooms.find( r => r.id === socket.room.id );
+		rooms.splice(roomIndex, 1);
 	}
 }
 
