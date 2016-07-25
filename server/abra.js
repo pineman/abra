@@ -131,13 +131,13 @@ io.on("connection", function (socket) {
 
 	// New player, find him a room
 	socket.on("newplayer", function (data) {
-		// Name is escaped by textContent on the client side.
+		// Name is escaped by textContent on the client side,
+		// however, still testing for max length.
+		if (data.name.length > 30) return; // max is 15 client-side
+
 		// Silently drop clients messing around with color
 		// (which I believe is possible client-side (?) TODO)
-		if (!data.color.startsWith("#") || data.color.length > 7) {
-			console.log(data.color);
-			return;
-		}
+		if (!data.color.startsWith("#") || data.color.length > 7) return;
 
 		var newPlayer = new Player(data.name, data.color, socket.id);
 		var room = findRoom();

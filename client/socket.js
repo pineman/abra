@@ -10,8 +10,6 @@ function startWSocket() {
 		USER_ID
 	);
 
-	socket.emit("finish", {});
-
 	socket.emit("newplayer", {
 		name: player.name,
 		color: player.color
