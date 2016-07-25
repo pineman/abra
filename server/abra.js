@@ -72,16 +72,36 @@ function findRoom() {
 	return;
 }
 
+
+// TODO:
+// outra abordagem sem perdermos a feature dos room names,
+// sem perder tempo a apagar rooms:
+// quando o primeiro jogador se ligar, gerar um novo nome
+// alternativamente, arranjar uma data structure que tenha
+// remoção em O(1)
+
+// Algorithm to remove a socket from a room
+// TODO: reutilização de room para evitar iterar por todas?
+// TODO: melhor busca?
+function leaveRoom(socket) {
+	socket.room.players = socket.room.players.filter((p) => p.id != socket.id);
+
+	// Uglier than above but more efficient (break)
+	// Im sure @tito97 will come up with a smarter way!
+	if (socket.room.players.length === 0) {
+		for (var i = 0; i < rooms.length; i++) {
+			if (rooms[i].id === socket.room.id) {
+				rooms.splice(i, 1);
+				break;
+			}
+		}
+	}
+}
+
 // Select a random text
 function getText() {
 	var rand = Math.floor(Math.random() * texts.length);
 	return texts[rand];
-}
-
-// Emit gamestart to all players in a room
-function emitGameStart(room) {
-	var text = getText();
-	io.to(room.id).emit("gamestart", text);
 }
 
 function countGameStart(room) {
@@ -92,12 +112,33 @@ function countGameStart(room) {
 	}
 }
 
+// Emit gamestart to all players in a room
+function emitGameStart(room) {
+	var text = getText();
+	io.to(room.id).emit("gamestart", text);
+}
+
 io.on("connection", function (socket) {
 	// TODO: Don't forget to sanitize all incoming data!
 	// TODO: Other security concerns
 
+	/* All events other than "newplayer" depend on
+	 * some attribute we save in the socket itself.
+	 * If the socket did not go through "newplayer",
+	 * it won't have those attributes (player, room),
+	 * therefore the event handlers will fail without
+	 * crashing the server (node doesn't segfault...) */
+
 	// New player, find him a room
 	socket.on("newplayer", function (data) {
+		// Name is escaped by textContent on the client side.
+		// Silently drop clients messing around with color
+		// (which I believe is possible client-side (?) TODO)
+		if (!data.color.startsWith("#") || data.color.length > 7) {
+			console.log(data.color);
+			return;
+		}
+
 		var newPlayer = new Player(data.name, data.color, socket.id);
 		var room = findRoom();
 
@@ -106,9 +147,10 @@ io.on("connection", function (socket) {
 			if (room.players.length === config.MAX_PER_ROOM - 1) {
 				room.status = "closed";
 			}
+			socket.join(room.id);
 			// Inform the players in the room that a new player
 			// has entered the room.
-			io.to(room.id).emit("playerentered", newPlayer);
+			socket.broadcast.to(room.id).emit("playerentered", newPlayer);
 		} else {
 			// No open room was found, create a new room whose
 			// id is the first player's socket.id.
@@ -121,9 +163,8 @@ io.on("connection", function (socket) {
 			room.timer = setInterval(countGameStart, 1000, room);
 		}
 
-		socket.join(room.id);
-
-		// No need to inform the player of itself, emit before append
+		// No need to inform the player of itself,
+		// emit the player's new room before append
 		socket.emit("foundroom", {
 			name: room.name,
 			players: room.players,
@@ -132,6 +173,7 @@ io.on("connection", function (socket) {
 		});
 		room.players.push(newPlayer);
 
+		// Save this client's room and player
 		socket.room = room;
 		socket.player = newPlayer;
 
@@ -169,23 +211,14 @@ io.on("connection", function (socket) {
 		}
 	});
 
-	socket.on("disconnect", function(){
-		if(	!socket.room ){
-			// had problems without this somehow
-			return;
-		}
-		socket.room.players = socket.room.players.filter((p)=> p.id != socket.id);
+	socket.on("disconnect", function() {
+		// Guard against reconnections, sockets without rooms, etc.
+		if (!socket.room) return;
 
 		socket.broadcast.to(socket.room.id).emit("disconnected", {
 			id: socket.id
 		});
-		socket.leave(socket.room.id);
-		// TODO: manage socket disconnection
-		// 
-		// if( socket.room.players.length == 0 ) // the room have no players
-		// 
-		// if( room.status == "closed" )
-		// 
-		// clear every timeout/interval of room (?)
+
+		leaveRoom(socket);
 	})
 });

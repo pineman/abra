@@ -6,7 +6,8 @@ Typing game VERY MUCH IN PROGRESS
 
 ## TODO:
  * Stats style
- * Disconnect & delete room
+ * ~~Disconnect & delete room~:
+ * Different error color when cursor is red
  * Prevent backspace key
  * Back and rematch buttons
  * More stats
