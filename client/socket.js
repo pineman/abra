@@ -10,6 +10,8 @@ function startWSocket() {
 		USER_ID
 	);
 
+	socket.emit("finish", {});
+
 	socket.emit("newplayer", {
 		name: player.name,
 		color: player.color
@@ -29,6 +31,7 @@ function manageSocketEvents(socket, userPlayer) {
 		room = convertToRoom(foundRoom);
 		showNewRoom(room);
 		showRoomStatus("foundroom", room);
+		room.players.push(userPlayer);
 	});
 
 	socket.on("playerentered", function (player) {
@@ -38,7 +41,7 @@ function manageSocketEvents(socket, userPlayer) {
 	});
 
 	socket.on("gamestart", function (text) {
-		room.playing = room.players.slice();
+		room.players = room.players.slice();
 		room.wordCount = text.length / WORD_SIZE;
 		setTimeout(startGame, room.readyTime*1000, room, socket, text, userPlayer);
 		showPreGame(room, text, userPlayer);
@@ -46,7 +49,7 @@ function manageSocketEvents(socket, userPlayer) {
 	});
 
 	socket.on("typed", function (data) {
-		var player = findPlayer(data.id, room.playing);
+		var player = findPlayer(data.id, room.players);
 		if (!player) return;
 		player.typed(data.pos);
 	});
@@ -62,8 +65,7 @@ function manageSocketEvents(socket, userPlayer) {
 		var i = findPlayerIndex(data.id, room.players);
 		var player = room.players[i];
 		room.players.splice(i,1); //remove from players
-		room.playing.splice(findPlayerIndex(data.id, room.playing));
-		player.typed(-1); //hide cursor
-		player.element.style.display = "none"; // remove from list of players
+		player.typed(-1); // hide cursor
+		document.getElementById(player.id).remove(); // Remove from lobby list
 	})
 }

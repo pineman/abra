@@ -23,12 +23,12 @@ function genStats(stats) {
 	for (var row = 0; row < stats.length; row++) {
 		var tr = table.insertRow();
 		var td = tr.insertCell();
-		td.innerHTML = row + 1;
+		td.textContent = row + 1;
 
 		for (var col = 0; col < stats[row].length; col++) {
 			var td = tr.insertCell();
 			if (col === 0) td.style.color = stats[row].color;
-			td.innerHTML = stats[row][col];
+			td.textContent = stats[row][col];
 		}
 	}
 }

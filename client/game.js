@@ -3,14 +3,14 @@ const TYPED_PER_LETTER = true;
 
 function showPlayer(player) {
 	var li = document.createElement("li");
-	li.innerHTML = player.name;
+	li.textContent = player.name;
 	li.style.color = player.color;
+	li.id = player.id;
 	document.getElementById("players").appendChild(li);
-	player.element = li;
 }
 
 function showNewRoom(room) {
-	document.getElementById("room-name").innerHTML += room.name;
+	document.getElementById("room-name").textContent += room.name;
 
 	// Show the players already in the room
 	for (var i = 0; i < room.players.length; i++) {
@@ -20,7 +20,7 @@ function showNewRoom(room) {
 }
 
 function showStatus(status) {
-	document.getElementById("status").innerHTML = status;
+	document.getElementById("status").textContent = status;
 }
 
 function showRoomStatus(statusCode, room) {
@@ -69,12 +69,12 @@ function showPreGame(room, text, userPlayer) {
 	// Show text (a <span> for each letter)
 	for (var i = 0; i < text.length; i++) {
 		var span = document.createElement("span")
-		span.innerHTML = text[i];
+		span.textContent = text[i];
 		span.players = [];
 		document.getElementById("text").appendChild(span);
 	}
-	for (var i = 0; i < room.playing.length; i++) {
-		room.playing[i].typed(0);
+	for (var i = 0; i < room.players.length; i++) {
+		room.players[i].typed(0);
 	}
 	userPlayer.typed(0);
 }
@@ -108,9 +108,9 @@ function keypress(e, room, socket, text, userPlayer) {
 	}
 
 	if (userPlayer.pos === text.length) {
-		userPlayer.endtime = new Date() - room.startTime;
+		userPlayer.endTime = new Date() - room.startTime;
 		socket.emit("finish", {
-			time: (userPlayer.endtime / 1000),
+			time: (userPlayer.endTime / 1000),
 			errors: userPlayer.errors
 		});
 		finishGame();

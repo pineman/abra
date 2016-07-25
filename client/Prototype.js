@@ -6,7 +6,7 @@ var Player = function (name, color, id) {
 	this.color = color;
 	this.id = id;
 	this.pos = 0;
-	this.endTime = -1;
+	this.endTime = 0;
 	this.isUser = id === USER_ID;
 	this.errors = 0;
 	this.element; // saves the li element
@@ -14,7 +14,7 @@ var Player = function (name, color, id) {
 
 // Handle player typing event
 Player.prototype.typed = function(pos) {
-	var oldSpan = document.getElementById("text").children[this.pos]
+	var oldSpan = document.getElementById("text").children[this.pos];
 	if( !oldSpan ){
 		return;
 	}
