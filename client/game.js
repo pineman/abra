@@ -80,19 +80,26 @@ function showPreGame(room, text, userPlayer) {
 }
 
 var listener;
+
 function startGame(room, socket, text, userPlayer) {
-	addEventListener("keypress", listener = function (e) {
-		e.preventDefault();
-		keypress(e, room, socket, text, userPlayer);
+	// Always focus input box
+	var input = document.getElementById("input");
+	input.addEventListener("blur", function (e) {
+		input.focus();
+	});
+	input.focus();
+
+	// Catch keypresses inside input box
+	input.addEventListener("input", listener = function (e) {
+		keypress(this.value, room, socket, text, userPlayer);
+		this.value = "";
 	});
 
 	room.startTime = new Date();
 }
 
-function keypress(e, room, socket, text, userPlayer) {
-	var char = keysight(e).char;
-
-	if (char == text[userPlayer.pos]) {
+function keypress(char, room, socket, text, userPlayer) {
+	if (char === text[userPlayer.pos]) {
 		userPlayer.typed(userPlayer.pos + 1);
 	} else {
 		// Wrong keypress
@@ -122,7 +129,9 @@ function keypress(e, room, socket, text, userPlayer) {
 }
 
 function finishGame() {
-	removeEventListener("keypress", listener);
+	var input = document.getElementById("input");
+	input.removeEventListener("keydown", listener);
+	input.removeEventListener("blur", input.focus());
 }
 
 function endGame() {
