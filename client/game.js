@@ -79,20 +79,26 @@ function showPreGame(room, text, userPlayer) {
 	userPlayer.typed(0);
 }
 
-var listener;
-
+var inputListener;
+var keydownListener;
+var blurListener;
 function startGame(room, socket, text, userPlayer) {
 	// Always focus input box
 	var input = document.getElementById("input");
-	input.addEventListener("blur", function (e) {
+	input.addEventListener("blur", blurListener = function (e) {
 		input.focus();
 	});
 	input.focus();
 
 	// Catch keypresses inside input box
-	input.addEventListener("input", listener = function (e) {
+	input.addEventListener("input", inputListener = function (e) {
 		keypress(this.value, room, socket, text, userPlayer);
 		this.value = "";
+	});
+
+	// Catch backspace (or others) directly by keypress
+	input.addEventListener("keydown", keydownListener = function (e) {
+		if (e.key === "Backspace") e.preventDefault();
 	});
 
 	room.startTime = new Date();
@@ -130,8 +136,9 @@ function keypress(char, room, socket, text, userPlayer) {
 
 function finishGame() {
 	var input = document.getElementById("input");
-	input.removeEventListener("keydown", listener);
-	input.removeEventListener("blur", input.focus());
+	input.removeEventListener("input", inputListener);
+	input.removeEventListener("keydown", keydownListener);
+	input.removeEventListener("blur", blurListener);
 }
 
 function endGame() {

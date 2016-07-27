@@ -8,8 +8,9 @@ Typing game VERY MUCH IN PROGRESS
  * Stats style
  * ~~Disconnect & delete room~~
  * Different error color when cursor is red
- * Prevent backspace key
+ * ~~Prevent backspace key~~
  * Back and rematch buttons
+ * Autoscroll to visible span
  * More stats
  * Guarantee all sockets start at the same time (acknowledgement protocol)
  * Animations
