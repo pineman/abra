@@ -1,5 +1,4 @@
 /* Game room control */
-const TYPED_PER_LETTER = true;
 
 function showPlayer(player) {
 	var li = document.createElement("li");
@@ -24,8 +23,7 @@ function showStatus(status) {
 }
 
 function showRoomStatus(statusCode, room) {
-	switch (statusCode) {
-	case "foundroom":
+	if (statusCode === "foundroom") {
 		if (room.timeLeft <= 0) return;
 		showStatus("Finding players... " + room.timeLeft);
 		room.timer = setInterval(function () {
@@ -38,9 +36,7 @@ function showRoomStatus(statusCode, room) {
 				showStatus("Game starting... ");
 			}
 		}, 1000, room);
-		break;
-
-	case "gamestart":
+	} else {
 		if (room.readyTime <= 0) return;
 		if (room.timer) {
 			clearInterval(room.timer);
@@ -58,19 +54,15 @@ function showRoomStatus(statusCode, room) {
 				showStatus("Go!");
 			}
 		}, 1000, room);
-		break;
-
-	default:
-		break;
 	}
 }
 
 function showPreGame(room, text, userPlayer) {
 	// Show text (a <span> for each letter)
 	for (var i = 0; i < text.length; i++) {
-		var span = document.createElement("span")
+		var span = document.createElement("span");
 		span.textContent = text[i];
-		span.players = [];
+		span.players = []; // save the players on that span
 		document.getElementById("text").appendChild(span);
 	}
 	for (var i = 0; i < room.players.length; i++) {
@@ -82,10 +74,14 @@ function showPreGame(room, text, userPlayer) {
 var inputListener;
 var keydownListener;
 var blurListener;
+var clickListener;
 function startGame(room, socket, text, userPlayer) {
 	// Always focus input box
 	var input = document.getElementById("input");
 	input.addEventListener("blur", blurListener = function (e) {
+		input.focus();
+	});
+	window.addEventListener("click", clickListener = function (e) {
 		input.focus();
 	});
 	input.focus();
@@ -127,7 +123,7 @@ function keypress(char, room, socket, text, userPlayer) {
 			errors: userPlayer.errors
 		});
 		finishGame();
-	} else if (TYPED_PER_LETTER || text[userPlayer.pos].match(/\W/)) {
+	} else {
 		socket.emit("typed", {
 			pos: userPlayer.pos
 		});

@@ -12,12 +12,14 @@ function calcStats(data, room) {
 		curPlayer[3] = data[i].errors;
 		stats.push(curPlayer);
 	}
-	stats.sort((p1, p2) => p1[1] - p2[1]);
+	//stats.sort((p1, p2) => p1[1] - p2[1]); // ES6
+	stats.sort(function (p1, p2) {return p1[1] - p2[1]});
 
 	return stats;
 }
 
 function genStats(stats) {
+	console.log(stats);
 	var table = document.getElementById("stats-table").tBodies[0];
 
 	for (var row = 0; row < stats.length; row++) {

@@ -10,7 +10,7 @@ function hexToRGBA(color, opacity) {
 		g = parseInt(color.substr(1,1), 16) * 16 + 15;
 		b = parseInt(color.substr(2,1), 16) * 16 + 15;
 	}
-	//return `rgba(${r},${g},${b},${opacity})`;
+	//return `rgba(${r},${g},${b},${opacity})`; // ES6
 	return "rgba(${r},${g},${b},${opacity})".replace("${r}",r).replace("${g}",g).replace("${b}",b).replace("${opacity}",opacity);
 }
 
@@ -50,8 +50,8 @@ function getCookie(key) {
 }
 function setCookie(key, value) {
 	var d = new Date();
-	var exdays = 2; // number of days until cookie disapears
+	var exdays = 2; // number of days until cookie expires
 	d.setTime(d.getTime() + (exdays*24*60*60*1000));
-	var expires = "expires="+ d.toUTCString();
+	var expires = "expires=" + d.toUTCString();
 	document.cookie = key + "=" + value + "; " + expires;
 }

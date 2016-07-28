@@ -35,17 +35,24 @@ function selectMainColor() {
 // Generate color selection boxes
 function generateBoxColors(getcolor){
 	var colorBox;
-	var cachedColor = getCookie( COOKIE_COLOR_CLASS );
+	var cachedColor = getCookie(COOKIE_COLOR_CLASS);
+
+	var color;
 	for (var i = 0; i < COLORS.length; i++) {
-		var color = COLORS[i].replace("_","#");
+		color = COLORS[i].replace("_","#");
 		colorBox = document.createElement("div");
 		colorBox.onclick = selectMainColor;
+		colorBox.addEventListener("click", selectMainColor);
 		colorBox.value = color;
 		colorBox.style.background = color;
-		if( cachedColor == COLORS[i] )
+		if (cachedColor === COLORS[i]) {
 			colorBox.classList.add("selected-color");
+		}
 		getcolor.appendChild(colorBox);
 	}
-	if( getcolor.getElementsByClassName("selected-color").length == 0 )
+
+	// Set default color if not saved
+	if (getcolor.getElementsByClassName("selected-color").length == 0) {
 		getcolor.children[0].classList.add("selected-color");
+	}
 }
