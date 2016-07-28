@@ -47,11 +47,10 @@
 
 	<!-- Game screen -->
 	<div id="game" style="display:none;">
-	<div id="game-box">
 
-		<div id="input-wrap" style="width:0px;height:0px">
-			<input id="input" style="width:0px;height:0px" type="text" name="" placeholder="" maxlength="1">
-		</div>
+		<!-- Hidden <input> -->
+		<input id="input" style="position:absolute;top:-100px;" type="text" name="" placeholder="" maxlength="1">
+
 		<div id="text">
 		</div>
 
@@ -61,12 +60,10 @@
 			<ul id="players">
 			</ul>
 		</div>
-	</div>
 	</div><!-- </game> -->
 
 	<!-- Stats screen -->
 	<div id="stats" style="display:none;">
-	<div id="stats-wrap">
 		<h1>Leaderboard</h1>
 
 		<table id="stats-table">
@@ -83,7 +80,6 @@
 			<tbody>
 			</tbody>
 		</table>
-	</div>
 	</div> <!-- </stats> -->
 </body>
 </html>
