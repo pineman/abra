@@ -1,106 +1,84 @@
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-    font-size: 20px;
-    color: white;
-    height: 100vh;
-}
-
-#mirrored-b {
-	display: inline-block;
-	transform: rotateY(180deg);
-	margin-left: -0.25em;
-}
-
 #intro {
-	background: @black;
+	height: 100%;
 	display: flex;
+	@media (max-width: 412px), (max-height: 399px) {
+		display: block;
+	}
 	align-items: center;
 	justify-content: center;
-	height: 100%;
 }
 
 #intro-flexy {
-    text-align: center;
-    min-width: 270px;
-}
-
-#header {
-	margin: 0 auto;
-	width: 242px;
+	text-align: center;
 	#title {
+		word-break: break-all;
+		font-weight: normal;
 		font-size: 55px;
 		letter-spacing: 5px;
-		vertical-align: middle;
 	}
 
-	#logo {
-		width: 60px;
-		margin: 5px 15px 5px 0;
-		vertical-align: middle;
+	#getname {
+		max-width: 70%;
+		padding: 10px 0;
+		border: 0;
+		outline: 0;
+		text-align: center;
+		background: inherit;
+		border-bottom: 1px solid;
+		color: white;
+		font: inherit;
+		font-size: 17px;
 	}
-}
+	#getname::placeholder {
+		color: @grey-placeholder;
+	}
 
-#getname {
-	padding: 10px;
-	border: 0;
-	outline: 0;
-	background: inherit;
-	text-align: center;
-	border-bottom: 1px solid;
-	color: white;
-	font: inherit;
-	font-size: 17px;
-}
-#getname::placeholder {
-	color: @grey-placeholder;
-}
-
-#getcolor {
-	padding: 5px;
-	background: @black - #151515;
-	margin: 20px auto;
-	max-width: 400px;
-	border: 1px solid @grey-border;
-	border-radius: 5px;
-	div {
-		width: 30px;
-		height: 30px;
-		display: inline-block;
-		margin: 10px;
-		border-radius: inherit;
+	#getcolor {
+		padding: 5px;
+		background: @black - #151515;
+		margin: 20px auto 0;
+		max-width: 400px;
 		border: 1px solid @grey-border;
+		border-radius: 5px;
+		// Color boxes
+		div {
+			width: 30px;
+			height: 30px;
+			display: inline-block;
+			margin: 10px;
+			border-radius: inherit;
+			border: 1px solid @grey-border;
+			cursor: pointer;
+			transition: 1s;
+		}
+		.selected-color {
+			border-color: white;
+			transition: 0.3s;
+		}
+	}
+
+	#start {
+		display: inline-block;
+		margin-top: 20px;
+		padding: 15px 50px;
+		background: @green;
+		border-radius: 3px;
 		cursor: pointer;
 		transition: 1s;
+		text-transform: uppercase;
+		&:hover {
+			background: @green + #151515;
+			transition: 0.3s;
+		}
 	}
-	.selected-color {
-		border-color: white;
-		transition: 0.3s;
-	}
-}
 
-#start {
-	display: inline-block;
-	padding: 15px 50px;
-	background: @green;
-	border-radius: 3px;
-	cursor: pointer;
-	transition: 1s;
-	text-transform: uppercase;
-	&:hover {
-		background: @green + #151515;
-		transition: 0.3s;
-	}
-}
-
-footer {
-	margin-top: 20px;
-	h5 {
+	#links {
+		margin-top: 20px;
 		font-weight: normal;
-	}
-	a:hover {
-		border-bottom: 1px  grey;
-		cursor: pointer;
+
+		a:hover {
+			border-bottom: 1px  grey;
+			cursor: pointer;
+		}
 	}
 }

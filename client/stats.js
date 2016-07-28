@@ -22,6 +22,8 @@ function genStats(stats) {
 
 	for (var row = 0; row < stats.length; row++) {
 		var tr = table.insertRow();
+		tr.classList.add("border-bottom");
+		tr.style.borderBottomColor = stats[row].color;
 		var td = tr.insertCell();
 		td.textContent = row + 1;
 
