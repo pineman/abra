@@ -9,7 +9,13 @@ var Player = function (name, color, id) {
 	this.endTime = 0;
 	this.isUser = id === USER_ID;
 	this.errors = 0;
-	this.element; // saves the li element
+}
+
+// Reset attributes that don't carry on from game to game
+Player.prototype.reset = function () {
+	this.pos = 0;
+	this.endTime = 0;
+	this.errors = 0;
 }
 
 // Handle player typing event

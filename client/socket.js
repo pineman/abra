@@ -1,7 +1,7 @@
 const WS_SERVER = window.location.href;
 const WORD_SIZE = 5;
 
-function startWSocket() {
+function startWebSocket() {
 	var socket = io(WS_SERVER);
 
 	var player = new Player(
@@ -10,16 +10,21 @@ function startWSocket() {
 		USER_ID
 	);
 
+	manageSocketEvents(socket, player);
+
 	socket.emit("newplayer", {
 		name: player.name,
 		color: player.color
 	});
 
-	hide("intro");
-	show("game");
+	showGame(player);
+	socket.emit("findroom", {});
 
-	showPlayer(player);
-	manageSocketEvents(socket, player);
+	var againButton = document.getElementById("again-button");
+	againButton.addEventListener("click", function (e) {
+		playAgain(player);
+		socket.emit("findroom", {});
+	});
 }
 
 function manageSocketEvents(socket, userPlayer) {
@@ -58,11 +63,10 @@ function manageSocketEvents(socket, userPlayer) {
 		genStats(stats, room);
 	});
 
-	socket.on("disconnected", function(data){
-		// TODO: manage the disconection of some player
+	socket.on("disconnected", function(data) {
 		var i = findPlayerIndex(data.id, room.players);
 		var player = room.players[i];
-		room.players.splice(i,1); //remove from players
+		room.players.splice(i,1); // remove from players
 		player.typed(-1); // hide cursor
 		document.getElementById(player.id).remove(); // Remove from lobby list
 	})

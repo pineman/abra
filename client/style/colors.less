@@ -1,12 +1,4 @@
-
-@opacity: 70; // Explicit is better than implicit IN UR FACE GET REKT M8
-.cursor-color(@color) {
-    background-color: fade(@color, @opacity);
-    border: 1px solid @color;
-}
-
 // Material palette
-
 // colorBox
 @red: #f44336;
 @pink: #e91e63;
@@ -40,8 +32,14 @@
 @start-green: #00c853;
 @start-green-hover: #00e676;
 
-// TODO: change class names
+
 // colorBox color classes by hex value
+@opacity: 70;
+.cursor-color(@color) {
+    background-color: fade(@color, @opacity);
+    border: 1px solid @color;
+}
+
 ._3f51b5, #text span._3f51b5{ .cursor-color(#3f51b5); }
 ._9e9e9e, #text span._9e9e9e{ .cursor-color(#9e9e9e); }
 ._8bc34a, #text span._8bc34a{ .cursor-color(#8bc34a); }

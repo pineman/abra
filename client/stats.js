@@ -19,7 +19,6 @@ function calcStats(data, room) {
 }
 
 function genStats(stats) {
-	console.log(stats);
 	var table = document.getElementById("stats-table").tBodies[0];
 
 	for (var row = 0; row < stats.length; row++) {

@@ -72,26 +72,20 @@ function findRoom() {
 	return;
 }
 
-
-// TODO:
-// outra abordagem sem perdermos a feature dos room names,
-// sem perder tempo a apagar rooms:
-// quando o primeiro jogador se ligar, gerar um novo nome
-// alternativamente, arranjar uma data structure que tenha
-// remoção em O(1)
+function destroyRoom(room) {
+	rooms.splice(rooms.indexOf(room), 1);
+}
 
 // Algorithm to remove a socket from a room
-// TODO: reutilização de room para evitar iterar por todas?
-// TODO: melhor busca?
 function leaveRoom(socket) {
 	// Find the player's index in socket.room.players so that we can remove it
-	var playerIndex = socket.room.players.find( p => p.id === socket.id )
+	var playerIndex = socket.room.players.find(p => p.id === socket.id)
 	socket.room.players.splice(playerIndex, 1);
-	
+
 	// If the room gets empty, remove it
 	if (socket.room.players.length === 0) {
 		// Find the room's index in rooms so that we can remove it
-		var roomIndex = rooms.find( r => r.id === socket.room.id );
+		var roomIndex = rooms.find(r => r.id === socket.room.id);
 		rooms.splice(roomIndex, 1);
 	}
 }
@@ -117,9 +111,6 @@ function emitGameStart(room) {
 }
 
 io.on("connection", function (socket) {
-	// TODO: Don't forget to sanitize all incoming data!
-	// TODO: Other security concerns
-
 	/* All events other than "newplayer" depend on
 	 * some attribute we save in the socket itself.
 	 * If the socket did not go through "newplayer",
@@ -127,28 +118,30 @@ io.on("connection", function (socket) {
 	 * therefore the event handlers will fail without
 	 * crashing the server (node doesn't segfault...) */
 
-	// New player, find him a room
+	// Register new player
 	socket.on("newplayer", function (data) {
 		// Name is escaped by textContent on the client side,
 		// however, still testing for max length.
 		if (data.name.length > 30) return; // max is 15 client-side
 
 		// Silently drop clients messing around with color
-		// (which I believe is possible client-side (?) TODO)
 		if (!data.color.startsWith("#") || data.color.length > 7) return;
 
 		var newPlayer = new Player(data.name, data.color, socket.id);
+
+		// Save this client's player
+		socket.player = newPlayer;
+	});
+
+	// Find a room for a socket
+	socket.on("findroom", function () {
 		var room = findRoom();
 
 		if (room) {
-			// Close the room as soon as possible.
-			if (room.players.length === config.MAX_PER_ROOM - 1) {
-				room.status = "closed";
-			}
 			socket.join(room.id);
 			// Inform the players in the room that a new player
 			// has entered the room.
-			socket.broadcast.to(room.id).emit("playerentered", newPlayer);
+			socket.broadcast.to(room.id).emit("playerentered", socket.player);
 		} else {
 			// No open room was found, create a new room whose
 			// id is the first player's socket.id.
@@ -161,6 +154,11 @@ io.on("connection", function (socket) {
 			room.timer = setInterval(countGameStart, 1000, room);
 		}
 
+		// Close the room asap
+		if (room.players.length === (config.MAX_PER_ROOM - 1)) {
+			room.status = "closed";
+		}
+
 		// No need to inform the player of itself,
 		// emit the player's new room before append
 		socket.emit("foundroom", {
@@ -169,11 +167,10 @@ io.on("connection", function (socket) {
 			numFinished: room.numFinished,
 			timeLeft: room.timeLeft
 		});
-		room.players.push(newPlayer);
+		room.players.push(socket.player);
 
-		// Save this client's room and player
+		// Save the client's room.
 		socket.room = room;
-		socket.player = newPlayer;
 
 		// Start the game if the room has enough players
 		if (room.players.length === config.MAX_PER_ROOM) {
@@ -206,6 +203,10 @@ io.on("connection", function (socket) {
 			io.to(socket.room.id).emit("end", {
 				stats: stats
 			});
+
+			// Destroy room
+			// TODO: what about rematch?
+			destroyRoom(socket.room);
 		}
 	});
 

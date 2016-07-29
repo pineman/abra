@@ -1,5 +1,24 @@
 /* Game room control */
 
+function showGame(userPlayer) {
+	hide("intro");
+	show("game");
+	showPlayer(userPlayer);
+}
+
+function playAgain(userPlayer) {
+	hide("stats");
+	show("game");
+	document.getElementById("text").innerHTML = "";
+	document.getElementById("room-name").textContent = "";
+	document.getElementById("status").innerHTML = "";
+	document.getElementById("players").innerHTML = "";
+	document.querySelector("#stats-table tbody").innerHTML = "";
+	userPlayer.reset();
+	showPlayer(userPlayer);
+	showStatus("Connecting to server...");
+}
+
 function showPlayer(player) {
 	var li = document.createElement("li");
 	li.textContent = player.name;
@@ -9,7 +28,7 @@ function showPlayer(player) {
 }
 
 function showNewRoom(room) {
-	document.getElementById("room-name").textContent += room.name;
+	document.getElementById("room-name").textContent = room.name;
 
 	// Show the players already in the room
 	for (var i = 0; i < room.players.length; i++) {
@@ -25,7 +44,9 @@ function showStatus(status) {
 function showRoomStatus(statusCode, room) {
 	if (statusCode === "foundroom") {
 		if (room.timeLeft <= 0) return;
+
 		showStatus("Finding players... " + room.timeLeft);
+
 		room.timer = setInterval(function () {
 			room.timeLeft--;
 			if (room.timeLeft) {
@@ -36,8 +57,10 @@ function showRoomStatus(statusCode, room) {
 				showStatus("Game starting... ");
 			}
 		}, 1000, room);
-	} else {
+
+	} else if (statusCode === "gamestart") {
 		if (room.readyTime <= 0) return;
+
 		if (room.timer) {
 			clearInterval(room.timer);
 			room.timer = undefined;
