@@ -164,7 +164,6 @@ io.on("connection", function (socket) {
 		socket.emit("foundroom", {
 			name: room.name,
 			players: room.players,
-			numFinished: room.numFinished,
 			timeLeft: room.timeLeft
 		});
 		room.players.push(socket.player);

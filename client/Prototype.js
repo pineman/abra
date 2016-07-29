@@ -57,16 +57,16 @@ function convertToPlayer (player) {
 	return new Player(player.name, player.color, player.id);
 }
 
-var Room = function (name, players, numFinished, timeLeft) {
+var Room = function (name, players, timeLeft) {
 	this.name = name;
 	this.players = players;
-	this.numFinished = numFinished;
 	this.timeLeft = timeLeft;
+	this.numFinished = 0;
 	this.readyTime = ROOM_READY_TIME;
 	this.startTime = 0;
 	this.wordCount = 0;
 }
 
 function convertToRoom(room) {
-	return new Room(room.name, room.players, room.numFinished, room.timeLeft);
+	return new Room(room.name, room.players, room.timeLeft);
 }
