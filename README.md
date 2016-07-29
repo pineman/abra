@@ -5,11 +5,12 @@
 Typing game VERY MUCH IN PROGRESS
 
 ## TODO:
- * Stats style
+ * ~~Stats style~~
  * ~~Disconnect & delete room~~
  * Different error color when cursor is red
  * ~~Prevent backspace key~~
- * Back and rematch buttons
+ * ~~Play again button~~
+ * Rematch 
  * Autoscroll to visible span
  * More stats
  * Guarantee all sockets start at the same time (acknowledgement protocol)
