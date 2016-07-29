@@ -115,22 +115,18 @@ function startGame(room, socket, text, userPlayer) {
 		this.value = "";
 	});
 
-	// Catch backspace (or others) directly by keypress
-	input.addEventListener("keydown", keydownListener = function (e) {
-		if (e.key === "Backspace") e.preventDefault();
-	});
-
 	room.startTime = new Date();
 }
 
 function keypress(char, room, socket, text, userPlayer) {
+	var span = document.getElementById("text").children[userPlayer.pos];
 	if (char === text[userPlayer.pos]) {
 		userPlayer.typed(userPlayer.pos + 1);
+		span.classList.add("written");
 	} else {
 		// Wrong keypress
 		userPlayer.errors++;
-
-		var span = document.getElementById("text").children[userPlayer.pos];
+		
 		span.id = "wrong";
 		setTimeout(function() {
 			span.id = "";
