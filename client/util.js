@@ -22,6 +22,20 @@ function show(id) {
 	document.getElementById(id).style.display = "block";
 }
 
+function transition(fromId, toId) {
+	var fromScreen = document.getElementById(fromId),
+	    toScreen   = document.getElementById(toId);
+
+	fromScreen.classList.add("bye-bye");
+	toScreen.classList.add("bye-bye");
+	show(toId);
+
+	setTimeout(function () {
+		hide(fromId);
+		toScreen.classList.remove("bye-bye");
+	}, 250);
+}
+
 function findPlayer(id, players) {
 	for (var i = 0; i < players.length; i++)
 		if (players[i].id == id)

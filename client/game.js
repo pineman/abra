@@ -1,14 +1,16 @@
 /* Game room control */
 
 function showGame(userPlayer) {
-	hide("intro");
-	show("game");
+	// hide("intro");
+	// show("game");
+	transition("intro", "game");
 	showPlayer(userPlayer);
 }
 
 function playAgain(userPlayer) {
-	hide("stats");
-	show("game");
+	// hide("stats");
+	// show("game");
+	transition("stats", "game");
 	document.getElementById("text").innerHTML = "";
 	document.getElementById("room-name").textContent = "";
 	document.getElementById("status").innerHTML = "";
@@ -157,6 +159,7 @@ function finishGame() {
 }
 
 function endGame() {
-	hide("game");
-	show("stats");
+	// hide("game");
+	// show("stats");
+	transition("game", "stats");
 }

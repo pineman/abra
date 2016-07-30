@@ -1,5 +1,26 @@
 @import "reset";
 
+@import "colors";
+@import "intro";
+@import "game";
+@import "stats";
+
+/* A mixin to give transition: 1s to all game screens */
+.animated-screen {
+	transition: 0.25s;
+}
+
+/* A class to be added by JS code to smoothly fade out a game screen */
+.bye-bye {
+	opacity: 0;
+	margin-left: 100%;
+	margin-right: -100%;
+}
+
+body {
+	overflow: hidden;
+}
+
 a, a:link, a:visited, a:hover, a:focus, a:active {
 	color: inherit;
 	text-decoration: none;
@@ -34,8 +55,3 @@ body {
 		transition: 0.3s;
 	}
 }
-
-@import "colors";
-@import "intro";
-@import "game";
-@import "stats";
