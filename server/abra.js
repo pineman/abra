@@ -14,8 +14,8 @@ if (process.argv[2] !== "server") {
 	function handler(req, res) {
 	fs.readFile(getFileName(req.url), function (err, data) {
 		if (err) {
-		res.writeHead(500);
-		return res.end('Error loading ' + getFileName(req.url));
+			res.writeHead(500);
+			return res.end('Error loading ' + getFileName(req.url));
 		}
 		res.writeHead(200);
 		res.end(data);
