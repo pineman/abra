@@ -20,6 +20,7 @@
     "less": "^2.7.1",
     "less-plugin-autoprefix": "^1.5.1",
     "less-plugin-clean-css": "^1.5.1",
-    "socket.io": "^1.4.8"
+    "socket.io": "^1.4.8",
+    "uglify-js": "^2.7.0"
   }
 }
