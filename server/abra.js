@@ -4,6 +4,8 @@ var app;
 
 if (process.argv[2] !== "server") {
 	// HTTP server
+	var path = require('path');
+
 	var PORT = process.argv[2] || 80;
 
 	app = require('http').createServer(handler);
@@ -12,20 +14,19 @@ if (process.argv[2] !== "server") {
 	app.listen(PORT);
 
 	function handler(req, res) {
-	fs.readFile(getFileName(req.url), function (err, data) {
-		if (err) {
-			res.writeHead(500);
-			return res.end('Error loading ' + getFileName(req.url));
-		}
-		res.writeHead(200);
-		res.end(data);
-	});
+		fs.readFile(getFileName(req.url), function (err, data) {
+			if (err) {
+				res.writeHead(500);
+				return res.end('Error loading ' + getFileName(req.url));
+			}
+			res.writeHead(200);
+			res.end(data);
+		});
 	}
 
-	// |-|4xX0rzZ
-	var base = __dirname.split("/").slice(0, -1).join("/") + "/client";
 	function getFileName(url) {
-		return base + (url === "/" ? "/index.html" : url);
+		var filename = (url === "/") ? "index.html" : url;
+		return path.join(__dirname, "..", "client", filename);
 	}
 } else {
 	app = config.SOCKET_PORT;
