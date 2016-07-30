@@ -10,6 +10,7 @@ Typing game VERY MUCH IN PROGRESS
  * Different error color when cursor is red
  * ~~Prevent backspace key~~
  * ~~Play again button~~
+ * Enter key to start game
  * More texts
  * Rematch 
  * Autoscroll to visible span
