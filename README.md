@@ -11,7 +11,6 @@ Typing game VERY MUCH IN PROGRESS
  * ~~Prevent backspace key~~
  * ~~Play again button~~
  * More texts
- * Makefile to minify stuff
  * Rematch 
  * Autoscroll to visible span
  * Room links
