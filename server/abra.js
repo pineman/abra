@@ -32,11 +32,10 @@ if (process.argv[2] !== "server") {
 	app = config.SOCKET_PORT;
 }
 
+/* ------------------------------------------------------------ */
 // socket.io
 io = require('socket.io')(app);
 // io.serveClient(true);
-
-/* ------------------------------------------------------------ */
 const texts = require('./texts.js');
 const namegen = require('./namegen');
 
@@ -80,13 +79,13 @@ function destroyRoom(room) {
 // Algorithm to remove a socket from a room
 function leaveRoom(socket) {
 	// Find the player's index in socket.room.players so that we can remove it
-	var playerIndex = socket.room.players.find(p => p.id === socket.id)
+	var playerIndex = socket.room.players.findIndex(p => p.id === socket.id)
 	socket.room.players.splice(playerIndex, 1);
 
 	// If the room gets empty, remove it
 	if (socket.room.players.length === 0) {
 		// Find the room's index in rooms so that we can remove it
-		var roomIndex = rooms.find(r => r.id === socket.room.id);
+		var roomIndex = rooms.findIndex(r => r.id === socket.room.id);
 		rooms.splice(roomIndex, 1);
 	}
 }
