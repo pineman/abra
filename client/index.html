@@ -20,10 +20,17 @@
 	<script src="stats.js"></script>
 
 	<script type="text/javascript">
-		window.onload = function () {
+		document.addEventListener("DOMContentLoaded", function () {
 			generateBoxColors(document.getElementById("getcolor"));
-			document.getElementById("start-button").addEventListener("click", initPlayer);
-		}
+
+			var startButton = document.getElementById("start-button");
+			startButton.addEventListener("click", initPlayer);
+
+			// Bind enter to start button
+			document.getElementById("getname").addEventListener("keyup", function (e) {
+				return (e.which === 13) ? startButton.click() : undefined;
+			});
+		});
 	</script>
 </head>
 
