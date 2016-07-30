@@ -110,6 +110,27 @@ function emitGameStart(room) {
 	io.to(room.id).emit("gamestart", text);
 }
 
+// Emit end and generate stats
+function endGame(socket) {
+	var stats = [];
+	for (var i = 0; i < socket.room.players.length; i++) {
+		stats[i] = {
+			time: socket.room.players[i].time,
+			errors: socket.room.players[i].errors,
+			name: socket.room.players[i].name,
+			color: socket.room.players[i].color
+		};
+	}
+
+	io.to(socket.room.id).emit("end", {
+		stats: stats
+	});
+
+	// Destroy room
+	// TODO: what about rematch?
+	destroyRoom(socket.room);
+}
+
 io.on("connection", function (socket) {
 	/* All events other than "newplayer" depend on
 	 * some attribute we save in the socket itself.
@@ -189,23 +210,7 @@ io.on("connection", function (socket) {
 		socket.room.numFinished++;
 
 		if (socket.room.numFinished === socket.room.players.length) {
-			var stats = [];
-			for (var i = 0; i < socket.room.players.length; i++) {
-				stats[i] = {
-					time: socket.room.players[i].time,
-					errors: socket.room.players[i].errors,
-					name: socket.room.players[i].name,
-					color: socket.room.players[i].color
-				};
-			}
-
-			io.to(socket.room.id).emit("end", {
-				stats: stats
-			});
-
-			// Destroy room
-			// TODO: what about rematch?
-			destroyRoom(socket.room);
+			endGame(socket);
 		}
 	});
 
@@ -218,5 +223,9 @@ io.on("connection", function (socket) {
 		});
 
 		leaveRoom(socket);
+
+		if (socket.room.numFinished === socket.room.players.length) {
+			endGame(socket);
+		}
 	})
 });
