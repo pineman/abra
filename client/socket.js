@@ -1,14 +1,26 @@
 const WS_SERVER = window.location.href;
 const WORD_SIZE = 5;
 
-function startWebSocket() {
-	var socket = io(WS_SERVER);
-
+function initPlayer() {
 	var player = new Player(
 		document.querySelector("#getname").value,
 		document.querySelector("#getcolor > .selected-color").value,
 		USER_ID
 	);
+
+	var socket = connect(player);
+
+	var againButton = document.getElementById("again-button");
+	againButton.addEventListener("click", function (e) {
+		playAgain(player);
+		socket.emit("findroom", {});
+	});
+
+	showGame(player);
+}
+
+function connect(player) {
+	var socket = io(WS_SERVER);
 
 	manageSocketEvents(socket, player);
 
@@ -17,14 +29,9 @@ function startWebSocket() {
 		color: player.color
 	});
 
-	showGame(player);
 	socket.emit("findroom", {});
 
-	var againButton = document.getElementById("again-button");
-	againButton.addEventListener("click", function (e) {
-		playAgain(player);
-		socket.emit("findroom", {});
-	});
+	return socket;
 }
 
 function manageSocketEvents(socket, userPlayer) {
@@ -61,6 +68,7 @@ function manageSocketEvents(socket, userPlayer) {
 		endGame();
 		var stats = calcStats(data.stats, room);
 		genStats(stats, room);
+		socket.disconnect();
 	});
 
 	socket.on("disconnected", function(data) {

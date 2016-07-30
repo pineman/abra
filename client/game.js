@@ -8,8 +8,8 @@ function showGame(userPlayer) {
 }
 
 function playAgain(userPlayer) {
-	// hide("stats");
-	// show("game");
+	connect(userPlayer);
+
 	transition("stats", "game");
 	document.getElementById("text").innerHTML = "";
 	document.getElementById("room-name").textContent = "";
@@ -17,6 +17,7 @@ function playAgain(userPlayer) {
 	document.getElementById("players").innerHTML = "";
 	document.querySelector("#stats-table tbody").innerHTML = "";
 	userPlayer.reset();
+
 	showPlayer(userPlayer);
 	showStatus("Connecting to server...");
 }
@@ -128,7 +129,7 @@ function keypress(char, room, socket, text, userPlayer) {
 	} else {
 		// Wrong keypress
 		userPlayer.errors++;
-		
+
 		span.id = "wrong";
 		setTimeout(function() {
 			span.id = "";
