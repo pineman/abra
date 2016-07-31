@@ -125,7 +125,7 @@ function keypress(char, room, socket, text, userPlayer) {
 	var span = document.getElementById("text").children[userPlayer.pos];
 	if (char === text[userPlayer.pos]) {
 		userPlayer.typed(userPlayer.pos + 1);
-		span.classList.add("written");
+		span.setAttribute("name","written");
 	} else {
 		// Wrong keypress
 		userPlayer.errors++;
