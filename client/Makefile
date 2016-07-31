@@ -13,14 +13,21 @@ clean:
 all: style/style.css assets/socket.io.min.js
 
 server: all
+	# backup
 	cp index.html index.html.tmp
+	# replace references to JS files in index.html
 	find * -name "*.js" -exec sed -i "/{}/d" index.html.tmp \;
 	sed -i 's#</head>#  <script src="/abra.min.js"></script>\n</head>#g' index.html.tmp
+	# minify JS files, enclosing everything in an IIFE
 	../node_modules/.bin/uglifyjs *.js > abra.min.js
 	sed -i '1i (function () {' abra.min.js
 	echo '})();' >> abra.min.js
+	# minify index.html
+	../node_modules/.bin/htmlminify index.html.tmp > index.min.html.tmp
+	rm index.html.tmp
+	# Move everything to serve dir for static serving by nginx
 	mkdir -p serve/{assets,style}
-	mv index.html.tmp serve/index.html
+	mv index.min.html.tmp serve/index.html
 	cp style/style.css serve/style
 	cp assets/* serve/assets/
 	mv abra.min.js serve/
