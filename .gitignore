@@ -3,4 +3,4 @@ node_modules
 client/style/style.css
 client/assets/socket.io.min.js
 client/abra.min.js
-*.bak
+client/serve
