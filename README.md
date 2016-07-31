@@ -5,19 +5,13 @@
 Typing game VERY MUCH IN PROGRESS
 
 ## TODO:
- * ~~Stats style~~
- * ~~Disconnect & delete room~~
  * Different error color when cursor is red
- * ~~Prevent backspace key~~
- * ~~Play again button~~
- * Enter key to start game
  * More texts
  * Rematch 
  * Autoscroll to visible span
  * Room links
  * More stats
  * Guarantee all sockets start at the same time (acknowledgement protocol)
- * Animations
  * Sound
  * Submit texts
  * Private rooms
