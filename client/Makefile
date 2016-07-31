@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := all
 
-LESS := $(wildcard ../style/*.less)
+LESS := $(wildcard style/*.less)
 style/style.css: $(LESS)
 	../node_modules/.bin/lessc --clean-css="--advanced" --autoprefix="last 2 versions" style/main.less $@
 
