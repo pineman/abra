@@ -1,3 +1,15 @@
+document.addEventListener("DOMContentLoaded", function () {
+	generateBoxColors(document.getElementById("getcolor"));
+
+	var startButton = document.getElementById("start-button");
+	startButton.addEventListener("click", initPlayer);
+
+	// Bind enter to start button
+	document.getElementById("getname").addEventListener("keyup", function (e) {
+		return (e.which === 13) ? startButton.click() : undefined;
+	});
+});
+
 // Materialized colors
 const COLORS = [
 	"_f44336",

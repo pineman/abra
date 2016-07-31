@@ -11,3 +11,11 @@ clean:
 	rm -f style/style.css assets/socket.io.min.js
 
 all: style/style.css assets/socket.io.min.js
+
+server: all
+	cp index.html index.html.bak
+	find * -name "*.js" -exec sed -i "/{}/d" index.html \;
+	sed -i 's#</head>#  <script src="/abra.min.js"></script>\n</head>#g' index.html
+	../node_modules/.bin/uglifyjs *.js > abra.min.js
+	sed -i '1i (function () {' abra.min.js
+	echo '})();' >> abra.min.js

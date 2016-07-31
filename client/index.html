@@ -17,20 +17,6 @@
 	<script src="/Prototype.js"></script>
 	<script src="/game.js"></script>
 	<script src="/stats.js"></script>
-
-	<script type="text/javascript">
-		document.addEventListener("DOMContentLoaded", function () {
-			generateBoxColors(document.getElementById("getcolor"));
-
-			var startButton = document.getElementById("start-button");
-			startButton.addEventListener("click", initPlayer);
-
-			// Bind enter to start button
-			document.getElementById("getname").addEventListener("keyup", function (e) {
-				return (e.which === 13) ? startButton.click() : undefined;
-			});
-		});
-	</script>
 </head>
 
 <body>
