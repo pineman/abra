@@ -18,7 +18,7 @@ server: all
 	# replace references to JS files in index.html
 	find * -name "*.js" -exec sed -i "/{}/d" index.html.tmp \;
 	# insert <script> right after title tag
-	sed -i -E 's#.*id="title".*#&<script src="/abra.min.js"></script>#g' index.html.tmp
+	sed -i -E '/.*id="getname".*/i<script src="\/abra.min.js"></script>' index.html.tmp
 	# minify JS files, enclosing everything in an IIFE
 	../node_modules/.bin/uglifyjs *.js > abra.min.js
 	sed -i '1i (function () {' abra.min.js
