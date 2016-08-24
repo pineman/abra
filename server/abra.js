@@ -47,6 +47,7 @@ var Player = function (name, color, id) {
 	this.pos = 0; // index in the text string
 	this.time = 0; // time spent writing
 	this.errors = 0;
+	this.done = false;
 }
 
 var Room = function (id) {
@@ -87,6 +88,10 @@ function leaveRoom(socket) {
 		// Find the room's index in rooms so that we can remove it
 		var roomIndex = rooms.findIndex(r => r.id === socket.room.id);
 		rooms.splice(roomIndex, 1);
+	}
+
+	if (socket.player.done) {
+		socket.room.numFinished--;
 	}
 }
 
@@ -207,6 +212,7 @@ io.on("connection", function (socket) {
 	socket.on("finish", function (data) {
 		socket.player.time = data.time;
 		socket.player.errors = data.errors;
+		socket.player.done = true;
 		socket.room.numFinished++;
 
 		if (socket.room.numFinished === socket.room.players.length) {
