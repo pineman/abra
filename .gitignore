@@ -1,6 +1,6 @@
 node_modules
 *.log
-client/style/style.css
-client/assets/socket.io.min.js
+client/static/style.css
+client/static/socket.io.min.js
 client/abra.min.js
 client/serve
