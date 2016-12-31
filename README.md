@@ -19,6 +19,9 @@ nginx conf file and systemd service file are provided in server/config.
 
 ## TODO
  * Different error color when cursor is red
+
+## IDEAS
+ * CLI client
  * Post game chat
  * Autoscroll to visible span
  * Room links
