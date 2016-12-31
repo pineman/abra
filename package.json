@@ -1,7 +1,7 @@
 {
   "name": "abra",
-  "version": "0.1.0",
-  "description": "it's a game folks",
+  "version": "1.0.0",
+  "description": "Race against others in this new exciting typing game™! https://abra.pineman.win",
   "main": "server/abra.js",
   "scripts": {
     "test": "cd server && node abra.js 8080"
@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/pineman/abra#readme",
   "dependencies": {
-    "html-minifier": "^3.0.2",
+    "html-minifier": "^3.2.3",
     "less": "^2.7.1",
     "less-plugin-autoprefix": "^1.5.1",
     "less-plugin-clean-css": "^1.5.1",
-    "socket.io": "^1.4.8",
-    "uglify-js": "^2.7.0"
+    "socket.io": "^1.7.2",
+    "uglify-js": "^2.7.5"
   }
 }

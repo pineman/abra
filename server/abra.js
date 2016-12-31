@@ -2,7 +2,7 @@ const config = require('./config/config.js');
 var io;
 var app;
 
-if (process.argv[2] !== "server") {
+if (process.argv[2] !== "deploy") {
 	// HTTP server
 	var path = require('path');
 

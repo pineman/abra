@@ -4,7 +4,7 @@ LESS := $(wildcard style/*.less)
 static/style.css: $(LESS)
 	../node_modules/.bin/lessc --clean-css="--advanced" --autoprefix="last 2 versions" style/main.less $@
 
-static/socket.io.min.js: ../node_modules/socket.io-client/socket.io.js
+static/socket.io.min.js: ../node_modules/socket.io-client/dist/socket.io.js
 	../node_modules/.bin/uglifyjs $^ > $@
 
 clean:
