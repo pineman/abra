@@ -6,8 +6,7 @@ Typing game VERY MUCH IN PROGRESS
 
 ## TODO:
  * Different error color when cursor is red
- * More texts
- * Rematch 
+ * Post game chat
  * Autoscroll to visible span
  * Room links
  * More stats
