@@ -1,10 +1,23 @@
 # abra
 
 ### Catch you the abra for much win!
+Online browser typing game.
 
-Typing game VERY MUCH IN PROGRESS
+## INSTRUCTIONS
+```
+git clone https://github.com/pineman/abra && cd abra
+npm install
+cd client && make && cd -
+npm test
+```
 
-## TODO:
+To run in a more production-y environment with nginx:
+```
+cd client && make deploy && cd -
+```
+nginx conf file and systemd service file are provided in server/config.
+
+## TODO
  * Different error color when cursor is red
  * Post game chat
  * Autoscroll to visible span

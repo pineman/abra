@@ -2,8 +2,8 @@ const config = require('./config/config.js');
 var io;
 var app;
 
+// HTTP server for development/test
 if (process.argv[2] !== "deploy") {
-	// HTTP server
 	var path = require('path');
 
 	var PORT = process.argv[2] || 80;
@@ -28,11 +28,12 @@ if (process.argv[2] !== "deploy") {
 		var filename = (url === "/") ? "index.html" : url;
 		return path.join(__dirname, "..", "client", filename);
 	}
+
+	console.log("Server listening on http://127.0.0.1:" + PORT);
 } else {
 	app = config.SOCKET_PORT;
 }
 
-/* ------------------------------------------------------------ */
 // socket.io
 io = require('socket.io')(app);
 // io.serveClient(true);
