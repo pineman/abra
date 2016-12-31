@@ -24,7 +24,7 @@ module.exports = [
 	"I think, therefore I am.",
 
 	"You can’t cling to the past, because no matter how tightly you hold on, it’s already gone.",
-	"Welcome to the real world. It sucks. You’re gonna love it!",
+	"Welcome to the real world. It sucks. You're gonna love it!",
 	"I’m not so good with advice. Can I interest you in a sarcastic comment?",
 
 	"SYSCALL_DEFINE1(brk, unsigned long, brk)"
