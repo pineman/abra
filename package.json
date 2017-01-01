@@ -2,6 +2,10 @@
   "name": "abra",
   "version": "1.0.0",
   "description": "Race against others in this new exciting typing game™! https://abra.pineman.win",
+  "keywords": [
+	"game",
+	"typing"
+  ],
   "main": "server/abra.js",
   "scripts": {
     "test": "cd server && node abra.js 8080"
@@ -10,7 +14,19 @@
     "type": "git",
     "url": "git+https://github.com/pineman/abra.git"
   },
-  "author": "João Pinheiro, Diogo Tito, Diogo Almiro",
+  "contributors": [
+    {
+	  "name": "João Pinheiro",
+	  "email": "joao.castropinheiro@gmail.com",
+	  "url": "https://pineman.win"
+    },
+    {
+	  "name": "Diogo Tito"
+    },
+    {
+	  "name": "Diogo Almiro"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/pineman/abra/issues"
