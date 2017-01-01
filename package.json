@@ -16,6 +16,9 @@
   },
   "contributors": [
     {
+	  "name": "Diogo Almiro"
+    },
+    {
 	  "name": "João Pinheiro",
 	  "email": "joao.castropinheiro@gmail.com",
 	  "url": "https://pineman.win"
@@ -23,9 +26,6 @@
     {
 	  "name": "Diogo Tito",
 	  "email": "diogotitomarques@gmail.com"
-    },
-    {
-	  "name": "Diogo Almiro"
     }
   ],
   "license": "MIT",
