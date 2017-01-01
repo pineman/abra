@@ -3,7 +3,7 @@
 ### Catch you the abra for much win!
 Online browser typing game.
 
-## INSTRUCTIONS
+## Instructions
 ```
 git clone https://github.com/pineman/abra && cd abra
 npm install
@@ -19,8 +19,13 @@ nginx conf file and systemd service file are provided in server/config.
 
 ## TODO
  * Different error color when cursor is red
+ * npm all the things!
+   * `abra-server`
+   * `abra-client`
+   * `abra-client-http`
+   * `abra-client-cli`
 
-## IDEAS
+## Ideas
  * CLI client
  * Post game chat
  * Autoscroll to visible span
