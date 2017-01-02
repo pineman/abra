@@ -19,6 +19,7 @@ nginx conf file and systemd service file are provided in server/config.
 
 ## TODO
  * Different error color when cursor is red
+ * Recheck & reorganize whole codebase
  * npm all the things!
    * `abra-server`
    * `abra-client`
@@ -26,7 +27,7 @@ nginx conf file and systemd service file are provided in server/config.
    * `abra-client-cli`
 
 ## Ideas
- * CLI client
+ * CLI client using [blessed](https://github.com/chjj/blessed)
  * Post game chat
  * Autoscroll to visible span
  * Room links
