@@ -66,25 +66,19 @@ var rooms = [];
 // Algorithm to find an open room
 function findRoom() {
 	for (var i = 0; i < rooms.length; i++) {
-		if (rooms[i].status === "open")
+		if (rooms[i].status === "open") {
 			return rooms[i];
-	};
-
-	// No open room was found (undefined)
-	return;
+		}
+	}
 }
 
 // Algorithm to remove a socket from a room
 function leaveRoom(socket) {
-	// Find the player's index in socket.room.players so that we can remove it
-	var playerIndex = socket.room.players.findIndex(p => p.id === socket.id)
-	socket.room.players.splice(playerIndex, 1);
+	socket.room.players.splice(socket.room.players.indexOf(socket.player), 1);
 
 	// If the room gets empty, remove it
 	if (socket.room.players.length === 0) {
-		// Find the room's index in rooms so that we can remove it
-		var roomIndex = rooms.findIndex(r => r.id === socket.room.id);
-		rooms.splice(roomIndex, 1);
+		rooms.splice(rooms.indexOf(socket.room), 1);
 	}
 
 	if (socket.player.done) {
