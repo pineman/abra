@@ -74,10 +74,6 @@ function findRoom() {
 	return;
 }
 
-function destroyRoom(room) {
-	rooms.splice(rooms.indexOf(room), 1);
-}
-
 // Algorithm to remove a socket from a room
 function leaveRoom(socket) {
 	// Find the player's index in socket.room.players so that we can remove it
@@ -134,7 +130,7 @@ function endGame(socket) {
 
 	// Destroy room
 	// TODO: what about rematch?
-	destroyRoom(socket.room);
+	rooms.splice(rooms.indexOf(socket.room), 1);
 }
 
 io.on("connection", function (socket) {
@@ -216,6 +212,7 @@ io.on("connection", function (socket) {
 		socket.player.done = true;
 		socket.room.numFinished++;
 
+		// If all players have finished, end the game.
 		if (socket.room.numFinished === socket.room.players.length) {
 			endGame(socket);
 		}
@@ -225,14 +222,21 @@ io.on("connection", function (socket) {
 		// Guard against reconnections, sockets without rooms, etc.
 		if (!socket.room) return;
 
-		socket.broadcast.to(socket.room.id).emit("disconnected", {
-			id: socket.id
-		});
-
+		// Remove the socket from the room.
 		leaveRoom(socket);
 
-		if (socket.room.numFinished === socket.room.players.length) {
-			endGame(socket);
+		// if the room has not already been closed by leaveRoom()
+		if (socket.room.players.length != 0) {
+			// Inform the remaining players one has disconnected.
+			socket.broadcast.to(socket.room.id).emit("disconnected", {
+				id: socket.id
+			});
+
+			// and if the remaining players are already finished,
+			// end the game for them.
+			if (socket.room.numFinished === socket.room.players.length) {
+				endGame(socket);
+			}
 		}
 	})
 });
