@@ -26,6 +26,21 @@ texts = [
 	"You can’t cling to the past, because no matter how tightly you hold on, it’s already gone.",
 	"Welcome to the real world. It sucks. You're gonna love it!",
 	"I’m not so good with advice. Can I interest you in a sarcastic comment?",
+	"If there's anything more important than my ego around, I want it caught and shot now."
+	"For a moment, nothing happened. Then, after a second or so, nothing continued to happen."
+	"This planet has - or rather had - a problem, which was this: most of the people living on it were unhappy for pretty much of the time. Many solutions were suggested for this problem, but most of these were largely concerned with the movement of small green pieces of paper, which was odd because on the whole it wasn't the small green pieces of paper that were unhappy."
+	"Anyone who is capable of getting themselves made President should on no account be allowed to do the job." //Mr Trump?
+	"The pen is mightier than the sword if the sword is very short, and the pen is very sharp."
+	"It would seem that you have no useful skill or talent whatsoever," he said. "Have you thought of going into teaching?"
+	"If you ignore the rules, people will, half the time, quietly rewrite them so they don't apply to you."
+	"Give a man a fire and he's warm for the day. But set fire to him and he's warm for the rest of his life."
+	"There are, it has been said, two types of people in the world. There are those who, when presented with a glass that is exactly half full, say: this glass is half full. And then there are those who say: this glass is half empty. The world belongs, however, to those who can look at the glass and say: What's up with this glass? Excuse me? Excuse me? This is my glass? I don't think so. My glass was full! And it was a bigger glass!"
+	"Thunder rolled. It rolled a six."
+	"You have to start out learning to believe the little lies. "So we can believe the big ones?" Yes. Justice. Duty. Mercy. That sort of thing."
+
+	"Take the universe and grind it down to the finest powder, and sieve it through the finest sieve, and then show me one atom of justice, one molecule of mercy. And yet, you try to act as if there is some ideal order in the world. As if there is some, some rightness in the universe, by which it may be judged."
+	"Real stupidity beats artificial intelligence every time."
+	"The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it."
 
 	"SYSCALL_DEFINE1(brk, unsigned long, brk)"
 ];
