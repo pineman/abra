@@ -30,7 +30,7 @@ let Room = function (id) {
 // Algorithm to find a room
 function findRoom(rooms) {
 	for (let i = 0; i < rooms.length; i++) {
-		if (rooms[i].status === "open") {
+		if (rooms[i].status === config.ROOM_STATUS_OPEN) {
 			return rooms[i];
 		}
 	}
