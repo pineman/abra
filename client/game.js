@@ -164,3 +164,21 @@ function endGame() {
 	// show("stats");
 	transition("game", "stats");
 }
+
+function genStats(stats) {
+	var table = document.getElementById("stats-table").tBodies[0];
+
+	for (var row = 0; row < stats.length; row++) {
+		var tr = table.insertRow();
+		tr.classList.add("border-bottom");
+		tr.style.borderBottomColor = stats[row][4];
+		var td = tr.insertCell();
+		td.textContent = row + 1;
+
+		for (var col = 0; col < 4; col++) {
+			var td = tr.insertCell();
+			if (col === 0) td.style.color = stats[row][4];
+			td.textContent = stats[row][col];
+		}
+	}
+}

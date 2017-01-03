@@ -1,4 +1,4 @@
-module.exports = [
+texts = [
 	"The quick brown fox jumps over the lazy dog.",
 	"Grumpy wizards make toxic brew for the evil queen and jack.",
 	"Oak is strong and also gives shade.",
@@ -29,3 +29,12 @@ module.exports = [
 
 	"SYSCALL_DEFINE1(brk, unsigned long, brk)"
 ];
+
+// Select a random text
+function getText() {
+	let rand = Math.floor(Math.random() * texts.length);
+	return texts[rand];
+}
+
+module.exports.texts = texts;
+module.exports.getText = getText;

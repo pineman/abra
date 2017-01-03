@@ -64,7 +64,6 @@ var Room = function (name, players, timeLeft) {
 	this.numFinished = 0;
 	this.readyTime = ROOM_READY_TIME;
 	this.startTime = 0;
-	this.wordCount = 0;
 }
 
 function convertToRoom(room) {

@@ -52,7 +52,6 @@ function manageSocketEvents(socket, userPlayer) {
 
 	socket.on("gamestart", function (text) {
 		room.players = room.players.slice();
-		room.wordCount = text.length / WORD_SIZE;
 		setTimeout(startGame, room.readyTime*1000, room, socket, text, userPlayer);
 		showPreGame(room, text, userPlayer);
 		showRoomStatus("gamestart", room);
@@ -64,11 +63,9 @@ function manageSocketEvents(socket, userPlayer) {
 		player.typed(data.pos);
 	});
 
-	socket.on("end", function (data) {
+	socket.on("end", function (stats) {
 		endGame();
-		var stats = calcStats(data.stats, room);
 		genStats(stats, room);
-		socket.disconnect();
 	});
 
 	socket.on("disconnected", function(data) {
