@@ -6,7 +6,6 @@ const fs = require('fs');
 
 let server = require('http').createServer(handler);
 const port = process.argv[2] || 80;
-server.port = port;
 server.listen(port);
 
 function handler(req, res) {

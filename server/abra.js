@@ -220,7 +220,7 @@ function main() {
 
 	if (process.argv[2] !== "deploy") {
 		server = require('./http_server.js');
-		port = server.port;
+		port = server.address().port;
 		console.log(`HTTP server listening on http://127.0.0.1:${port}`);
 	} else {
 		server = config.SOCKETIO_PORT;
