@@ -22,12 +22,27 @@ texts = [
 	"You can't bridge the gap between your own truth and the reality of others.",
 	"In order to determine whether we can know anything with certainty, we first have to doubt everything we know.",
 	"I think, therefore I am.",
+	"Truth is ever to be found in simplicity, and not in the multiplicity and confusion of things.",
+	"An object in motion tends to remain in motion along a straight line unless acted upon by an outside force.",
+	"Never let your sense of morals get in the way of doing what's right.",
+	// "The most exciting phrase to hear in science, the one that heralds new discoveries, is not 'Eureka!' but 'That's funny...'",
+	"Some painters transform the sun into a yellow spot, others transform a yellow spot into the sun.",
 
 	"You can't cling to the past, because no matter how tightly you hold on, it's already gone.",
 	"Welcome to the real world. It sucks. You're gonna love it!",
 	"I'm not so good with advice. Can I interest you in a sarcastic comment?",
 
-	"SYSCALL_DEFINE1(brk, unsigned long, brk)"
+	"SYSCALL_DEFINE1(brk, unsigned long, brk)",
+
+	"Never gonna give you up, never gonna let you down, never gonna run around and desert you",
+	"What is love? Baby don't hurt me. Don't hurt me. No more.",
+	"And I say HEEEEEYEEEEEYEEEEEYEEEEEEAH! HEEEEEYEEEEEYEAH! I say HEY! What's going on?",
+	"You rise, you fall, you're down then you rise again. What don't kill you make you more strong",
+
+	"A man, a plan, a canal - Panama!",
+	"A man, a plan, a cat, a canal - Panama!",
+	"A man, a plan, a cam, a yak, a yam, a canal - Panama!",
+	"A man, a plan, a cat, a ham, a yak, a yam, a hat, a canal – Panama!"
 ];
 
 // Select a random text
