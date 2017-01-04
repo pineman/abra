@@ -102,8 +102,12 @@ var keydownListener;
 var blurListener;
 var clickListener;
 function startGame(room, socket, text, userPlayer) {
-	// Always focus input box
 	var input = document.getElementById("input");
+	
+	 // Clear the input field, to ensure that the "input" event is triggered
+	input.value = "";
+
+	// Always focus input box
 	input.addEventListener("blur", blurListener = function (e) {
 		input.focus();
 	});
