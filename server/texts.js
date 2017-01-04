@@ -23,9 +23,9 @@ texts = [
 	"In order to determine whether we can know anything with certainty, we first have to doubt everything we know.",
 	"I think, therefore I am.",
 
-	"You can’t cling to the past, because no matter how tightly you hold on, it’s already gone.",
+	"You can't cling to the past, because no matter how tightly you hold on, it's already gone.",
 	"Welcome to the real world. It sucks. You're gonna love it!",
-	"I’m not so good with advice. Can I interest you in a sarcastic comment?",
+	"I'm not so good with advice. Can I interest you in a sarcastic comment?",
 
 	"SYSCALL_DEFINE1(brk, unsigned long, brk)"
 ];
