@@ -44,8 +44,8 @@ texts = [
 	"'You have to start out learning to believe the little lies.' 'So we can believe the big ones?' 'Yes. Justice. Duty. Mercy. That sort of thing.'",
 
 	"Take the universe and grind it down to the finest powder, and sieve it through the finest sieve, and then show me one atom of justice, one molecule of mercy. And yet, you try to act as if there is some ideal order in the world. As if there is some, some rightness in the universe, by which it may be judged.",
-	"Real stupidity beats artificial intelligence every time."
-	"The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it."
+	"Real stupidity beats artificial intelligence every time.",
+	"The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it.",
 
 	"SYSCALL_DEFINE1(brk, unsigned long, brk)",
 
