@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs');
 
 let server = require('http').createServer(handler);
-const port = process.argv[2] || 80;
+const port = process.argv[2] || 8080;
 server.listen(port);
 
 function handler(req, res) {
