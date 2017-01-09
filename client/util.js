@@ -26,13 +26,13 @@ function transition(fromId, toId) {
 	var fromScreen = document.getElementById(fromId),
 	    toScreen   = document.getElementById(toId);
 
-	fromScreen.classList.add("bye-bye");
-	toScreen.classList.add("bye-bye");
+	fromScreen.classList.add("transition-out");
+	toScreen.classList.add("transition-out");
 	show(toId);
 
 	setTimeout(function () {
 		hide(fromId);
-		toScreen.classList.remove("bye-bye");
+		toScreen.classList.remove("transition-out");
 	}, 250);
 }
 
