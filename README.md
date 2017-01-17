@@ -19,7 +19,8 @@ nginx conf file and systemd service file are provided in server/config.
 
 ## TODO
  * Different error color when cursor is red
- * Recheck & reorganize whole codebase
+ * Cookie client name
+ * Recheck & reorganize client
  * npm all the things!
    * `abra-server`
    * `abra-client`
@@ -29,10 +30,10 @@ nginx conf file and systemd service file are provided in server/config.
 ## Ideas
  * CLI client using [blessed](https://github.com/chjj/blessed)
  * Post game chat
- * Autoscroll to visible span
  * Room links
  * More stats
- * Guarantee all sockets start at the same time (acknowledgement protocol)
+ * Autoscroll to visible span
+ * Guarantee all sockets start at the same time
  * Sound
  * Submit texts
  * Private rooms
