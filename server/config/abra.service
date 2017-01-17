@@ -6,6 +6,7 @@ After=network.target
 User=http
 WorkingDirectory=/srv/http/abra/server
 ExecStart=/usr/bin/node /srv/http/abra/server/abra.js deploy
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
