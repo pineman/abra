@@ -38,14 +38,14 @@ function manageSocketEvents(socket, userPlayer) {
 	var room;
 
 	socket.on("foundroom", function (foundRoom) {
-		room = convertToRoom(foundRoom);
+		room = Room.from(foundRoom);
 		showNewRoom(room);
 		showRoomStatus("foundroom", room);
 		room.players.push(userPlayer);
 	});
 
 	socket.on("playerentered", function (player) {
-		player = convertToPlayer(player);
+		player = Player.from(player);
 		room.players.push(player);
 		showPlayer(player);
 	});
@@ -58,7 +58,7 @@ function manageSocketEvents(socket, userPlayer) {
 	});
 
 	socket.on("typed", function (data) {
-		var player = findPlayer(data.id, room.players);
+		var player = util.findPlayer(data.id, room.players);
 		if (!player) return;
 		player.typed(data.pos);
 	});
@@ -69,7 +69,7 @@ function manageSocketEvents(socket, userPlayer) {
 	});
 
 	socket.on("disconnected", function(data) {
-		var i = findPlayerIndex(data.id, room.players);
+		var i = util.findPlayerIndex(data.id, room.players);
 		var player = room.players[i];
 		room.players.splice(i,1); // remove from players
 		player.typed(-1); // hide cursor

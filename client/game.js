@@ -3,14 +3,14 @@
 function showGame(userPlayer) {
 	// hide("intro");
 	// show("game");
-	transition("intro", "game");
+	util.transition("intro", "game");
 	showPlayer(userPlayer);
 }
 
 function playAgain(userPlayer) {
 	connect(userPlayer);
 
-	transition("stats", "game");
+	util.transition("stats", "game");
 	document.getElementById("text").innerHTML = "";
 	document.getElementById("room-name").textContent = "";
 	document.getElementById("status").innerHTML = "";
@@ -35,7 +35,7 @@ function showNewRoom(room) {
 
 	// Show the players already in the room
 	for (var i = 0; i < room.players.length; i++) {
-		room.players[i] = convertToPlayer(room.players[i]);
+		room.players[i] = Player.from(room.players[i]);
 		showPlayer(room.players[i]);
 	}
 }
@@ -166,7 +166,7 @@ function finishGame() {
 function endGame() {
 	// hide("game");
 	// show("stats");
-	transition("game", "stats");
+	util.transition("game", "stats");
 }
 
 function genStats(stats) {

@@ -24,7 +24,7 @@ Player.prototype.typed = function(pos) {
 	if( !oldSpan ){
 		return;
 	}
-	var i = findPlayerIndex(this.id, oldSpan.players);
+	var i = util.findPlayerIndex(this.id, oldSpan.players);
 	if(i!=-1)
 		oldSpan.players.splice(i,1);
 
@@ -53,7 +53,8 @@ Player.prototype.showCursor = function() {
 
 // Convert an object with name, color and id attributes
 // to our local Player object (prototype)
-function convertToPlayer (player) {
+// (could use Object.setPrototypeOf, but that has )
+Player.from = function(player) {
 	return new Player(player.name, player.color, player.id);
 }
 
@@ -66,6 +67,6 @@ var Room = function (name, players, timeLeft) {
 	this.startTime = 0;
 }
 
-function convertToRoom(room) {
+Room.from = function(room) {
 	return new Room(room.name, room.players, room.timeLeft);
 }

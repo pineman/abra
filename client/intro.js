@@ -41,13 +41,13 @@ function selectMainColor() {
 	var lastElement = document.querySelector("#getcolor > .selected-color");
 	lastElement.classList.remove("selected-color");
 	this.classList.add("selected-color");
-	setCookie(COOKIE_COLOR_CLASS, this.value.replace("#","_"));
+	util.setCookie(COOKIE_COLOR_CLASS, this.value.replace("#","_"));
 }
 
 // Generate color selection boxes
 function generateBoxColors(getcolor){
 	var colorBox;
-	var cachedColor = getCookie(COOKIE_COLOR_CLASS);
+	var cachedColor = util.getCookie(COOKIE_COLOR_CLASS);
 
 	var color;
 	for (var i = 0; i < COLORS.length; i++) {
