@@ -7,13 +7,13 @@ Online browser typing game.
 ```
 git clone https://github.com/pineman/abra && cd abra
 npm install
-cd client && make && cd -
+make -C client
 npm test
 ```
 
 To run in a more production-y environment with nginx:
 ```
-cd client && make deploy && cd -
+make -C client deploy
 ```
 nginx conf file and systemd service file are provided in server/config.
 
