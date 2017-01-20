@@ -57,7 +57,7 @@ texts = [
 	"A man, a plan, a canal - Panama!",
 	"A man, a plan, a cat, a canal - Panama!",
 	"A man, a plan, a cam, a yak, a yam, a canal - Panama!",
-	"A man, a plan, a cat, a ham, a yak, a yam, a hat, a canal – Panama!"
+	"A man, a plan, a cat, a ham, a yak, a yam, a hat, a canal - Panama!"
 ];
 
 // Select a random text
