@@ -30,7 +30,7 @@ texts = [
 
 	"You can't cling to the past, because no matter how tightly you hold on, it's already gone.",
 	"Welcome to the real world. It sucks. You're gonna love it!",
-	"I’m not so good with advice. Can I interest you in a sarcastic comment?",
+	"I'm not so good with advice. Can I interest you in a sarcastic comment?",
 	"If there's anything more important than my ego around, I want it caught and shot now.",
 	"For a moment, nothing happened. Then, after a second or so, nothing continued to happen.",
 	"This planet has - or rather had - a problem, which was this: most of the people living on it were unhappy for pretty much of the time. Many solutions were suggested for this problem, but most of these were largely concerned with the movement of small green pieces of paper, which was odd because on the whole it wasn't the small green pieces of paper that were unhappy.",

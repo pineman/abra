@@ -4,9 +4,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	var startButton = document.getElementById("start-button");
 	startButton.addEventListener("click", initPlayer);
 
-	// Bind enter to start button
-	document.getElementById("getname").addEventListener("keyup", function (e) {
-		return (e.which === 13) ? startButton.click() : undefined;
+	// Focus the name input field
+	var getname = document.getElementById("getname");
+	getname.focus();
+
+	// Bind Enter to START button
+	getname.addEventListener("keyup", function (e) {
+		if (e.key == "Enter") {
+			startButton.click();
+		}
 	});
 });
 

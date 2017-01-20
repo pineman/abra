@@ -17,10 +17,6 @@
 	margin-right: -100%;
 }
 
-body {
-	overflow: hidden;
-}
-
 /* roboto - latin */
 @font-face {
   font-family: 'Roboto';
@@ -46,6 +42,16 @@ a, a:link, a:visited, a:hover, a:focus, a:active {
 	text-decoration: none;
 }
 
+/**
+ * Make the "Start" and "Play Again" buttons look the same whether they are
+ * <div>s or <button>s
+ */
+button {
+	border: 0;
+	color: inherit;
+	font: inherit;
+}
+
 ul {
 	list-style-type: none;
 }
@@ -53,6 +59,7 @@ ul {
 body {
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
 	font-family: 'Roboto', sans-serif;
 	font-size: 20px;
 	color: white;

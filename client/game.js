@@ -167,6 +167,7 @@ function endGame() {
 	// hide("game");
 	// show("stats");
 	util.transition("game", "stats");
+	document.getElementById("again-button").focus();
 }
 
 function genStats(stats) {
