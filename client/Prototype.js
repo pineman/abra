@@ -53,7 +53,7 @@ Player.prototype.showCursor = function() {
 
 // Convert an object with name, color and id attributes
 // to our local Player object (prototype)
-// (could use Object.setPrototypeOf, but that has )
+// (could use Object.setPrototypeOf, but that has some performance implications)
 Player.from = function(player) {
 	return new Player(player.name, player.color, player.id);
 }

@@ -14,8 +14,8 @@ var util = {
 		//return `rgba(${r},${g},${b},${opacity})`; // ES6
 		return "rgba(${r},${g},${b},${opacity})".replace("${r}", r)
 		                                        .replace("${g}", g)
-												.replace("${b}", b)
-												.replace("${opacity}", opacity);
+		                                        .replace("${b}", b)
+		                                        .replace("${opacity}", opacity);
 	},
 
 	hide: function (id) {

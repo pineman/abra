@@ -4,6 +4,7 @@ function showGame(userPlayer) {
 	// hide("intro");
 	// show("game");
 	util.transition("intro", "game");
+	setTextOpacity(0.5);
 	showPlayer(userPlayer);
 }
 
@@ -11,6 +12,7 @@ function playAgain(userPlayer) {
 	connect(userPlayer);
 
 	util.transition("stats", "game");
+	setTextOpacity(0.5);
 	document.getElementById("text").innerHTML = "";
 	document.getElementById("room-name").textContent = "";
 	document.getElementById("status").innerHTML = "";
@@ -38,6 +40,10 @@ function showNewRoom(room) {
 		room.players[i] = Player.from(room.players[i]);
 		showPlayer(room.players[i]);
 	}
+}
+
+function setTextOpacity(opacity) {
+	document.getElementById("text").style.opacity = opacity.toString();
 }
 
 function showStatus(status) {
@@ -97,11 +103,17 @@ function showPreGame(room, text, userPlayer) {
 	userPlayer.typed(0);
 }
 
+function startGame(room, socket, text, userPlayer) {
+	prepareInput(room, socket, text, userPlayer);
+	setTextOpacity(1);
+	room.startTime = new Date();
+}
+
 var inputListener;
 var keydownListener;
 var blurListener;
 var clickListener;
-function startGame(room, socket, text, userPlayer) {
+function prepareInput(room, socket, text, userPlayer) {
 	var input = document.getElementById("input");
 	
 	 // Clear the input field, to ensure that the "input" event is triggered
@@ -121,8 +133,6 @@ function startGame(room, socket, text, userPlayer) {
 		keypress(this.value, room, socket, text, userPlayer);
 		this.value = "";
 	});
-
-	room.startTime = new Date();
 }
 
 function keypress(char, room, socket, text, userPlayer) {
