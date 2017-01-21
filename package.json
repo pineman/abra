@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Race against others in this new exciting typing game™! https://abra.pineman.win",
   "keywords": [
-	"game",
-	"typing"
+    "game",
+    "typing"
   ],
   "main": "server/abra.js",
   "scripts": {
@@ -16,18 +16,18 @@
   },
   "contributors": [
     {
-	  "name": "Diogo Almiro",
-	  "email": "diogoalmiro@gmail.com",
-	  "url": "http://almiro.pineman.win"
+      "name": "Diogo Almiro",
+      "email": "diogoalmiro@gmail.com",
+      "url": "http://almiro.pineman.win"
     },
     {
-	  "name": "João Pinheiro",
-	  "email": "joao.castropinheiro@gmail.com",
-	  "url": "https://pineman.win"
+      "name": "João Pinheiro",
+      "email": "joao.castropinheiro@gmail.com",
+      "url": "https://pineman.win"
     },
     {
-	  "name": "Diogo Tito",
-	  "email": "diogotitomarques@gmail.com"
+      "name": "Diogo Tito",
+      "email": "diogotitomarques@gmail.com"
     }
   ],
   "license": "MIT",
@@ -36,11 +36,13 @@
   },
   "homepage": "https://github.com/pineman/abra#readme",
   "dependencies": {
+    "socket.io": "^1.7.2"
+  },
+  "devDependencies": {
     "html-minifier": "^3.2.3",
-    "less": "^2.7.1",
+    "less": "^2.7.2",
     "less-plugin-autoprefix": "^1.5.1",
     "less-plugin-clean-css": "^1.5.1",
-    "socket.io": "^1.7.2",
     "uglify-js": "^2.7.5"
   }
 }
