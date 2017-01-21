@@ -31,6 +31,7 @@ var util = {
 		var fromScreen = document.getElementById(fromId),
 			toScreen   = document.getElementById(toId);
 
+		document.body.style.overflow = "hidden";
 		fromScreen.classList.add("transition-out");
 		toScreen.classList.add("transition-out");
 		util.show(toId);
@@ -39,6 +40,10 @@ var util = {
 			util.hide(fromId);
 			toScreen.classList.remove("transition-out");
 		}, 250);
+
+		setTimeout(function () {
+			document.body.style.overflow = "";
+		}, 500);
 	},
 
 	findPlayer: function (id, players) {
