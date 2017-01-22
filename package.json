@@ -8,7 +8,9 @@
   ],
   "main": "server/abra.js",
   "scripts": {
-    "test": "cd server && node abra.js"
+    "prebuild": "make -C client clean",
+    "build": "make -C client",
+    "start": "cd server && node abra.js"
   },
   "repository": {
     "type": "git",
