@@ -19,6 +19,7 @@ nginx conf file and systemd service file are provided in server/config.
 
 ## TODO
  * Different error color when cursor is red
+ * Prevent players in a room having the same color
  * Cookie client name
  * Recheck & reorganize client
  * npm all the things!
@@ -37,7 +38,8 @@ nginx conf file and systemd service file are provided in server/config.
  * Sound
  * Submit texts
  * Private rooms
- * Global ranking boards
+ * Leaderboard
+ * Abra stats page or similar (all time words typed, etc.)
  * Text chooser (also language)
  * Various game modes
  * More? Accounts?
