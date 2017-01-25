@@ -58,6 +58,8 @@ texts = [
 	"A man, a plan, a cat, a canal - Panama!",
 	"A man, a plan, a cam, a yak, a yam, a canal - Panama!",
 	"A man, a plan, a cat, a ham, a yak, a yam, a hat, a canal - Panama!"
+
+    "What you guys are referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux."
 ];
 
 // Select a random text
