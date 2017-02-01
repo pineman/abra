@@ -7,7 +7,7 @@ const config = {
 	ROOM_STATUS_OPEN: 1,
 
 	STATS_PRECISION: 3,
-	WORD_SIZE: 4
+	WORD_SIZE: 5
 };
 
 module.exports = config;
