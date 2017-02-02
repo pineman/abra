@@ -1,11 +1,11 @@
 [Unit]
-Description=Abra socket.io app
+Description=abra webapp
 After=network.target
 
 [Service]
 User=http
 WorkingDirectory=/srv/http/abra/server
-ExecStart=/usr/bin/node /srv/http/abra/server/abra.js deploy
+ExecStart=/usr/bin/node /srv/http/abra/server/main.js deploy
 Restart=always
 
 [Install]

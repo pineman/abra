@@ -1,5 +1,6 @@
-const WS_SERVER = window.location.href;
-const WORD_SIZE = 5;
+const PROTOCOL = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+const PORT = window.location.port ? ':' + window.location.port : '';
+const WS_SERVER = PROTOCOL + window.location.hostname + PORT + '/abra';
 
 function initPlayer() {
 	var player = new Player(
@@ -8,71 +9,80 @@ function initPlayer() {
 		USER_ID
 	);
 
-	var socket = connect(player);
+	connect(player);
 
 	var againButton = document.getElementById("again-button");
 	againButton.addEventListener("click", function (e) {
 		playAgain(player);
-		socket.emit("findroom", {});
 	});
 
 	showGame(player);
 }
 
 function connect(player) {
-	var socket = io(WS_SERVER);
+	var socket = new WebSocket(WS_SERVER);
 
 	manageSocketEvents(socket, player);
 
-	socket.emit("newplayer", {
-		name: player.name,
-		color: player.color
+	socket.addEventListener('open', function () {
+		socket.send(JSON.stringify({
+			event: 'newPlayer',
+			name: player.name,
+			color: player.color
+		}));
 	});
-
-	socket.emit("findroom", {});
-
-	return socket;
 }
 
 function manageSocketEvents(socket, userPlayer) {
 	var room;
 
-	socket.on("foundroom", function (foundRoom) {
-		room = Room.from(foundRoom);
-		showNewRoom(room);
-		showRoomStatus("foundroom", room);
-		room.players.push(userPlayer);
+	socket.addEventListener('message', function(message) {
+		data = JSON.parse(message.data);
+
+		switch (data.event) {
+			case 'foundRoom':
+				room = Room.from(data);
+				showNewRoom(room);
+				showRoomStatus("foundroom", room);
+				room.players.push(userPlayer);
+				break;
+
+			case 'playerEntered':
+				player = Player.from(data);
+				room.players.push(player);
+				showPlayer(player);
+				break;
+
+			case 'startGame':
+				room.players = room.players.slice();
+				setTimeout(startGame, room.readyTime*1000, room, socket, data.text, userPlayer);
+				showPreGame(room, data.text, userPlayer);
+				showRoomStatus("gamestart", room);
+				break;
+
+			case 'playerTyped':
+				var player = util.findPlayer(data.id, room.players);
+				if (!player) return;
+				player.typed(data.pos);
+				break;
+
+			case 'endGame':
+				endGame();
+				genStats(data.stats, room);
+				break;
+
+			case 'playerDisconnected':
+				var i = util.findPlayerIndex(data.id, room.players);
+				var player = room.players[i];
+				room.players.splice(i,1); // remove from players
+				player.typed(-1); // hide cursor
+				document.getElementById(player.id).remove(); // Remove from lobby list
+				break;
+
+			default:
+				break;
+		}
 	});
 
-	socket.on("playerentered", function (player) {
-		player = Player.from(player);
-		room.players.push(player);
-		showPlayer(player);
-	});
-
-	socket.on("gamestart", function (text) {
-		room.players = room.players.slice();
-		setTimeout(startGame, room.readyTime*1000, room, socket, text, userPlayer);
-		showPreGame(room, text, userPlayer);
-		showRoomStatus("gamestart", room);
-	});
-
-	socket.on("typed", function (data) {
-		var player = util.findPlayer(data.id, room.players);
-		if (!player) return;
-		player.typed(data.pos);
-	});
-
-	socket.on("end", function (stats) {
-		endGame();
-		genStats(stats, room);
-	});
-
-	socket.on("disconnected", function(data) {
-		var i = util.findPlayerIndex(data.id, room.players);
-		var player = room.players[i];
-		room.players.splice(i,1); // remove from players
-		player.typed(-1); // hide cursor
-		document.getElementById(player.id).remove(); // Remove from lobby list
-	})
+	socket.addEventListener('error', console.log);
 }

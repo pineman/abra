@@ -115,7 +115,7 @@ var blurListener;
 var clickListener;
 function prepareInput(room, socket, text, userPlayer) {
 	var input = document.getElementById("input");
-	
+
 	 // Clear the input field, to ensure that the "input" event is triggered
 	input.value = "";
 
@@ -154,15 +154,17 @@ function keypress(char, room, socket, text, userPlayer) {
 
 	if (userPlayer.pos === text.length) {
 		userPlayer.endTime = new Date() - room.startTime;
-		socket.emit("finish", {
+		socket.send(JSON.stringify({
+			event: 'playerDone',
 			time: (userPlayer.endTime / 1000),
-			errors: userPlayer.errors
-		});
+			mistakes: userPlayer.errors
+		}));
 		finishGame();
 	} else {
-		socket.emit("typed", {
+		socket.send(JSON.stringify({
+			event: 'playerTyped',
 			pos: userPlayer.pos
-		});
+		}));
 	}
 }
 

@@ -1,12 +1,10 @@
-// HTTP server for development/test
 'use strict';
+// HTTP server for development/test
 
 const path = require('path');
 const fs = require('fs');
 
 let server = require('http').createServer(handler);
-const port = process.argv[2] || 8080;
-server.listen(port);
 
 function handler(req, res) {
 	fs.readFile(getFileName(req.url), function (err, data) {

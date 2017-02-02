@@ -1,227 +1,245 @@
 'use strict';
 
-const config = require('./config.js');
-const namegen = require('./namegen.js');
-const texts = require('./texts.js');
+const TEXTS = require("./texts.js");
+const TEXTS_LENGTH = TEXTS.length;
 
-let server, port;
-if (process.argv[2] !== "deploy") {
-	server = require('./http_server.js');
-	port = server.address().port;
-} else {
-	server = config.SOCKETIO_PORT;
-	port = config.SOCKETIO_PORT;
-}
-const io = require('socket.io')(server);
-console.log(`HTTP server listening on http://127.0.0.1:${port}`);
-console.log(`Socket.IO bound to http://127.0.0.1:${port}/socket.io`);
+const fs = require("fs");
+const DICT = fs.readFileSync('wordsEn.txt', 'utf8').split('\n');
+const DICT_LENGTH = DICT.length;
 
-let rooms = [];
+const ROOM_TIMEOUT = 30; // seconds
+const MAX_PLAYERS_PER_ROOM = 2;
+const ROOM_STATUS_CLOSED = 0;
+const ROOM_STATUS_OPEN = 1;
+const STATS_PRECISION = 3;
+const WORD_SIZE = 4;
 
 let Player = function (name, color, id) {
 	this.name = name;
 	this.color = color;
-	this.id = id; // the player's socket.id
+	this.id = id;
 	this.pos = 0; // index in the text string
 	this.time = 0; // time spent writing
-	this.errors = 0;
+	this.mistakes = 0;
 	this.done = false;
+	this.room = undefined;
 }
 
-let Room = function (id) {
-	this.id = id;
-	this.name = namegen.wordFor(id); // Generate random name
-	this.text = texts.getText();
-	this.wordCount = this.text.length / config.WORD_SIZE;
-	this.players = [];
-	this.numFinished = 0;
-	this.status = config.ROOM_STATUS_OPEN;
+let Room = function () {
+	this.text = TEXTS[Math.floor(Math.random() * TEXTS_LENGTH)];
+	this.name = DICT[Math.floor(Math.random() * DICT_LENGTH)];
+	this.wordCount = this.text.length / WORD_SIZE;
+	this.sockets = []; // Array of sockets in the room
+	this.numDone = 0;
+	this.status = ROOM_STATUS_OPEN;
+	this.timeLeft = ROOM_TIMEOUT; // Seconds untill startGame
 	this.initTimer = setInterval(countCloseRoom, 1000, this); // Every second
-	this.timeLeft = config.ROOM_TIMEOUT; // Seconds untill gameStart
-}
 
-// Algorithm to find a room
-function findRoom(rooms) {
-	for (let i = 0; i < rooms.length; i++) {
-		if (rooms[i].status === config.ROOM_STATUS_OPEN) {
-			return rooms[i];
+	// Decrement timeLeft and, when it reaches 0, close the room
+	// and start the game
+	function countCloseRoom(room) {
+		room.timeLeft--;
+		if (!room.timeLeft) {
+			room.status = ROOM_STATUS_CLOSED;
+			startGame(room);
 		}
 	}
 }
 
-// Decrement room.timeLeft and start the game when it reaches 0.
-function countCloseRoom(room) {
-	room.timeLeft--;
-	if (!room.timeLeft) {
-		room.status = "closed";
-		gameStart(room);
+// Global variable: array of active rooms.
+let rooms = [];
+
+function newPlayer(ws, data) {
+	// Name is escaped by textContent on the client side,
+	// however, still testing for max length.
+	if (data.name.length > 30) return; // max is 15 client-side
+
+	// Silently drop clients messing around with color
+	if (!data.color.startsWith("#") || data.color.length > 7) return;
+
+	// Save a player's attributes on its socket object.
+	Player.call(ws, data.name, data.color, Date.now() + Math.random());
+
+	// Algorithm to find an open room.
+	let room = ((rooms) => {
+		for (let i = 0; i < rooms.length; i++) {
+			if (rooms[i].status === ROOM_STATUS_OPEN) {
+				return rooms[i];
+			}
+		}
+	})(rooms);
+
+	let roomReady;
+	if (room) {
+		// Since we're adding one more player to the room,
+		// the room is ready if there were MAX - 1 players already on it.
+		roomReady = (room.sockets.length === (MAX_PLAYERS_PER_ROOM - 1));
+
+		// Close the room asap if its ready.
+		if (roomReady) {
+			room.status = ROOM_STATUS_CLOSED;
+			clearTimeout(room.initTimer);
+		}
+
+		// Inform the players in the room that a new player
+		// has entered the room.
+		for (let s of room.sockets) {
+			s.send(JSON.stringify({
+				event: 'playerEntered',
+				id: ws.id,
+				name: ws.name,
+				color: ws.color
+			}));
+		}
+	} else {
+		// No open room was found, create a new room.
+		room = new Room();
+		rooms.push(room);
+	}
+
+	// Inform the player a room has been found.
+	// Build an object with all the room's players' information to send
+	// to the new player.
+	let roomPlayers = [];
+	for (let s of room.sockets) {
+		let p = {
+			id: s.id,
+			name: s.name,
+			color: s.color
+		}
+		roomPlayers.push(p);
+	}
+	ws.send(JSON.stringify({
+		event: 'foundRoom',
+		name: room.name,
+		players: roomPlayers,
+		timeLeft: room.timeLeft
+	}));
+
+	// Append the player to the room's array of sockets.
+	room.sockets.push(ws);
+
+	// Save this player's room on its socket object.
+	ws.room = room;
+
+	// Start the game if the room is ready.
+	if (roomReady) {
+		startGame(room);
 	}
 }
 
-function gameStart(room) {
-	io.to(room.id).emit("gamestart", room.text);
+// Send the startGame event to all players in a room and send them the text.
+function startGame(room) {
+	for (let s of room.sockets) {
+		s.send(JSON.stringify({
+			event: 'startGame',
+			text: room.text
+		}));
+	}
 }
 
-function leaveRoom(rooms, socket) {
-	socket.room.players.splice(socket.room.players.indexOf(socket.player), 1);
-
-	// If the room gets empty, remove it
-	if (socket.room.players.length === 0) {
-		rooms.splice(rooms.indexOf(socket.room), 1);
-	} else if (socket.player.done) {
-		socket.room.numFinished--;
+// Handle a player typing a character.
+function playerTyped(ws, data) {
+	for (let s of ws.room.sockets) {
+		// Send to every player except the player who just typed.
+		if (s !== ws) {
+			s.send(JSON.stringify({
+				event: 'playerTyped',
+				id: ws.id,
+				pos: data.pos
+			}));
+		}
 	}
 }
 
 function endGame(rooms, room) {
+	// Generate end of game stats.
 	let stats = [];
-	for (let i = 0; i < room.players.length; i++) {
+	for (let i = 0; i < room.sockets.length; i++) {
 		let curPlayer = [];
-		curPlayer[0] = room.players[i].name;
-		curPlayer[1] = room.players[i].time.toFixed(config.STATS_PRECISION);
-		curPlayer[2] = (room.wordCount / (room.players[i].time / 60)).toFixed(config.STATS_PRECISION);
-		curPlayer[3] = room.players[i].errors;
-		curPlayer[4] = room.players[i].color;
+		curPlayer[0] = room.sockets[i].name;
+		curPlayer[1] = room.sockets[i].time.toFixed(STATS_PRECISION);
+		curPlayer[2] = (room.wordCount / (room.sockets[i].time / 60)).toFixed(STATS_PRECISION);
+		curPlayer[3] = room.sockets[i].mistakes;
+		curPlayer[4] = room.sockets[i].color;
 		stats.push(curPlayer);
 	}
+	// Sort ascendingly by time.
 	stats.sort((p1, p2) => p1[1] - p2[1]);
-	io.to(room.id).emit("end", stats);
 
-	// Destroy room
+	// Send the endGame event along with the stats to every player in the room.
+	for (let s of room.sockets) {
+		s.send(JSON.stringify({
+			event: 'endGame',
+			stats: stats
+		}));
+	}
+
+	// Remove room
 	rooms.splice(rooms.indexOf(room), 1);
+
 	// Disconnect all sockets in the room.
-	for (let i in io.sockets.adapter.rooms[room.id].sockets) {
-		// This makes he 'disconnect' event, triggered next, do nothing.
-		io.sockets.adapter.nsp.connected[i].room = undefined;
-		io.sockets.adapter.nsp.connected[i].disconnect();
+	for (let s of room.sockets) {
+		// Delete the old 'close' event handler, playerDisconnected(), used
+		// for unexpected player disconnections.
+		s.removeAllListeners('close');
+		// Now forcefully disconnect the player, with no callback
+		// associated to the 'close' event.
+		s.terminate();
 	}
 }
 
-io.on("connection", function (socket) {
-	/* All events other than "newplayer" depend on
-	* some attribute we save in the socket itself.
-	* If the socket did not go through "newplayer",
-	* it won't have those attributes (player, room),
-	* therefore the event handlers will fail without
-	* crashing the server (node doesn't segfault...) */
+// Handle a player completing the text.
+function playerDone(ws, data) {
+	ws.time = data.time;
+	ws.mistakes = data.mistakes;
+	ws.done = true;
+	ws.room.numDone++;
 
+	// If all players are done, end the game.
+	if (ws.room.numDone === ws.room.sockets.length) {
+		endGame(rooms, ws.room);
+	}
+}
 
-	// Save new player
-	socket.on("newplayer", function (data) {
-		// Name is escaped by textContent on the client side,
-		// however, still testing for max length.
-		if (data.name.length > 30) return; // max is 15 client-side
+// Handle an unexpected player disconnection
+function playerDisconnected(ws) {
+	// Guard against reconnections, sockets without rooms, etc.
+	if (!ws.room) return;
 
-		// Silently drop clients messing around with color
-		if (!data.color.startsWith("#") || data.color.length > 7) return;
+	// Remove the socket from the room.
+	ws.room.sockets.splice(ws.room.sockets.indexOf(ws), 1);
 
-		let newPlayer = new Player(data.name, data.color, socket.id);
+	// If the room gets empty, remove it
+	if (ws.room.sockets.length === 0) {
+		rooms.splice(rooms.indexOf(ws.room), 1);
+	} else if (ws.done) {
+		// If the disconnected player was done, decrement the number
+		// of done players in the room.
+		ws.room.numDone--;
+	}
 
-		// Save this player's player object on its socket object.
-		socket.player = newPlayer;
-	});
-
-
-	// Find a room for a player
-	socket.on("findroom", function () {
-		/* There's two types of rooms. Our rooms and Socket.IO's
-			* internal rooms for broadcasting. For convenience,
-			* both share the same ID. */
-		let room = findRoom(rooms);
-
-		let roomReady;
-		if (room) {
-			// Since we're adding one more player to the room,
-			// its ready if theres MAX - 1 players already on it.
-			roomReady = (room.players.length === (config.MAX_PLAYERS_PER_ROOM - 1));
-
-			// Close the room asap if its ready.
-			if (roomReady) {
-				room.status = config.ROOM_STATUS_CLOSED;
-				clearTimeout(room.initTimer);
-			}
-
-			// Inform the players in the room that a new player
-			// has entered the room.
-			socket.broadcast.to(room.id).emit("playerentered", socket.player);
-
-			// Make the socket join the Socket.IO broadcast room.
-			socket.join(room.id);
-		} else {
-			// No open room was found, create a new room whose
-			// id is the first player's socket.id.
-			room = new Room(socket.id);
-
-			/* NOTE: socket.io already creates and joins the socket
-				* to a room with this id by default, so we don't
-				* need to socket.join().
-				* http://socket.io/docs/rooms-and-namespaces/ */
-
-			rooms.push(room);
+	// If the room has not already been removed
+	if (ws.room.sockets.length != 0) {
+		// Inform the remaining players one has disconnected.
+		for (let s of ws.room.sockets) {
+			s.send(JSON.stringify({
+				event: 'playerDisconnected',
+				id: ws.id
+			}));
 		}
 
-		// Inform the player a room has been found.
-		socket.emit("foundroom", {
-			name: room.name,
-			players: room.players,
-			timeLeft: room.timeLeft
-		});
-
-		// Append the player to the room's list of players.
-		room.players.push(socket.player);
-
-		// Save this player's room on its socket object.
-		socket.room = room;
-
-		// Start the game if the room is ready.
-		if (roomReady) {
-			gameStart(room);
+		// If the remaining players are already done,
+		// end the game for them.
+		if (ws.room.numDone === ws.room.sockets.length) {
+			endGame(rooms, ws.room);
 		}
-	});
+	}
+}
 
-
-	socket.on("typed", function (data) {
-		let dataToEmit = {
-			id: socket.id,
-			pos: data.pos
-		};
-
-		socket.broadcast.to(socket.room.id).emit("typed", dataToEmit);
-	});
-
-
-	socket.on("finish", function (data) {
-		socket.player.time = data.time;
-		socket.player.errors = data.errors;
-		socket.player.done = true;
-		socket.room.numFinished++;
-
-		// If all players have finished, end the game.
-		if (socket.room.numFinished === socket.room.players.length) {
-			endGame(rooms, socket.room);
-		}
-	});
-
-
-	socket.on("disconnect", function() {
-		// Guard against reconnections, sockets without rooms, etc.
-		if (!socket.room) return;
-
-		// Remove the socket from the room.
-		leaveRoom(rooms, socket);
-
-		// If the room has not already been closed by leaveRoom()
-		if (socket.room.players.length != 0) {
-			// Inform the remaining players one has disconnected.
-			socket.broadcast.to(socket.room.id).emit("disconnected", {
-				id: socket.id
-			});
-
-			// If the remaining players are already finished,
-			// end the game for them.
-			if (socket.room.numFinished === socket.room.players.length) {
-				endGame(rooms, socket.room);
-			}
-		}
-	})
-});
+module.exports = {
+	newPlayer,
+	playerTyped,
+	playerDone,
+	playerDisconnected
+};
