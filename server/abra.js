@@ -1,7 +1,6 @@
 'use strict';
 
-const TEXTS = require("./texts.js");
-const TEXTS_LENGTH = TEXTS.length;
+const texts = require("./texts.js");
 
 const fs = require("fs");
 const DICT = fs.readFileSync('wordsEn.txt', 'utf8').split('\n');
@@ -26,7 +25,7 @@ let Player = function (name, color, id) {
 }
 
 let Room = function () {
-	this.text = TEXTS[Math.floor(Math.random() * TEXTS_LENGTH)];
+	this.text = texts.getText();
 	this.name = DICT[Math.floor(Math.random() * DICT_LENGTH)];
 	this.wordCount = this.text.length / WORD_SIZE;
 	this.sockets = []; // Array of sockets in the room
