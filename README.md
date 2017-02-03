@@ -1,4 +1,6 @@
 # abra
+[![Dependencies Status](https://david-dm.org/pineman/abra/status.svg)](https://david-dm.org/pineman/abra)
+[![Development Dependencies Status](https://david-dm.org/pineman/abra/dev-status.svg)](https://david-dm.org/pineman/abra?type=dev)
 
 ### Catch you the abra for much win!
 Online browser typing game.
