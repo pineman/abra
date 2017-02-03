@@ -5,6 +5,14 @@
 @import "game";
 @import "stats";
 
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 20px;
+	color: white;
+	background-color: @black;
+	word-wrap: break-word;
+}
+
 /* A mixin to give transition: 1s to all game screens */
 .animated-screen {
 	transition: 0.25s;
@@ -54,18 +62,6 @@ button {
 
 ul {
 	list-style-type: none;
-}
-
-body {
-	margin: 0;
-	padding: 0;
-	overflow: auto;
-	font-family: 'Roboto', sans-serif;
-	font-size: 20px;
-	color: white;
-	height: 100vh;
-	background-color: @black;
-	word-wrap: break-word;
 }
 
 .button {
