@@ -1,6 +1,7 @@
 #intro {
 	.animated-screen;
-	height: 100%;
+	height: auto;
+	min-height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -8,60 +9,59 @@
 
 #intro-flexy {
 	text-align: center;
-}
-#title {
-	font-weight: normal;
-	font-size: 3em;
-	letter-spacing: 5px;
-}
+	#title {
+		font-weight: normal;
+		font-size: 3em;
+		letter-spacing: 5px;
+	}
 
-#getname {
-	max-width: 70%;
-	padding: 10px 0;
-	border: 0;
-	outline: 0;
-	text-align: center;
-	background: inherit;
-	border-bottom: 1px solid;
-	color: white;
-	font: inherit;
-	font-size: 0.80em;
-
-	&::placeholder {
+	#getname {
+		max-width: 70%;
+		padding: 10px 0;
+		border: 0;
+		outline: 0;
+		text-align: center;
+		background: inherit;
+		border-bottom: 1px solid;
+		color: white;
+		font: inherit;
+		font-size: 0.80em;
+	}
+	#getname::placeholder {
 		color: @grey-placeholder;
 	}
-}
 
-#getcolor {
-	padding: 5px;
-	background: @black - #151515;
-	margin: 1em auto 0;
-	max-width: 400px;
-	border: 1px solid @grey-border;
-	border-radius: 5px;
-	// Color boxes
-	div {
-		width: 30px;
-		height: 30px;
-		display: inline-block;
-		margin: 10px;
-		border-radius: inherit;
+	#getcolor {
+		padding: 5px;
+		background: @black - #151515;
+		margin: 1em auto 0;
+		max-width: 400px;
 		border: 1px solid @grey-border;
-		cursor: pointer;
-		transition: 1s;
+		border-radius: 5px;
+		// Color boxes
+		div {
+			width: 30px;
+			height: 30px;
+			display: inline-block;
+			margin: 10px;
+			border-radius: inherit;
+			border: 1px solid @grey-border;
+			cursor: pointer;
+			transition: 1s;
+		}
+		.selected-color {
+			border-color: white;
+			transition: 0.3s;
+		}
 	}
-	.selected-color {
-		border-color: white;
-		transition: 0.3s;
-	}
-}
 
-#links {
-	margin-top: 1em;
-	font-size: 0.9em;
+	#links {
+		margin-top: 1em;
+		font-size: 0.9em;
 
-	&:hover {
-		border-bottom: 1px	grey;
-		cursor: pointer;
+		&:hover {
+			border-bottom: 1px	grey;
+			cursor: pointer;
+		}
 	}
 }
