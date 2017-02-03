@@ -1,0 +1,49 @@
+#!/bin/sh
+# git post-receive server-side hook for automatic deployment.
+
+error() {
+	echo "=> An error occurred. Exiting."
+	exit 1
+}
+
+deploy_abra() {
+	# run error() function on any non-zero exit code.
+	trap error ERR;
+
+	echo "=> Thank you for your commit. We trust you've tested it."
+	echo "=> Deploying abra..."
+	set -x
+
+	# This hook is ran on the bare repo. So we need to change
+	# the work-tree option to the deployment repo to check it out
+	# to the newest version.
+	GIT_WORK_TREE=/srv/http/abra git checkout -f
+
+	# Run the build scripts.
+	cd /srv/http/abra
+	npm prune
+	npm install
+	npm run-script deploy
+
+	# Set permissions and reload servers.
+	chgrp -R abra .
+	sudo systemctl daemon-reload
+	sudo systemctl restart abra nginx
+
+	set +x
+	echo "=> All done. https://abra.pineman.win is live."
+}
+
+# Parse the arguments.
+# $oldobj is the old object and $newobj is the new object,
+# both belonging to the ref $refname
+while read oldobj newobj refname
+do
+	# Get the branch symbolic name from the $refname
+    branch=$(git rev-parse --symbolic --abbrev-ref $refname)
+
+	# Only deploy commits on the master branch.
+    if [[ "master" == "$branch" ]]; then
+		deploy_abra
+    fi
+done
