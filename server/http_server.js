@@ -4,12 +4,14 @@
 const path = require('path');
 const fs = require('fs');
 
+const SERVE_PATH = 'client/serve';
+
 let server = require('http').createServer(handler);
 
 function handler(req, res) {
 	fs.readFile(getFileName(req.url), function (err, data) {
 		if (err) {
-			res.writeHead(500);
+			res.writeHead(404);
 			return res.end('Error loading ' + getFileName(req.url));
 		}
 		res.writeHead(200);
@@ -19,7 +21,8 @@ function handler(req, res) {
 
 function getFileName(url) {
 	let filename = (url === '/') ? 'index.html' : url;
-	return path.join(__dirname, '..', 'client', filename);
+
+	return path.join(__dirname, '..', SERVE_PATH, filename);
 }
 
 module.exports = server;

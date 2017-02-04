@@ -1,5 +1,5 @@
 # To comment use '#' in the beginning of a line
- 
+
 The quick brown fox jumps over the lazy dog.
 Grumpy wizards make toxic brew for the evil queen and jack.
 Oak is strong and also gives shade.

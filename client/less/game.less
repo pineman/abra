@@ -3,7 +3,7 @@
 }
 
 #text {
-	font-family: 'Roboto Mono', monospace;
+	font-family: 'Courier New', monospace;
 	font-size: 25px;
 	line-height: 1.4;
 	padding: 10px;
@@ -31,10 +31,12 @@
 
 #text span {
 	border: 1px solid rgba(0,0,0,0);
+
+  &[written] {
+		color: grey;
+	}
 }
-#text span[name=written] {
-	color: grey;
-}
-#text span#wrong {
-	background: @red;
+
+.wrong {
+	background-color: @red !important;
 }

@@ -3,49 +3,53 @@
   "version": "1.0.0",
   "description": "Race against others in this new exciting typing game™! https://abra.pineman.win",
   "keywords": [
-	"game",
-	"typing"
+    "game",
+    "typing"
   ],
   "main": "server/abra.js",
   "scripts": {
-	"clean": "make -C client clean",
-	"build": "make -C client",
-	"deploy": "make -C client deploy",
-	"start": "cd server && node main.js"
+    "start": "cd server && node main.js",
+    "build": "cd client && gulp",
+    "watch": "cd client && gulp watch",
+    "clean": "cd client && gulp clean"
   },
   "repository": {
-	"type": "git",
-	"url": "git+https://github.com/pineman/abra.git"
+    "type": "git",
+    "url": "git+https://github.com/pineman/abra.git"
   },
   "contributors": [
-	{
-	  "name": "Diogo Almiro",
-	  "email": "diogoalmiro@gmail.com",
-	  "url": "http://almiro.pineman.win"
-	},
-	{
-	  "name": "João Pinheiro",
-	  "email": "joao.castropinheiro@gmail.com",
-	  "url": "https://pineman.win"
-	},
-	{
-	  "name": "Diogo Tito",
-	  "email": "diogotitomarques@gmail.com"
-	}
+    {
+      "name": "Diogo Almiro",
+      "email": "diogoalmiro@gmail.com",
+      "url": "http://almiro.pineman.win"
+    },
+    {
+      "name": "João Pinheiro",
+      "email": "joao.castropinheiro@gmail.com",
+      "url": "https://pineman.win"
+    },
+    {
+      "name": "Diogo Tito",
+      "email": "diogotitomarques@gmail.com"
+    }
   ],
   "license": "MIT",
   "bugs": {
-	"url": "https://github.com/pineman/abra/issues"
+    "url": "https://github.com/pineman/abra/issues"
   },
   "homepage": "https://github.com/pineman/abra#readme",
   "dependencies": {
 	"uws": "^0.14.0"
   },
   "devDependencies": {
-	"html-minifier": "^3.2.3",
-	"less": "^2.7.2",
-	"less-plugin-autoprefix": "^1.5.1",
-	"less-plugin-clean-css": "^1.5.1",
-	"uglify-js": "^2.7.5"
+    "gulp": "^3.9.1",
+    "rimraf": "^2.5.4",
+    "less": "^2.7.2",
+    "less-plugin-autoprefix": "^1.5.1",
+    "less-plugin-clean-css": "^1.5.1",
+    "html-minifier": "^3.2.3",
+    "browserify": "^14.0.0",
+    "exorcist": "^0.4.0",
+    "uglify-js": "git://github.com/mishoo/UglifyJS2#harmony"
   }
 }

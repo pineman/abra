@@ -31,8 +31,7 @@ nginx conf file and systemd service file are provided in server/config.
 ## TODO
  * Different error color when cursor is red
  * Prevent players in a room having the same color
- * Cookie client name
- * Recheck & reorganize client
+ * Save user name
  * npm all the things!
    * `abra-server`
    * `abra-client`

@@ -1,0 +1,63 @@
+// 21-color Material palette
+@red: #f44336;
+@pink: #e91e63;
+@purple: #9c27b0;
+@deep-purple: #673ab7;
+@indigo: #3f51b5;
+@blue: #2196f3;
+@light-blue: #03a9f4;
+@cyan: #00bcd4;
+@teal: #009688;
+@green: #4caf50;
+@light-green: #8bc34a;
+@lime: #cddc39;
+@yellow: #ffeb3b;
+@amber: #ffc107;
+@orange: #ff9800;
+@deep-orange: #ff5722;
+@brown: #795548;
+@grey: #9e9e9e;
+@white: #cfd8dc;
+@blue-grey: #607d8b;
+@black: #212121;
+
+// Array with the whole palette.
+@material-colors: @red, @pink, @purple, @deep-purple, @indigo, @blue, @light-blue, @cyan, @teal, @green, @light-green, @lime, @yellow, @amber, @orange, @deep-orange, @brown, @grey, @white, @blue-grey, @black;
+
+// Make a class called "box-color-<x>" for each palette color.
+// Used in the color selection box in the intro screen.
+.make-box-colors(@i: 1) when (@i <= length(@material-colors)) {
+	@color: extract(@material-colors, @i);
+
+	.box-color-@{i} {
+    background-color: @color;
+	}
+
+	// Loop = recursion
+	.make-box-colors(@i + 1);
+}
+.make-box-colors();
+
+// Make a class called "_<hexcode>" for each palette color.
+// Used to color a character in the text with a player's color.
+@opacity: 70;
+.make-cursor-colors(@i: 1) when (@i <= length(@material-colors)) {
+	@color: extract(@material-colors, @i);
+	@class-name: replace(@color, "#", "_");
+
+	#text span.@{class-name} {
+    background-color: fade(@color, @opacity);
+    border: 1px solid @color;
+	}
+
+	.make-cursor-colors(@i + 1);
+}
+.make-cursor-colors();
+
+// Extra
+@dark-white: #f5f5f5;
+@light-black: #424242;
+
+// Custom
+@grey-placeholder: #8fa9a9;
+@grey-border: #333333;

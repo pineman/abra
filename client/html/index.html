@@ -1,21 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#212121">
 
 	<title>ABRA</title>
-	<link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 
-	<link rel="stylesheet" type="text/css" href="/static/style.css">
-
-	<script src="/intro.js"></script>
-	<script src="/util.js"></script>
-	<script src="/socket.js"></script>
-	<script src="/Prototype.js"></script>
-	<script src="/game.js"></script>
-	<script src="/stats.js"></script>
+	<link rel="stylesheet" type="text/css" href="/style.min.css">
 </head>
 
 <body>
@@ -24,9 +17,31 @@
 	<div id="intro-flexy">
 		<h1 id="title">ABRA</h1>
 
-		<input id="getname" type="text" name="name" placeholder="Name" maxlength="15">
+		<input id="getname" type="text" name="name" placeholder="Name" maxlength="15" autofocus>
 
-		<div id="getcolor"><!-- generateBoxColors() --></div>
+		<div id="color-box">
+			<div class="box-color-1"></div>
+			<div class="box-color-2"></div>
+			<div class="box-color-3"></div>
+			<div class="box-color-4"></div>
+			<div class="box-color-5"></div>
+			<div class="box-color-6"></div>
+			<div class="box-color-7"></div>
+			<div class="box-color-8"></div>
+			<div class="box-color-9"></div>
+			<div class="box-color-10"></div>
+			<div class="box-color-11"></div>
+			<div class="box-color-12"></div>
+			<div class="box-color-13"></div>
+			<div class="box-color-14"></div>
+			<div class="box-color-15"></div>
+			<div class="box-color-16"></div>
+			<div class="box-color-17"></div>
+			<div class="box-color-18"></div>
+			<div class="box-color-19"></div>
+			<div class="box-color-20"></div>
+			<div class="box-color-21"></div>
+		</div>
 
 		<button id="start-button" class="button">Start</button>
 
@@ -38,7 +53,8 @@
 	<div id="game" style="display:none;">
 
 		<!-- Hidden <input> -->
-		<input id="input" style="position:absolute;top:-100px;" type="text" name="" placeholder="" maxlength="1"
+		<input id="hidden-input" style="position:absolute;top:-100px;"
+			type="text" name="" placeholder="" maxlength="1"
 			autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
 
 		<div id="text">
@@ -46,7 +62,7 @@
 
 		<div id="lobby">
 			<h1>Room <span id="room-name"></span></h1>
-			<h6>status: <span id="status">Connecting to server...</span></h6>
+			<h6>status: <span id="status"></span></h6>
 
 			<ul id="players">
 			</ul>
@@ -75,5 +91,6 @@
 
 		<button id="again-button" class="button">Play Again</button>
 	</div> <!-- </stats> -->
+	<script src="/abra.min.js"></script>
 </body>
 </html>

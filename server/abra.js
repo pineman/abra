@@ -1,22 +1,36 @@
 'use strict';
 
-const texts = require("./texts.js");
-
-const fs = require("fs");
-const DICT = fs.readFileSync('wordsEn.txt', 'utf8').split('\n');
-const DICT_LENGTH = DICT.length;
-
 const ROOM_TIMEOUT = 30; // seconds
 const MAX_PLAYERS_PER_ROOM = 2;
 const ROOM_STATUS_CLOSED = 0;
 const ROOM_STATUS_OPEN = 1;
 const WORD_SIZE = 4;
 
+// Read required files.
+const fs = require('fs');
+const DICT = fs.readFileSync('wordsEn.txt', 'utf8').split('\n');
+const DICT_LENGTH = DICT.length;
+
+const lines = fs.readFileSync('texts.txt', 'utf8').split('\n');
+const TEXTS = [];
+if (process.argv[2] != "deploy" ) {
+	TEXTS.push("devel test");
+} else {
+	for (let i = 0; i < lines.length; i++) {
+		if (!/(^#|^\s*$)/.test(lines[i])) {
+			// regex to see if line starts with # or is all whitespace (\s)
+			TEXTS.push(lines[i])
+		}
+	};
+}
+const TEXTS_LENGTH = TEXTS.length;
+
+// Main objects
 let Player = function (name, color, id) {
 	this.name = name;
 	this.color = color;
-	this.id = id;
-	this.pos = 0; // index in the text string
+	this.id = Date.now() + Math.random(); // Random "enough" ID
+	this.pos = -1; // index in the text string
 	this.time = 0; // time spent writing
 	this.mistakes = 0;
 	this.done = false;
@@ -24,7 +38,7 @@ let Player = function (name, color, id) {
 }
 
 let Room = function () {
-	this.text = texts.getText();
+	this.text = TEXTS[Math.floor(Math.random() * TEXTS_LENGTH)];
 	this.name = DICT[Math.floor(Math.random() * DICT_LENGTH)];
 	this.wordCount = this.text.length / WORD_SIZE;
 	this.sockets = []; // Array of sockets in the room
@@ -48,15 +62,12 @@ let Room = function () {
 let rooms = [];
 
 function newPlayer(ws, data) {
-	// Name is escaped by textContent on the client side,
-	// however, still testing for max length.
-	if (data.name.length > 30) return; // max is 15 client-side
+	// Name should be controlled on the client side,
+	// but we still test for max length for good measure.
+	if (data.name.length > 20) return;
 
-	// Silently drop clients messing around with color
-	if (!data.color.startsWith("#") || data.color.length > 7) return;
-
-	// Save a player's attributes on its socket object.
-	Player.call(ws, data.name, data.color, Date.now() + Math.random());
+	// Save a player's attributes on its `ws` socket object.
+	Player.call(ws, data.name, data.color);
 
 	// Algorithm to find an open room.
 	let room = ((rooms) => {
@@ -83,7 +94,7 @@ function newPlayer(ws, data) {
 		// has entered the room.
 		for (let s of room.sockets) {
 			s.send(JSON.stringify({
-				event: 'playerEntered',
+				event: 'playerEnteredRoom',
 				id: ws.id,
 				name: ws.name,
 				color: ws.color
@@ -107,11 +118,12 @@ function newPlayer(ws, data) {
 		}
 		roomPlayers.push(p);
 	}
+
 	ws.send(JSON.stringify({
 		event: 'foundRoom',
 		name: room.name,
 		players: roomPlayers,
-		timeLeft: room.timeLeft
+		timeLeft: 0 ? roomReady : room.timeLeft
 	}));
 
 	// Append the player to the room's array of sockets.
