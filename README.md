@@ -8,12 +8,9 @@ ABRA (yes, like the pokémon) is an online browser typing race game.
 
 Here's what it looks like:
 
-[![ABRA sample game GIF](abra.gif)](https://abra.pineman.win) 
-&nbsp;
-[![ABRA sample game GIF](abra_desktop.gif)](https://abra.pineman.win)
-
-
-([link to higher resolution video](https://abra.pineman.win/abra.webm))
+| Mobile                                                    | Desktop                                                            |
+| --------------------------------------------------------- | ------------------------------------------------------------------ |
+| [![ABRA session GIF](abra.gif)](https://abra.pineman.win) | [![ABRA session2 GIF](abra_desktop.gif)](https://abra.pineman.win) |
 
 made with :heart: in [Lisbon](https://en.wikipedia.org/wiki/Lisbon)
 
