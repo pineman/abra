@@ -1,11 +1,23 @@
-# abra
+# ABRA
 [![Dependencies Status](https://david-dm.org/pineman/abra/status.svg)](https://david-dm.org/pineman/abra)
 [![Development Dependencies Status](https://david-dm.org/pineman/abra/dev-status.svg)](https://david-dm.org/pineman/abra?type=dev)
 
 ### Catch you the abra for much win!
-Online browser typing game.
+ABRA (yes, like the pokémon) is an online browser typing race game.
+[You can play it here](https://abra.pineman.win).
 
-## Instructions
+Here's what it looks like:
+
+[![ABRA sample game GIF](abra.gif)](https://abra.pineman.win) 
+&nbsp;
+[![ABRA sample game GIF](abra_desktop.gif)](https://abra.pineman.win)
+
+
+([link to higher resolution video](https://abra.pineman.win/abra.webm))
+
+made with :heart: in [Lisbon](https://en.wikipedia.org/wiki/Lisbon)
+
+## Server Installation
 ```
 git clone https://github.com/pineman/abra && cd abra
 npm install
@@ -45,5 +57,3 @@ nginx conf file and systemd service file are provided in server/config.
  * Text chooser (also language)
  * Various game modes
  * More? Accounts?
-
-made with :heart: @ FCUL
