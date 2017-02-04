@@ -27,6 +27,7 @@ deploy_abra() {
 
 	# Set permissions and reload servers.
 	chgrp -R abra .
+	chmod -R g+w .
 	sudo systemctl daemon-reload
 	sudo systemctl restart abra nginx
 
