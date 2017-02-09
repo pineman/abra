@@ -50,27 +50,25 @@ function wsMessage(data) {
 	try {
 		data = JSON.parse(data);
 	}
-	catch (e) {
+	catch (error) {
 		// Ignore badly formatted data.
 		return;
 	}
 
-	switch (data.event) {
-		case 'newPlayer':
-			abra.newPlayer(this, data);
-			break;
+	let e = data.event;
 
-		case 'playerTyped':
-			abra.playerTyped(this, data);
-			break;
-
-		case 'playerDone':
-			abra.playerDone(this, data);
-			break;
-
-		default:
-			// Ignore unknown event.
-			return;
-			break;
+	if (!this.room && e === 'newPlayer' &&
+				data.name !== undefined &&
+				data.color !== undefined) {
+		abra.newPlayer(this, data);
+	}
+	else if (e === 'playerTyped' &&
+				data.pos !== undefined) {
+		abra.playerTyped(this, data);
+	}
+	else if (e === 'playerDone' &&
+				data.time !== undefined &&
+				data.mistakes !== undefined) {
+		abra.playerDone(this, data);
 	}
 }
