@@ -4,7 +4,7 @@ let texts = [];
 for (var i = 0; i < lines.length; i++) {
 	if( !/(^#|^\s*$)/.test(lines[i]) ){
 		// regex to see if line starts with # or is empty
-		texts.push(lines[i])
+		texts.push(lines[i].trim());
 	}
 };
 
