@@ -10,7 +10,6 @@ const ROOM_TIMEOUT = 30; // seconds
 const MAX_PLAYERS_PER_ROOM = 2;
 const ROOM_STATUS_CLOSED = 0;
 const ROOM_STATUS_OPEN = 1;
-const STATS_PRECISION = 3;
 const WORD_SIZE = 4;
 
 let Player = function (name, color, id) {
@@ -157,8 +156,8 @@ function endGame(rooms, room) {
 	for (let i = 0; i < room.sockets.length; i++) {
 		let curPlayer = [];
 		curPlayer[0] = room.sockets[i].name;
-		curPlayer[1] = room.sockets[i].time.toFixed(STATS_PRECISION);
-		curPlayer[2] = (room.wordCount / (room.sockets[i].time / 60)).toFixed(STATS_PRECISION);
+		curPlayer[1] = room.sockets[i].time.toFixed(1);
+		curPlayer[2] = Math.round(room.wordCount / (room.sockets[i].time / 60));
 		curPlayer[3] = room.sockets[i].mistakes;
 		curPlayer[4] = room.sockets[i].color;
 		stats.push(curPlayer);
