@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/pineman/abra#readme",
   "dependencies": {
-	"uws": "^0.12.0"
+	"uws": "^0.14.0"
   },
   "devDependencies": {
 	"html-minifier": "^3.2.3",
