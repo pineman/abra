@@ -57,18 +57,22 @@ function wsMessage(data) {
 
 	let e = data.event;
 
-	if (!this.room && e === 'newPlayer' &&
-				data.name !== undefined &&
-				data.color !== undefined) {
-		abra.newPlayer(this, data);
-	}
-	else if (e === 'playerTyped' &&
-				data.pos !== undefined) {
+	if (e === 'playerTyped'
+		&& data.pos !== undefined)
+	{
 		abra.playerTyped(this, data);
 	}
-	else if (e === 'playerDone' &&
-				data.time !== undefined &&
-				data.mistakes !== undefined) {
+	else if (!this.room
+			 && e === 'newPlayer'
+			 && data.name !== undefined
+			 && data.color !== undefined)
+	{
+		abra.newPlayer(this, data);
+	}
+	else if (e === 'playerDone'
+			 && data.time !== undefined
+			 && data.mistakes !== undefined)
+	{
 		abra.playerDone(this, data);
 	}
 }
