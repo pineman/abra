@@ -23,7 +23,7 @@ deploy_abra() {
 	cd /srv/http/abra
 	npm prune
 	npm install
-	npm run-script deploy
+	npm run-script build
 
 	# Set permissions and reload servers.
 	chgrp -R abra .
