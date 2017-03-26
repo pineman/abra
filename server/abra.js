@@ -1,7 +1,7 @@
 'use strict';
 
-const ROOM_TIMEOUT = 30; // seconds
-const MAX_PLAYERS_PER_ROOM = 2;
+const ROOM_TIMEOUT = 15; // seconds
+const MAX_PLAYERS_PER_ROOM = 4;
 const ROOM_STATUS_CLOSED = 0;
 const ROOM_STATUS_OPEN = 1;
 const WORD_SIZE = 4;
