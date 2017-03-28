@@ -22,6 +22,7 @@ deploy_abra() {
 	# Run the build scripts.
 	cd /srv/http/abra
 	npm prune
+	npm update
 	npm install
 	npm run-script build
 
