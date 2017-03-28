@@ -3,6 +3,7 @@
 const gulp = require('gulp');
 const spawn = require('child_process').spawn;
 const rm = require('rimraf').sync;
+const path = require('path');
 
 const OUT_DIR = 'serve';
 
@@ -75,9 +76,11 @@ gulp.task('js', function (done) {
 	const opt = [
 		`--in-source-map ${JS_OUT}.map`,
 		`--source-map ${JS_OUT}.map`,
+		`--source-map-url ${path.basename(JS_OUT)}.map`,
 		'-m -r "require,exports"',
 		'-c'
 	].join(' ');
 
 	run(`browserify --debug --entry ${JS_IN} | exorcist ${JS_OUT}.map > ${JS_OUT} && uglifyjs ${opt} --output ${JS_OUT} ${JS_OUT}`);
+	done();
 });
