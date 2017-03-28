@@ -5,7 +5,6 @@
 const util = require('./util.js');
 const game = require('./game.js');
 const Player = require('./Prototype.js').Player;
-const Room = require('./Prototype.js').Room;
 
 const STORE_USER_COLOR= "userColor";
 const COLOR_PALETTE_LENGTH = 21;

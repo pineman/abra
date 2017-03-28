@@ -3,11 +3,11 @@
 'use strict';
 
 module.exports = {
-	RGB2hex: function (c) {
-		c = c.substring(c.indexOf('(') + 1, c.indexOf(')')).split(',');
-		let r = parseInt(c[0]).toString(16);
-		let g = parseInt(c[1]).toString(16);
-		let b = parseInt(c[2]).toString(16);
+	RGB2hex: function (rgb) {
+		rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+		let r = ("0" + parseInt(rgb[1]).toString(16)).slice(-2);
+		let g = ("0" + parseInt(rgb[2]).toString(16)).slice(-2);
+		let b = ("0" + parseInt(rgb[3]).toString(16)).slice(-2);
 		return `#${r}${g}${b}`;
 	},
 
