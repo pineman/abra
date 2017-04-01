@@ -19,6 +19,7 @@ module.exports = {
 			toScreen   = document.getElementById(toId);
 
 		document.body.style.overflow = "hidden";
+
 		fromScreen.style.transition = TRANSITION_TIME;
 		toScreen.style.transition = TRANSITION_TIME;
 		fromScreen.classList.add("transition-out");
@@ -29,7 +30,11 @@ module.exports = {
 			fromScreen.style.display = "none";
 			toScreen.classList.remove("transition-out");
 			fromScreen.classList.remove("transition-out");
-		}, 250);
+
+			setTimeout(function () {
+				document.body.style.overflow = "auto";
+			}, parseFloat(TRANSITION_TIME) * 1000 + 50);
+		}, parseFloat(TRANSITION_TIME) * 1000 + 50);
 	},
 
 	clear: function (element) {
