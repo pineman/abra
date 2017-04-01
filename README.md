@@ -14,17 +14,12 @@ Here's what it looks like:
 
 made with :heart: in [Lisbon](https://en.wikipedia.org/wiki/Lisbon)
 
-## Server Installation
+## Instructions
 ```
 git clone https://github.com/pineman/abra && cd abra
 npm install
-make -C client
-npm test
-```
-
-To run in a more production-y environment with nginx:
-```
-make -C client deploy
+npm run build
+npm start
 ```
 nginx conf file and systemd service file are provided in server/config.
 
