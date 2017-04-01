@@ -2,6 +2,8 @@
 
 'use strict';
 
+const TRANSITION_TIME = "0.25s";
+
 module.exports = {
 	RGB2hex: function (rgb) {
 		rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
@@ -17,12 +19,14 @@ module.exports = {
 			toScreen   = document.getElementById(toId);
 
 		document.body.style.overflow = "hidden";
+		fromScreen.style.transition = TRANSITION_TIME;
+		toScreen.style.transition = TRANSITION_TIME;
 		fromScreen.classList.add("transition-out");
 		toScreen.classList.add("transition-out");
-		document.getElementById(toId).style.display = "block";
+		toScreen.style.display = "block";
 
 		setTimeout(function () {
-			document.getElementById(fromId).style.display = "none";
+			fromScreen.style.display = "none";
 			toScreen.classList.remove("transition-out");
 			fromScreen.classList.remove("transition-out");
 		}, 250);
