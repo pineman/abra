@@ -12,7 +12,7 @@ const LESS_WATCH = 'less/**/*.less';
 const LESS_OUT = `${OUT_DIR}/style.min.css`;
 
 const HTML_IN = 'html/index.html';
-const HTML_WATCH = 'hmtl/**/*.html';
+const HTML_WATCH = 'html/**/*.html';
 const HTML_OUT = `${OUT_DIR}/index.html`;
 
 const JS_IN = 'js/main.js';
