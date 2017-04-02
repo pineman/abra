@@ -258,7 +258,9 @@ function showStats(stats, user) {
 		resetGame(user);
 	});
 
-	document.getElementById("again-button").focus();
+	setTimeout(function () {
+		againButton.focus();
+	}, util.TRANSITION_TIME * 1000);
 }
 
 // Reset the game and start it again.
@@ -270,10 +272,13 @@ function resetGame(user) {
 	util.clear(document.getElementById("room-name"));
 	util.clear(document.getElementById("status"));
 	util.clear(document.getElementById("players"));
-	util.clear(document.querySelector("#stats-table tbody"));
-	user.reset();
+	
+	setTimeout(function () {
+		util.clear(document.querySelector("#stats-table tbody"));
+	}, util.TRANSITION_TIME * 1000);
 
 	util.transition("stats", "game");
+	user.reset();
 	gameLoop(user);
 }
 
