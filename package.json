@@ -39,17 +39,17 @@
   },
   "homepage": "https://github.com/pineman/abra#readme",
   "dependencies": {
-	"uws": "^0.14.0"
+    "uws": "latest"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "rimraf": "^2.5.4",
-    "less": "^2.7.2",
-    "less-plugin-autoprefix": "^1.5.1",
-    "less-plugin-clean-css": "^1.5.1",
-    "html-minifier": "^3.2.3",
-    "browserify": "^14.0.0",
-    "exorcist": "^0.4.0",
-    "uglify-js": "git://github.com/mishoo/UglifyJS2#harmony"
+    "browserify": "latest",
+    "exorcist": "latest",
+    "gulp": "latest",
+    "html-minifier": "latest",
+    "less": "latest",
+    "less-plugin-autoprefix": "latest",
+    "less-plugin-clean-css": "latest",
+    "rimraf": "latest",
+    "uglify-es": "latest"
   }
 }

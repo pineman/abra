@@ -74,9 +74,7 @@ gulp.task('html', function (done) {
 
 gulp.task('js', function (done) {
 	const opt = [
-		`--in-source-map ${JS_OUT}.map`,
-		`--source-map ${JS_OUT}.map`,
-		`--source-map-url ${path.basename(JS_OUT)}.map`,
+		`--source-map content=${JS_OUT}.map,url=${path.basename(JS_OUT)}.map,filename=${JS_OUT}.map`,
 		'-m -r "require,exports"',
 		'-c'
 	].join(' ');
