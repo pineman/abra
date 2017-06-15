@@ -21,8 +21,7 @@ deploy_abra() {
 
 	# Run the build scripts.
 	cd /srv/http/abra
-	npm prune
-	npm update
+	rm -rf node_modules
 	npm install
 	npm run-script build
 
@@ -36,16 +35,17 @@ deploy_abra() {
 	echo "=> All done. https://abra.pineman.win is live."
 }
 
-# Parse the arguments.
+# $oldobj $newobj $refname already read by the post-receive hook on the server
+# that calls this scripts. For exameple:
+# `while read oldobj newobj refname; do
+#    echo "$(git show master:server/config/post-receive)"
+# done`
 # $oldobj is the old object and $newobj is the new object,
 # both belonging to the ref $refname
-while read oldobj newobj refname
-do
-	# Get the branch symbolic name from the $refname
-    branch=$(git rev-parse --symbolic --abbrev-ref $refname)
+# Get the branch symbolic name from the $refname
+branch=$(git rev-parse --symbolic --abbrev-ref $refname)
 
-	# Only deploy commits on the master branch.
-    if [[ "master" == "$branch" ]]; then
-		deploy_abra
-    fi
-done
+# Only deploy commits on the master branch.
+if [[ "master" == "$branch" ]]; then
+	deploy_abra
+fi
