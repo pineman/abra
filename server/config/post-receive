@@ -36,7 +36,7 @@ deploy_abra() {
 }
 
 # $oldobj $newobj $refname already read by the post-receive hook on the server
-# that calls this scripts. For exameple:
+# that calls this scripts. For example:
 # `while read oldobj newobj refname; do
 #    echo "$(git show master:server/config/post-receive)"
 # done`
