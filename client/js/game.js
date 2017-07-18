@@ -41,7 +41,7 @@ function manageSocketEvents(socket, user) {
 		switch (data.event) {
 			case 'foundRoom':
 				room = Room.from(data);
-				foundRoom(room, user);
+				foundRoom(room, socket, user);
 				break;
 
 			case 'playerEnteredRoom':
@@ -91,7 +91,7 @@ function showNewRoom(room) {
 	}
 }
 
-function foundRoom(room, user) {
+function foundRoom(room, socket, user) {
 	showNewRoom(room);
 	room.players.push(user);
 
@@ -102,6 +102,7 @@ function foundRoom(room, user) {
 
 	util.DOM.showRoomStatus("Finding players... " + room.timeLeft);
 	util.DOM.showForceStart(function (e) {
+		console.log("forceStart");
 		socket.send(JSON.stringify({
 			event: "forceStart"
 		}));

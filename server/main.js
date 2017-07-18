@@ -40,6 +40,10 @@ function wsMessage(data) {
 	{
 		abra.newPlayer(this, data);
 	}
+	else if (e === 'forceStart')
+	{
+		abra.forceStart(this);
+	}
 	else if (e === 'playerDone'
 		  && data.time !== undefined
 		  && data.mistakes !== undefined)

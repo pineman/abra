@@ -138,6 +138,12 @@ function newPlayer(ws, data) {
 	}
 }
 
+function forceStart(ws) {
+	clearTimeout(ws.room.initTimer);
+	ws.room.status = ROOM_STATUS_CLOSED;
+	startGame(ws.room);
+}
+
 // Send the startGame event to all players in a room and send them the text.
 function startGame(room) {
 	for (let s of room.sockets) {
@@ -164,16 +170,14 @@ function playerTyped(ws, data) {
 
 function endGame(rooms, room) {
 	// Generate end of game stats.
-	let stats = [];
-	for (let i = 0; i < room.sockets.length; i++) {
-		let curPlayer = [];
-		curPlayer[0] = room.sockets[i].name;
-		curPlayer[1] = room.sockets[i].time.toFixed(1);
-		curPlayer[2] = Math.round(room.wordCount / (room.sockets[i].time / 60));
-		curPlayer[3] = room.sockets[i].mistakes;
-		curPlayer[4] = room.sockets[i].color;
-		stats.push(curPlayer);
-	}
+	let stats = room.sockets.map(socket => [
+		socket.name,
+		socket.time.toFixed(1),
+		Math.round(room.wordCount / (socket.time / 60)),
+		socket.mistakes,
+		socket.color
+	]);
+
 	// Sort ascendingly by time.
 	stats.sort((p1, p2) => p1[1] - p2[1]);
 
@@ -249,6 +253,7 @@ function playerDisconnected(ws) {
 
 module.exports = {
 	newPlayer,
+	forceStart,
 	playerTyped,
 	playerDone,
 	playerDisconnected
