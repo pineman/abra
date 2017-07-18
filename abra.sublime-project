@@ -5,7 +5,9 @@
 			"path": ".",
 			"file_include_patterns": [
 				"README.md",
-				"package.json"
+				"package.json",
+				"tasks.txt",
+				"abra.sublime-project"
 			],
             "folder_exclude_patterns": ["*"],
 		},

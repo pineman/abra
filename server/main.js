@@ -40,7 +40,8 @@ function wsMessage(data) {
 	{
 		abra.newPlayer(this, data);
 	}
-	else if (e === 'forceStart')
+	else if (this.room
+		  && e === 'forceStart')
 	{
 		abra.forceStart(this);
 	}

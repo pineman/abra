@@ -177,6 +177,7 @@ function endGame(rooms, room) {
 		socket.mistakes,
 		socket.color
 	]);
+	console.log(stats);
 
 	// Sort ascendingly by time.
 	stats.sort((p1, p2) => p1[1] - p2[1]);

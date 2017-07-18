@@ -244,7 +244,7 @@ function playerTyped(room, playerId, pos) {
 
 let againButtonClickListener;
 function showStats(stats, user) {
-	let table = document.getElementById("stats-table");
+	let table = document.getElementById("stats-table").tBodies[0];
 
 	for (let row = 0; row < stats.length; row++) {
 		let tr = table.insertRow();
@@ -253,7 +253,7 @@ function showStats(stats, user) {
 		let td = tr.insertCell();
 		td.textContent = row + 1;
 
-		for (let col = 0; col < stats[row].length; col++) {
+		for (let col = 0; col < 4; col++) {
 			td = tr.insertCell();
 			if (col === 0) td.style.color = stats[row][4];
 			td.textContent = stats[row][col];
