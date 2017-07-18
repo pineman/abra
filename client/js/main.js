@@ -9,6 +9,10 @@ const Player = require('./Prototype.js').Player;
 const STORE_USER_COLOR= "userColor";
 const COLOR_PALETTE_LENGTH = 21;
 
+/**
+ * Handles the "color chooser" interactivity.
+ * @param {Element} colorBox - The element where the interactivity happens
+ */
 function setupColorBox(colorBox) {
 	let box;
 	for (let i = 0; i < COLOR_PALETTE_LENGTH; i++) {
@@ -32,6 +36,9 @@ function setupColorBox(colorBox) {
 	colorBox.children[cachedColor].classList.add("selected-color");
 }
 
+/**
+ * Create a object for the player and transition to the game scene
+ */
 function initGame() {
 	let selectedColor = document.querySelector("#color-box > .selected-color");
 	let color = util.RGB2hex(window.getComputedStyle(selectedColor)
@@ -43,10 +50,13 @@ function initGame() {
 		Player.USER_ID
 	);
 
-	util.transition("intro", "game");
+	util.DOM.transition("intro", "game");
 	game.gameLoop(user);
 }
 
+/**
+ * Called when index.html has been completely loaded and parsed
+ */
 function main() {
 	// Remember the user's last color and add `click()` event listeners to
 	// each box.
@@ -69,6 +79,4 @@ function main() {
 	});
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-	main();
-});
+document.addEventListener('DOMContentLoaded', main);

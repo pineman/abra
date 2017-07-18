@@ -15,52 +15,65 @@ module.exports = {
 		return `#${r}${g}${b}`;
 	},
 
-	transition: function (fromId, toId) {
-		// TODO: pineman no understand :'(
-		let fromScreen = document.getElementById(fromId),
-			toScreen   = document.getElementById(toId);
+	DOM: {
+		transition: function (fromId, toId) {
+			// TODO: pineman no understand :'(
+			let fromScreen = document.getElementById(fromId),
+				toScreen   = document.getElementById(toId);
 
-		document.body.style.overflow = "hidden";
+			document.body.style.overflow = "hidden";
 
-		fromScreen.style.transition = TRANSITION_TIME + "s";
-		toScreen.style.transition   = TRANSITION_TIME + "s";
-		fromScreen.classList.add("transition-out");
-		toScreen.classList.add("transition-out");
-		toScreen.style.display = "block";
-
-		setTimeout(function () {
-			fromScreen.style.display = "none";
-			toScreen.classList.remove("transition-out");
-			fromScreen.classList.remove("transition-out");
+			fromScreen.style.transition = TRANSITION_TIME + "s";
+			toScreen.style.transition   = TRANSITION_TIME + "s";
+			fromScreen.classList.add("transition-out");
+			toScreen.classList.add("transition-out");
+			toScreen.style.display = "block";
 
 			setTimeout(function () {
-				document.body.style.overflow = "auto";
-			}, TRANSITION_TIME * 1000 + 50);
-		}, TRANSITION_TIME * 1000 + 50);
-	},
+				fromScreen.style.display = "none";
+				toScreen.classList.remove("transition-out");
+				fromScreen.classList.remove("transition-out");
 
-	clear: function (element) {
-		element.innerHTML = '';
+				setTimeout(function () {
+					document.body.style.overflow = "auto";
+				}, TRANSITION_TIME * 1000 + 50);
+			}, TRANSITION_TIME * 1000 + 50);
+		},
+
+		clear: function (element) {
+			element.innerHTML = '';
+		},
+
+		setTextOpacity: function (opacity) {
+			document.getElementById("text").style.opacity = opacity.toString();
+		},
+
+		showRoomStatus: function (status) {
+			document.getElementById("status").textContent = status;
+		},
+
+		showForceStart: function (onClick) {
+			let link = document.querySelector("#force-start");
+			link.style.display = "inline";
+			if (typeof onClick === "function") {
+				link.addEventListener("click", linkClick);
+				function linkClick(e) {
+					onClick(e);
+					link.removeEventListener("click", linkClick);
+				}
+			}
+		},
+
+		hideForceStart: function () {
+			document.querySelector("#force-start").style.display = "none";
+		}
 	},
 
 	findPlayer: function (id, players) {
-		for (let i = 0; i < players.length; i++)
-			if (players[i].id == id)
-				return players[i];
+		return players.find(p => p.id === id);
 	},
 
 	findPlayerIndex: function (id, players) {
-		for (let i = 0; i < players.length; i++)
-			if (players[i].id == id)
-				return i;
-		return -1;
-	},
-
-	setTextOpacity: function (opacity) {
-		document.getElementById("text").style.opacity = opacity.toString();
-	},
-
-	showRoomStatus: function (status) {
-		document.getElementById("status").textContent = status;
+		return players.findIndex(p => p.id === id);
 	}
 }

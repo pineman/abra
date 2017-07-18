@@ -1,0 +1,20 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+			"file_include_patterns": [
+				"README.md",
+				"package.json"
+			],
+            "folder_exclude_patterns": ["*"],
+		},
+		{
+			"path": "client",
+			"folder_exclude_patterns": ["serve"]
+		},
+		{
+			"path": "server"
+		}
+	]
+}

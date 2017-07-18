@@ -13,8 +13,8 @@ const WS_SERVER = PROTOCOL + window.location.hostname + PORT + '/abra';
 // From the "game" screen onwards.
 function gameLoop(user) {
 	showNewPlayer(user);
-	util.setTextOpacity(0.5);
-	util.showRoomStatus("Connecting to server...");
+	util.DOM.setTextOpacity(0.5);
+	util.DOM.showRoomStatus("Connecting to server...");
 
 	let socket = new WebSocket(WS_SERVER);
 
@@ -96,19 +96,25 @@ function foundRoom(room, user) {
 	room.players.push(user);
 
 	if (room.timeLeft === 0) {
-		util.showRoomStatus("Game starting... ");
+		util.DOM.showRoomStatus("Game starting... ");
 		return;
 	}
 
-	util.showRoomStatus("Finding players... " + room.timeLeft);
+	util.DOM.showRoomStatus("Finding players... " + room.timeLeft);
+	util.DOM.showForceStart(function (e) {
+		socket.send(JSON.stringify({
+			event: "forceStart"
+		}));
+	});
+
 	room.timer = setInterval(function () {
 		room.timeLeft--;
 		if (room.timeLeft) {
-			util.showRoomStatus("Finding players... " + room.timeLeft);
+			util.DOM.showRoomStatus("Finding players... " + room.timeLeft);
 		} else {
 			clearInterval(room.timer);
 			room.timer = undefined;
-			util.showRoomStatus("Game starting... ");
+			util.DOM.showRoomStatus("Game starting... ");
 		}
 	}, 1000, room); // Tick every second.
 }
@@ -120,6 +126,8 @@ function playerEnteredRoom(room, player) {
 
 function showPreGame(room, socket, text, user) {
 	setTimeout(startGame, room.readyTime*1000, room, socket, text, user);
+
+	util.DOM.hideForceStart();
 
 	// Show text (a <span> for each letter)
 	// TODO: DocumentFragment?
@@ -136,15 +144,15 @@ function showPreGame(room, socket, text, user) {
 		clearInterval(room.timer);
 	}
 
-	util.showRoomStatus("Start in " + room.readyTime + "...");
+	util.DOM.showRoomStatus("Start in " + room.readyTime + "...");
 	room.timer = setInterval(function () {
 		room.readyTime--;
 		if (room.readyTime) {
-			util.showRoomStatus("Start in " + room.readyTime + "...");
+			util.DOM.showRoomStatus("Start in " + room.readyTime + "...");
 		} else {
 			clearInterval(room.timer);
 			room.timer = undefined;
-			util.showRoomStatus("Go!");
+			util.DOM.showRoomStatus("Go!");
 		}
 	}, 1000, room);
 
@@ -152,7 +160,7 @@ function showPreGame(room, socket, text, user) {
 
 function startGame(room, socket, text, user) {
 	prepareInput(room, socket, text, user);
-	util.setTextOpacity(1);
+	util.DOM.setTextOpacity(1);
 	room.startTime = new Date();
 }
 
@@ -235,7 +243,7 @@ function playerTyped(room, playerId, pos) {
 
 let againButtonClickListener;
 function showStats(stats, user) {
-	let table = document.getElementById("stats-table").tBodies[0];
+	let table = document.getElementById("stats-table");
 
 	for (let row = 0; row < stats.length; row++) {
 		let tr = table.insertRow();
@@ -244,14 +252,14 @@ function showStats(stats, user) {
 		let td = tr.insertCell();
 		td.textContent = row + 1;
 
-		for (let col = 0; col < 4; col++) {
+		for (let col = 0; col < stats[row].length; col++) {
 			td = tr.insertCell();
 			if (col === 0) td.style.color = stats[row][4];
 			td.textContent = stats[row][col];
 		}
 	}
 
-	util.transition("game", "stats");
+	util.DOM.transition("game", "stats");
 
 	let againButton = document.getElementById("again-button");
 	againButton.addEventListener("click", againButtonClickListener = function () {
@@ -268,16 +276,16 @@ function resetGame(user) {
 	let againButton = document.getElementById("again-button");
 	againButton.removeEventListener("click", againButtonClickListener);
 
-	util.clear(document.getElementById("text"));
-	util.clear(document.getElementById("room-name"));
-	util.clear(document.getElementById("status"));
-	util.clear(document.getElementById("players"));
+	util.DOM.clear(document.getElementById("text"));
+	util.DOM.clear(document.getElementById("room-name"));
+	util.DOM.clear(document.getElementById("status"));
+	util.DOM.clear(document.getElementById("players"));
 	
 	setTimeout(function () {
-		util.clear(document.querySelector("#stats-table tbody"));
+		util.DOM.clear(document.querySelector("#stats-table tbody"));
 	}, util.TRANSITION_TIME * 1000);
 
-	util.transition("stats", "game");
+	util.DOM.transition("stats", "game");
 	user.reset();
 	gameLoop(user);
 }
