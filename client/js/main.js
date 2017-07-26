@@ -37,7 +37,7 @@ function setupColorBox(colorBox) {
 }
 
 /**
- * Create a object for the player and transition to the game scene
+ * Create an object for the player and transition to the game scene
  */
 function initGame() {
 	let selectedColor = document.querySelector("#color-box > .selected-color");

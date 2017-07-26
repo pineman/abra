@@ -47,12 +47,16 @@ let Room = function () {
 	this.timeLeft = ROOM_TIMEOUT; // Seconds untill startGame
 	this.initTimer = setInterval(countCloseRoom, 1000, this); // Every second
 
-	// Decrement timeLeft and, when it reaches 0, close the room
-	// and start the game
+	this.closeRoom = function () {
+		this.status = ROOM_STATUS_CLOSED;
+		clearTimeout(this.initTimer);
+	}
+
+	// Decrement timeLeft and, when it reaches 0, close the room and start the game
 	function countCloseRoom(room) {
 		room.timeLeft--;
 		if (!room.timeLeft) {
-			room.status = ROOM_STATUS_CLOSED;
+			room.closeRoom();
 			startGame(room);
 		}
 	}
@@ -85,10 +89,7 @@ function newPlayer(ws, data) {
 		roomReady = (room.sockets.length === (MAX_PLAYERS_PER_ROOM - 1));
 
 		// Close the room asap if its ready.
-		if (roomReady) {
-			room.status = ROOM_STATUS_CLOSED;
-			clearTimeout(room.initTimer);
-		}
+		if (roomReady) room.closeRoom();
 
 		// Inform the players in the room that a new player
 		// has entered the room.
@@ -139,8 +140,7 @@ function newPlayer(ws, data) {
 }
 
 function forceStart(ws) {
-	clearTimeout(ws.room.initTimer);
-	ws.room.status = ROOM_STATUS_CLOSED;
+	ws.room.closeRoom();
 	startGame(ws.room);
 }
 

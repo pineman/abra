@@ -29,25 +29,25 @@ function wsMessage(data) {
 	let e = data.event;
 
 	if (e === 'playerTyped'
-	 && data.pos !== undefined)
+		&& data.pos !== undefined)
 	{
 		abra.playerTyped(this, data);
 	}
 	else if (!this.room
-		  && e === 'newPlayer'
-		  && data.name !== undefined
-		  && data.color !== undefined)
+		&& e === 'newPlayer'
+		&& data.name !== undefined
+		&& data.color !== undefined)
 	{
 		abra.newPlayer(this, data);
 	}
 	else if (this.room
-		  && e === 'forceStart')
+		&& e === 'forceStart')
 	{
 		abra.forceStart(this);
 	}
 	else if (e === 'playerDone'
-		  && data.time !== undefined
-		  && data.mistakes !== undefined)
+		&& data.time !== undefined
+		&& data.mistakes !== undefined)
 	{
 		abra.playerDone(this, data);
 	}
