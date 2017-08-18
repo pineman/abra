@@ -7,16 +7,19 @@ const path = require('path');
 
 const OUT_DIR = 'serve';
 
-const LESS_IN = 'less/main.less';
-const LESS_WATCH = 'less/**/*.less';
+const LESS_DIR = 'less';
+const LESS_IN = `${LESS_DIR}/main.less`;
+const LESS_WATCH = `${LESS_DIR}/**/*.less`;
 const LESS_OUT = `${OUT_DIR}/style.min.css`;
 
-const HTML_IN = 'html/index.html';
-const HTML_WATCH = 'html/**/*.html';
+const HTML_DIR = 'html';
+const HTML_IN = `${HTML_DIR}/index.html`;
+const HTML_WATCH = `${HTML_DIR}/**/*.html`;
 const HTML_OUT = `${OUT_DIR}/index.html`;
 
-const JS_IN = 'js/main.js';
-const JS_WATCH = 'js/**/*.js';
+const JS_DIR = 'js';
+const JS_IN = `${JS_DIR}/main.js`;
+const JS_WATCH = `${JS_DIR}/**/*.js`;
 const JS_OUT = `${OUT_DIR}/abra.min.js`;
 
 function run(command) {
@@ -50,6 +53,7 @@ gulp.task('less', function (done) {
 	const opt = [
 		'--source-map',
 		'--source-map-less-inline',
+		`--source-map-rootpath=${LESS_DIR}`,
 		'--clean-css',
 		'--autoprefix="last 2 versions"'
 	].join(' ');
