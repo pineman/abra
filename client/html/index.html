@@ -8,6 +8,7 @@
 	<title>ABRA</title>
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 	<link rel="stylesheet" type="text/css" href="style.min.css">
+	<script src="abra.min.js"></script>
 </head>
 
 <body>
@@ -61,8 +62,9 @@
 
 		<div id="lobby">
 			<h1>Room <span id="room-name"></span></h1>
-			<h6>status: <span id="status"></span>
-				<a id="force-start" href="javascript:null">[force start]</a>
+			<h6>
+				status: <span id="status"></span>
+				<a id="force-start" href="javascript:void(0)">[force start]</a>
 			</h6>
 
 			<ul id="players">
@@ -90,8 +92,27 @@
 			</tbody>
 		</table>
 
+		<div id="performance-graph">
+            <svg id="svg">
+                <defs>
+                    <linearGradient id="grad" x1="0" x2="0" y1="0" y2="1"> 
+                        <stop offset="0%" stop-color="gray" stop-opacity=".4"/>
+                        <stop offset="80%" stop-color="gray" stop-opacity="0"/>
+                    </linearGradient>
+                    <clipPath id="first-quadrant">
+                        <rect x="20" y="10" width="470" height="220" />
+                    </clipPath>
+                </defs>
+                <polyline id="polyline"
+                fill="url(#grad)" clip-path="url(#first-quadrant)"/>
+                <line id="x-axis" x1="10" y1="230" x2="490" y2="230" />
+                <line id="y-axis" x1="20" y1="240" x2="20" y2="10" />
+                <line id="avg" x1="20" y1="150" x2="490" y2="150" />
+            </svg>
+        </div>
+
+
 		<button id="again-button" class="button">Play Again</button>
 	</div> <!-- </stats> -->
-	<script src="abra.min.js"></script>
 </body>
 </html>

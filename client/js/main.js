@@ -1,6 +1,6 @@
 /* Entry point. */
 
-'use strict'
+'use strict';
 
 const util = require('./util.js');
 const game = require('./game.js');

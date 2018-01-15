@@ -5,6 +5,7 @@
 const util = require('./util.js');
 const Player = require('./Prototype.js').Player;
 const Room = require('./Prototype.js').Room;
+const keypressLogger = require('./keypressLogger.js');
 
 const PROTOCOL = (window.location.protocol === 'https:') ? 'wss://' : 'ws://';
 const PORT = window.location.port ? ':' + window.location.port : '';
@@ -163,6 +164,7 @@ function startGame(room, socket, text, user) {
 	prepareInput(room, socket, text, user);
 	util.DOM.setTextOpacity(1);
 	room.startTime = new Date();
+	keypressLogger.start();
 }
 
 let inputBlurListener;
@@ -203,8 +205,10 @@ function userKeyPress(char, room, socket, text, user) {
 			span.classList.remove('wrong');
 		}, 200);
 
+		keypressLogger.logKeypress({good: false, char});
 		return;
 	}
+	keypressLogger.logKeypress({good: true, char});
 
 	socket.send(JSON.stringify({
 		event: 'playerTyped',
@@ -216,6 +220,7 @@ function userKeyPress(char, room, socket, text, user) {
 	span.setAttribute('written', '');
 
 	if (user.pos === text.length) {
+		console.log(keypressLogger.toString());
 		finishGame(room, user, socket);
 	}
 }
@@ -259,6 +264,9 @@ function showStats(stats, user) {
 			td.textContent = stats[row][col];
 		}
 	}
+
+    let svg = document.querySelector("#performance-graph svg");
+    keypressLogger.drawGraph(svg);
 
 	util.DOM.transition("game", "stats");
 

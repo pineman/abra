@@ -14,7 +14,7 @@ const DICT_LENGTH = DICT.length;
 const lines = fs.readFileSync('texts.txt', 'utf8').split('\n');
 const TEXTS = [];
 if (process.argv[2] != "deploy" ) {
-	TEXTS.push("devel test");
+	TEXTS.push("the quick brown fox");
 } else {
 	for (let i = 0; i < lines.length; i++) {
 		if (!/(^#|^\s*$)/.test(lines[i])) {
@@ -177,7 +177,7 @@ function endGame(rooms, room) {
 		socket.mistakes,
 		socket.color
 	]);
-	console.log(stats);
+	// console.log(stats);
 
 	// Sort ascendingly by time.
 	stats.sort((p1, p2) => p1[1] - p2[1]);
