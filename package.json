@@ -39,17 +39,16 @@
   },
   "homepage": "https://github.com/pineman/abra#readme",
   "dependencies": {
-    "uws": "latest"
+    "uws": "9.14.0"
   },
   "devDependencies": {
-    "browserify": "latest",
-    "exorcist": "latest",
-    "gulp": "latest",
-    "html-minifier": "latest",
-    "less": "latest",
-    "less-plugin-autoprefix": "latest",
-    "less-plugin-clean-css": "latest",
-    "rimraf": "latest",
-    "uglify-es": "latest"
+    "browserify": "15.2.0",
+    "exorcist": "1.0.0",
+    "gulp": "3.9.1",
+    "html-minifier": "3.5.8",
+    "less": "2.7.3",
+    "less-plugin-autoprefix": "1.5.1",
+    "less-plugin-clean-css": "1.5.1",
+    "uglify-es": "3.3.7"
   }
 }
