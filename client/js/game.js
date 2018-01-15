@@ -102,7 +102,6 @@ function foundRoom(room, socket, user) {
 
 	util.DOM.showRoomStatus("Finding players... " + room.timeLeft);
 	util.DOM.showForceStart(function (e) {
-		console.log("forceStart");
 		socket.send(JSON.stringify({
 			event: "forceStart"
 		}));
@@ -281,7 +280,7 @@ function resetGame(user) {
 	util.DOM.clear(document.getElementById("room-name"));
 	util.DOM.clear(document.getElementById("status"));
 	util.DOM.clear(document.getElementById("players"));
-	
+
 	setTimeout(function () {
 		util.DOM.clear(document.querySelector("#stats-table tbody"));
 	}, util.TRANSITION_TIME * 1000);

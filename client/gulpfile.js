@@ -2,8 +2,8 @@
 
 const gulp = require('gulp');
 const spawn = require('child_process').spawn;
-const rm = require('rimraf').sync;
 const path = require('path');
+const rm = require('fs').unlinkSync;
 
 const OUT_DIR = 'serve';
 
@@ -36,11 +36,13 @@ function run(command) {
 gulp.task('default', ['less', 'html', 'js']);
 
 gulp.task('clean', () => {
-	rm(LESS_OUT);
-	rm(LESS_OUT + '.map');
-	rm(JS_OUT);
-	rm(JS_OUT + '.map');
-	rm(HTML_OUT);
+	try {
+		rm(LESS_OUT);
+		rm(LESS_OUT + '.map');
+		rm(JS_OUT);
+		rm(JS_OUT + '.map');
+		rm(HTML_OUT);
+	} catch (err) { };
 });
 
 gulp.task('watch', () => {
