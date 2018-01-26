@@ -93,23 +93,24 @@
 		</table>
 
 		<div id="performance-graph">
-            <svg id="svg">
-                <defs>
-                    <linearGradient id="grad" x1="0" x2="0" y1="0" y2="1"> 
-                        <stop offset="0%" stop-color="gray" stop-opacity=".4"/>
-                        <stop offset="80%" stop-color="gray" stop-opacity="0"/>
-                    </linearGradient>
-                    <clipPath id="first-quadrant">
-                        <rect x="20" y="10" width="470" height="220" />
-                    </clipPath>
-                </defs>
-                <polyline id="polyline"
-                fill="url(#grad)" clip-path="url(#first-quadrant)"/>
-                <line id="x-axis" x1="10" y1="230" x2="490" y2="230" />
-                <line id="y-axis" x1="20" y1="240" x2="20" y2="10" />
-                <line id="avg" x1="20" y1="150" x2="490" y2="150" />
-            </svg>
-        </div>
+			<!-- TODO: replace these hardcoded -->
+			<svg id="svg" viewBox="0 0 200 100">
+				<defs>
+					<linearGradient id="grad" x1="0" x2="0" y1="0" y2="1"> 
+						<stop offset="0%" stop-color="gray" stop-opacity=".4"/>
+						<stop offset="80%" stop-color="gray" stop-opacity="0"/>
+					</linearGradient>
+					<clipPath id="first-quadrant">
+						<rect x="10" y="0" width="190" height="90" />
+					</clipPath>
+				</defs>
+				<polyline id="polyline"
+				fill="url(#grad)" clip-path="url(#first-quadrant)"/>
+				<line id="x-axis" x1="0" y1="90" x2="200" y2="90" />
+				<line id="y-axis" x1="10" y1="100" x2="10" y2="0" />
+				<line id="avg" x1="10" y1="25" x2="200" y2="25" />
+			</svg>
+		</div>
 
 
 		<button id="again-button" class="button">Play Again</button>

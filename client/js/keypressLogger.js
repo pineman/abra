@@ -1,6 +1,8 @@
 // This module exports an object to log all the player's keypresses in an Array
 // called 'keypressLogger.keypresses'
 
+const GRAPH_XY_OFFSET = 10;
+
 const keypressLogger = {
 	// Initializes/resets this object's state
 	start() {
@@ -21,27 +23,83 @@ const keypressLogger = {
 		return JSON.stringify(this.keypresses);
 	},
 
-    drawGraph(svg) {
-        let data = [
-            {x: 0, y: 100},
-            {x: 100, y: 20},
-            {x: 200, y: 240},
-            {x: 300, y: 200},
-            {x: 400, y: 220},
-            {x: 500, y: 180}
-        ].map(p => ({x: p.x / 600, y: p.y / 300}));
-        console.log(data);
-        let polylinePts = [{x: 0, y: 0.8}].concat(data, {x: 0.8, y: 0.8});
-        let width = parseInt(window.getComputedStyle(svg).width);
-        let height = parseInt(window.getComputedStyle(svg).height);
-        polylinePts = polylinePts.map(p => ({x: p.x * width, y: p.y * height}));
-        let pointsAttr = polylinePts.map(p => `${p.x} ${p.y}`).join(", ");
-        let polyline = svg.getElementById("polyline");
-        console.log(pointsAttr);
-        polyline.setAttribute("points", pointsAttr);
-    }
+	drawGraph(svg) {
+		let keypressesTime = this.keypresses.filter(k => k.good)
+											.map(k => k.time);
+		let timeBetweenKeypresses = listDelta(keypressesTime);
+		let speeds = timeBetweenKeypresses.map(millisecondsToWPM);
+		let averagedSpeeds = movingAverage(speeds, 4);
+
+		let polyWidth = svg.viewBox.baseVal.width - 10;
+		let polyHeight = svg.viewBox.baseVal.height - 10;
+
+		// Fine... printf debugging...
+		console.log("-------------------------------")
+		console.log(`keypressesTime = ${keypressesTime}`);
+		console.log(`averagedSpeeds = ${averagedSpeeds.map(t => t.toFixed(2)).join(";")}`);
+		console.log(`polyWidth = ${polyWidth}`);
+		console.log(`polyHeight = ${polyHeight}`);
+		console.log("-------------------------------")
+
+		// Let's make an array of SVGPoints to put in polyline.points
+		let points = ((xs, ys, targetWidth, targetHeight) => {
+			let xMax = Math.max(...xs);
+			let yMax = Math.max(...ys);
+			return xs.map((x, i) => {
+				let point = svg.createSVGPoint();
+				point.x = x / xMax * targetWidth;
+				point.y = (1 - (ys[i] / yMax)) * targetHeight;
+				return point
+			});
+		})(keypressesTime.slice(4), averagedSpeeds, polyWidth, polyHeight);
+
+		console.dir(points);
+
+		let polyline = svg.getElementById("polyline");
+		polyline.points.clear();
+		polyline.points.appendItem((()=>{let p = svg.createSVGPoint(); p.x = 20; p.y = 20; return p})());
+		points.forEach(p => polyline.points.appendItem(p));
+		polyline.points.appendItem((()=>{let p = svg.createSVGPoint(); p.x = 200; p.y = 20; return p})());
+	}
 }
 
 keypressLogger.start();
+
+// Utilities
+
+/**
+ * Calculates the difference between consecutive list elements
+ */
+function listDelta (array) {
+	let result = [];
+	for (let i = 0; i < array.length - 1; i++) {
+		result[i] = array[i+1] - array[i];
+	}
+	return result;
+}
+
+/**
+ * Make a running average
+ */
+ function movingAverage(data, n) {
+  let curSum = data.slice(0, n).reduce((a,b) => a + b, 0);
+  let result = [curSum / Math.min(n, data.length)];
+  for (let i = n; i < data.length; i++) {
+	curSum -= data[i-n];
+	curSum += data[i];
+	result.push(curSum / n);
+  }
+  return result;
+}
+
+/**
+ * How many "Words Per Minute" (WPM) would one type if it took exactly `charMs`
+ * milliseconds to type each character?
+ */
+ function millisecondsToWPM (charMs) {
+	 const WORD_LENGTH = 5; // https://en.wikipedia.org/wiki/Words_per_minute
+	 let wordTimeSeconds = charMs/1000 * WORD_LENGTH;
+	 return 60 / wordTimeSeconds;
+ }
 
 module.exports = keypressLogger;
