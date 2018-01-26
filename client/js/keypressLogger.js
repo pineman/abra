@@ -47,19 +47,20 @@ const keypressLogger = {
 			let yMax = Math.max(...ys);
 			return xs.map((x, i) => {
 				let point = svg.createSVGPoint();
-				point.x = x / xMax * targetWidth;
+				point.x = (x / xMax) * targetWidth;
 				point.y = (1 - (ys[i] / yMax)) * targetHeight;
 				return point
 			});
-		})(keypressesTime.slice(4), averagedSpeeds, polyWidth, polyHeight);
+		})(keypressesTime.slice(0, -4), averagedSpeeds, polyWidth, polyHeight);
 
 		console.dir(points);
 
 		let polyline = svg.getElementById("polyline");
 		polyline.points.clear();
-		polyline.points.appendItem((()=>{let p = svg.createSVGPoint(); p.x = 20; p.y = 20; return p})());
+		polyline.points.appendItem((()=>{let p = svg.createSVGPoint(); p.x = 0; p.y = 100; return p})());
 		points.forEach(p => polyline.points.appendItem(p));
-		polyline.points.appendItem((()=>{let p = svg.createSVGPoint(); p.x = 200; p.y = 20; return p})());
+		polyline.points.appendItem((()=>{let p = svg.createSVGPoint(); p.x = 210; p.y = points[points.length-1].y; return p})());
+		polyline.points.appendItem((()=>{let p = svg.createSVGPoint(); p.x = 210; p.y = 100; return p})());
 	}
 }
 

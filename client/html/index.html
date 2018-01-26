@@ -94,18 +94,19 @@
 
 		<div id="performance-graph">
 			<!-- TODO: replace these hardcoded -->
-			<svg id="svg" viewBox="0 0 200 100">
+			<!-- <svg id="svg" viewBox="0 0 200 100"> -->
+			<svg id="svg" viewBox="20 0 180 88" preserveAspectRatio="none">
 				<defs>
 					<linearGradient id="grad" x1="0" x2="0" y1="0" y2="1"> 
 						<stop offset="0%" stop-color="gray" stop-opacity=".4"/>
-						<stop offset="80%" stop-color="gray" stop-opacity="0"/>
+						<stop offset="75%" stop-color="gray" stop-opacity="0"/>
 					</linearGradient>
 					<clipPath id="first-quadrant">
 						<rect x="10" y="0" width="190" height="90" />
 					</clipPath>
 				</defs>
-				<polyline id="polyline"
-				fill="url(#grad)" clip-path="url(#first-quadrant)"/>
+				<polyline id="polyline"fill="url(#grad)"
+				          clip-path="url(#first-quadrant)"/>
 				<line id="x-axis" x1="0" y1="90" x2="200" y2="90" />
 				<line id="y-axis" x1="10" y1="100" x2="10" y2="0" />
 				<line id="avg" x1="10" y1="25" x2="200" y2="25" />
