@@ -44,7 +44,7 @@
   "devDependencies": {
     "browserify": "^16.2.2",
     "exorcist": "^1.0.1",
-    "gulp": "3.9.1",
+    "gulp": "^4.0.0",
     "html-minifier": "^3.5.16",
     "less": "^2.7.3",
     "less-plugin-autoprefix": "1.5.1",

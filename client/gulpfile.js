@@ -33,9 +33,7 @@ function run(command) {
 	});
 }
 
-gulp.task('default', ['less', 'html', 'js']);
-
-gulp.task('clean', () => {
+gulp.task('clean', (done) => {
 	try {
 		rm(LESS_OUT);
 		rm(LESS_OUT + '.map');
@@ -43,15 +41,16 @@ gulp.task('clean', () => {
 		rm(JS_OUT + '.map');
 		rm(HTML_OUT);
 	} catch (err) { };
+	done();
 });
 
 gulp.task('watch', () => {
-	gulp.watch(LESS_WATCH, ['less']);
-	gulp.watch(HTML_WATCH, ['html']);
-	gulp.watch(JS_WATCH, ['js']);
+	gulp.watch(LESS_WATCH, gulp.parallel('less'));
+	gulp.watch(HTML_WATCH, gulp.parallel('html'));
+	gulp.watch(JS_WATCH, gulp.parallel('js'));
 });
 
-gulp.task('less', function (done) {
+gulp.task('less', (done) => {
 	const opt = [
 		'--source-map',
 		'--source-map-less-inline',
@@ -64,7 +63,7 @@ gulp.task('less', function (done) {
 	done();
 });
 
-gulp.task('html', function (done) {
+gulp.task('html', (done) => {
 	const opt = [
 		'--remove-comments',
 		'--sort-attributes',
@@ -78,7 +77,7 @@ gulp.task('html', function (done) {
 	done();
 });
 
-gulp.task('js', function (done) {
+gulp.task('js', (done) => {
 	const opt = [
 		`--source-map content=${JS_OUT}.map,url=${path.basename(JS_OUT)}.map,filename=${JS_OUT}.map`,
 		'-m reserved="[$,require,exports]",safari10=true',
@@ -88,3 +87,5 @@ gulp.task('js', function (done) {
 	run(`browserify --debug --entry ${JS_IN} | exorcist ${JS_OUT}.map > ${JS_OUT} && uglifyjs ${opt} --output ${JS_OUT} ${JS_OUT}`);
 	done();
 });
+
+gulp.task('default', gulp.parallel(['less', 'html', 'js']));
