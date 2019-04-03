@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/pineman/abra#readme",
   "dependencies": {
-    "uws": "^10.148.0"
+    "ws": "^6.2.1"
   },
   "devDependencies": {
     "browserify": "^16.2.2",

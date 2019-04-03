@@ -5,7 +5,7 @@ const abra = require('./abra.js');
 const PORT = 2272;
 const WS_PATH = '/abra';
 
-const WebSocketServer = require('uws').Server;
+const WebSocketServer = require('ws').Server;
 let WSSOptions = {
 	path: WS_PATH,
 	nativeHttp: true,
