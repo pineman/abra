@@ -24,17 +24,21 @@ npm start
 nginx conf file and systemd service file are provided in server/config.
 
 ## TODO
-  * Short term objectives
-     * Refactor server code a little
-	 * Different error color when cursor is red
-	 * Prevent players in a room having the same color
-	 * Save user name
-  * Long term objectives
-	 * npm all the things!
-	   * `abra-server`
-	   * `abra-client`
-	   * `abra-client-http`
-	   * `abra-client-cli`
+ * TypeScript!!
+ * Short term objectives
+	* Rewrite using newer ES features (`class`, `import`, etc)
+	* History buttons
+	* Refactor server code a little
+	* Different error color when cursor is red
+	* Prevent players in a room having the same color
+	* Save user name
+ * Long term objectives
+	* npm all the things!
+	* `abra-server`
+	* `abra-client`
+	* `abra-client-http`
+	* `abra-client-cli`
+	* Container?
 
 ## Ideas
  * CLI client using [blessed](https://github.com/chjj/blessed)

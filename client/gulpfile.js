@@ -52,9 +52,7 @@ gulp.task('watch', () => {
 
 gulp.task('less', (done) => {
 	const opt = [
-		'--source-map',
 		'--source-map-less-inline',
-		`--source-map-rootpath=${LESS_DIR}`,
 		'--clean-css',
 		'--autoprefix="last 2 versions"'
 	].join(' ');
