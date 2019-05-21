@@ -42,6 +42,8 @@
     "ws": "^6.2.1"
   },
   "devDependencies": {
+    "@types/node": "^12.0.2",
+    "@types/ws": "^6.0.1",
     "browserify": "^16.2.2",
     "exorcist": "^1.0.1",
     "gulp": "^4.0.0",
@@ -49,6 +51,7 @@
     "less": "^2.7.3",
     "less-plugin-autoprefix": "1.5.1",
     "less-plugin-clean-css": "1.5.1",
+    "typescript": "^3.4.5",
     "uglify-es": "^3.3.9"
   }
 }

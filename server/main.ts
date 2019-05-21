@@ -1,15 +1,17 @@
 'use strict';
 
-const abra = require('./abra.js');
+import abra = require('./abra.js');
 
 const PORT = 2272;
 const WS_PATH = '/abra';
 
-const WebSocketServer = require('ws').Server;
+import {Server as WebSocketServer} from 'ws';
 let WSSOptions = {
 	path: WS_PATH,
 	nativeHttp: true,
-	maxPayload: 1e6
+	maxPayload: 1e6,
+	server: undefined,
+	port: undefined
 };
 
 // In these ws event listeners, 'this' is the websocket itself.
@@ -53,7 +55,7 @@ function wsMessage(data) {
 	}
 }
 
-function manageServerEvents(wss) {
+function manageServerEvents(wss: WebSocketServer) {
 	// Server 'error' event listener.
 	wss.on('error', console.log);
 

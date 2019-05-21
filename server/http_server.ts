@@ -1,12 +1,12 @@
 'use strict';
 // HTTP server for development/test
 
-const path = require('path');
-const fs = require('fs');
+import path = require('path');
+import fs = require('fs');
 
 const SERVE_PATH = 'client/serve';
 
-let server = require('http').createServer(handler);
+import server = require('http');
 
 function handler(req, res) {
 	fs.readFile(getFileName(req.url), function (err, data) {
@@ -25,4 +25,4 @@ function getFileName(url) {
 	return path.join(__dirname, '..', SERVE_PATH, filename);
 }
 
-module.exports = server;
+export = server.createServer(handler);

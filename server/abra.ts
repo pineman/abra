@@ -7,12 +7,12 @@ const ROOM_STATUS_OPEN = 1;
 const WORD_SIZE = 4;
 
 // Read required files.
-const fs = require('fs');
+import fs = require('fs');
 const DICT = fs.readFileSync('wordsEn.txt', 'utf8').split('\n');
 const DICT_LENGTH = DICT.length;
 
 const lines = fs.readFileSync('texts.txt', 'utf8').split('\n');
-const TEXTS = [];
+const TEXTS :string[] = [];
 if (process.argv[2] != "deploy" ) {
 	TEXTS.push("devel test");
 } else {
@@ -27,7 +27,14 @@ const TEXTS_LENGTH = TEXTS.length;
 
 // Main objects
 class Player {
-	constructor(name, color) {
+	name: string;
+	color: string;
+	id: number;
+	pos: number;
+	time: number;
+	mistakes: number;
+	done: boolean;
+	constructor(name: string, color: string) {
 		this.name = name;
 		this.color = color;
 		this.id = Date.now() + Math.random(); // Random "enough" ID
@@ -35,11 +42,18 @@ class Player {
 		this.time = 0; // time spent writing
 		this.mistakes = 0;
 		this.done = false;
-		this.room = undefined;
 	}
 }
 
 class Room {
+	text: string;
+	name: string;
+	wordCount: number;
+	sockets;
+	numDone: number;
+	status: number;
+	timeLeft: number;
+	initTimer: number;
 	constructor() {
 		this.text = TEXTS[Math.floor(Math.random() * TEXTS_LENGTH)];
 		this.name = DICT[Math.floor(Math.random() * DICT_LENGTH)];
@@ -48,7 +62,7 @@ class Room {
 		this.numDone = 0;
 		this.status = ROOM_STATUS_OPEN;
 		this.timeLeft = ROOM_TIMEOUT; // Seconds untill startGame
-		this.initTimer = setInterval(countCloseRoom, 1000, this); // Every second
+		this.initTimer = window.setInterval(this.countCloseRoom, 1000, this); // Every second
 	}
 
 	closeRoom() {
@@ -57,7 +71,7 @@ class Room {
 	};
 
 	// Decrement timeLeft and, when it reaches 0, close the room and start the game
-	countCloseRoom(room) {
+	countCloseRoom(room: Room) {
 		room.timeLeft--;
 		if (!room.timeLeft) {
 			room.closeRoom();
@@ -67,7 +81,7 @@ class Room {
 }
 
 // Global variable: array of active rooms.
-let rooms = [];
+let rooms: Room[] = [];
 
 function newPlayer(ws, data) {
 	// Name should be controlled on the client side,
@@ -255,7 +269,7 @@ function playerDisconnected(ws) {
 	}
 }
 
-module.exports = {
+export = {
 	newPlayer,
 	forceStart,
 	playerTyped,

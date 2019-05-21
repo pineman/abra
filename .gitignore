@@ -6,3 +6,4 @@ client/serve/abra.min.js
 client/serve/style.min.css
 client/serve/index.html
 !client/serve/*/
+server/build/*.js
