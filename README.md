@@ -24,7 +24,7 @@ npm start
 nginx conf file and systemd service file are provided in server/config.
 
 ## TODO
- * TypeScript!!
+ * TypeScript!
  * Short term objectives
 	* Rewrite using newer ES features (`class`, `import`, etc)
 	* History buttons
