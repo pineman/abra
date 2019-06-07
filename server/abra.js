@@ -18,7 +18,7 @@ if (process.argv[2] != "deploy" ) {
 } else {
 	for (let i = 0; i < lines.length; i++) {
 		if (!/(^#|^\s*$)/.test(lines[i])) {
-			// regex to check if line starts with # or is all whitespace (\s)
+			// regex to see if line starts with # or is all whitespace (\s)
 			TEXTS.push(lines[i])
 		}
 	};
@@ -26,38 +26,34 @@ if (process.argv[2] != "deploy" ) {
 const TEXTS_LENGTH = TEXTS.length;
 
 // Main objects
-class Player {
-	constructor(name, color) {
-		this.name = name;
-		this.color = color;
-		this.id = Date.now() + Math.random(); // Random "enough" ID
-		this.pos = -1; // index in the text string
-		this.time = 0; // time spent writing
-		this.mistakes = 0;
-		this.done = false;
-		this.room = undefined;
-	}
+let Player = function (name, color, id) {
+	this.name = name;
+	this.color = color;
+	this.id = Date.now() + Math.random(); // Random "enough" ID
+	this.pos = -1; // index in the text string
+	this.time = 0; // time spent writing
+	this.mistakes = 0;
+	this.done = false;
+	this.room = undefined;
 }
 
-class Room {
-	constructor() {
-		this.text = TEXTS[Math.floor(Math.random() * TEXTS_LENGTH)];
-		this.name = DICT[Math.floor(Math.random() * DICT_LENGTH)];
-		this.wordCount = this.text.length / WORD_SIZE;
-		this.sockets = []; // Array of sockets in the room
-		this.numDone = 0;
-		this.status = ROOM_STATUS_OPEN;
-		this.timeLeft = ROOM_TIMEOUT; // Seconds untill startGame
-		this.initTimer = setInterval(countCloseRoom, 1000, this); // Every second
-	}
+let Room = function () {
+	this.text = TEXTS[Math.floor(Math.random() * TEXTS_LENGTH)];
+	this.name = DICT[Math.floor(Math.random() * DICT_LENGTH)];
+	this.wordCount = this.text.length / WORD_SIZE;
+	this.sockets = []; // Array of sockets in the room
+	this.numDone = 0;
+	this.status = ROOM_STATUS_OPEN;
+	this.timeLeft = ROOM_TIMEOUT; // Seconds untill startGame
+	this.initTimer = setInterval(countCloseRoom, 1000, this); // Every second
 
-	closeRoom() {
+	this.closeRoom = function () {
 		this.status = ROOM_STATUS_CLOSED;
 		clearTimeout(this.initTimer);
-	};
+	}
 
 	// Decrement timeLeft and, when it reaches 0, close the room and start the game
-	countCloseRoom(room) {
+	function countCloseRoom(room) {
 		room.timeLeft--;
 		if (!room.timeLeft) {
 			room.closeRoom();
