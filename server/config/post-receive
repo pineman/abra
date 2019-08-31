@@ -32,7 +32,7 @@ deploy_abra() {
 	sudo systemctl restart abra nginx
 
 	set +x
-	echo "=> All done. https://abra.pineman.win is live."
+	echo "=> All done. https://abra.pineman.eu is live."
 }
 
 # $oldobj $newobj $refname already read by the post-receive hook on the server
