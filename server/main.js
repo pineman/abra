@@ -1,5 +1,7 @@
 'use strict';
 
+const cluster = require('cluster');
+
 const abra = require('./abra.js');
 
 const PORT = 2272;
@@ -70,23 +72,52 @@ function manageServerEvents(wss) {
 	});
 }
 
+
+let workers = [];
+function setupWorkerProcesses() {
+    // to read number of cores on system
+    let numCores = require('os').cpus().length;
+    console.log(`Master cluster setting up ${numCores} workers`);
+
+    for (let i = 0; i < numCores; i++) {
+        workers.push(cluster.fork());
+        workers[i].on('message', () => console.log(`Worker ${i} got msg: ${message}`));
+    }
+
+    cluster.on('online', function(worker) {
+        console.log(`Worker ${worker.process.pid} is up`);
+    });
+
+    cluster.on('exit', function(worker, code, signal) {
+        console.log(`Worker ${worker.process.pid} died with code: ${code}, signal: ${signal}`);
+        console.log('Starting a new worker');
+        cluster.fork();
+        workers.push(cluster.fork());
+        workers[workers.length-1].on('message', function(message) {
+            console.log(message);
+        });
+    });
+};
+
 function main() {
 	if (process.argv[2] !== 'deploy') {
 		// Run the testing HTTP server.
 		const server = require('./http_server.js');
 		server.listen(PORT);
-		console.log(`HTTP server listening on http://127.0.0.1:${PORT}`);
-
+		console.log(`Development HTTP server listening on http://127.0.0.1:${PORT}`);
 		WSSOptions.server = server;
 	} else {
 		// Run only the WebSocket Server.
 		WSSOptions.port = PORT;
 	}
 
-	// Start the WebSocket server.
-	const wss = new WebSocketServer(WSSOptions);
-	console.log(`WebSocket server listening on ws://127.0.0.1:${PORT}${WS_PATH}`);
-
-	manageServerEvents(wss);
+	if (cluster.isMaster) {
+		setupWorkerProcesses();
+	} else {
+		// Start the WebSocket server.
+		const wss = new WebSocketServer(WSSOptions);
+		console.log(`WebSocket server listening on ws://127.0.0.1:${PORT}${WS_PATH}`);
+		manageServerEvents(wss);
+	}
 }
 main();
