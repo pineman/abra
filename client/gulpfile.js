@@ -23,6 +23,7 @@ const JS_WATCH = `${JS_DIR}/**/*.js`;
 const JS_OUT = `${OUT_DIR}/abra.min.js`;
 
 function run(command) {
+	console.log(command)
 	command = command.split(' ');
 	const proc = spawn(command[0], command.slice(1), {
 		stdio: 'inherit',
@@ -52,11 +53,10 @@ gulp.task('watch', () => {
 
 gulp.task('less', (done) => {
 	const opt = [
-		'--source-map',
-		'--source-map-less-inline',
-		`--source-map-rootpath=${LESS_DIR}`,
-		'--clean-css',
-		'--autoprefix="last 2 versions"'
+		'--verbose',
+		'--source-map', 
+		'--source-map-include-source',
+		'--clean-css'
 	].join(' ');
 
 	run(`lessc ${opt} ${LESS_IN} ${LESS_OUT}`);
@@ -79,12 +79,11 @@ gulp.task('html', (done) => {
 
 gulp.task('js', (done) => {
 	const opt = [
-		`--source-map content=${JS_OUT}.map,url=${path.basename(JS_OUT)}.map,filename=${JS_OUT}.map`,
-		'-m reserved="[$,require,exports]",safari10=true',
+		'-m',
 		'-c'
 	].join(' ');
 
-	run(`browserify --debug --entry ${JS_IN} | exorcist ${JS_OUT}.map > ${JS_OUT} && uglifyjs ${opt} --output ${JS_OUT} ${JS_OUT}`);
+	run(`browserify --debug --entry ${JS_IN} > ${JS_OUT}.orig && uglifyjs ${JS_OUT}.orig ${opt} > ${JS_OUT}`);
 	done();
 });
 
