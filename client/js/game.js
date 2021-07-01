@@ -6,9 +6,7 @@ const util = require('./util.js');
 const Player = require('./Prototype.js').Player;
 const Room = require('./Prototype.js').Room;
 
-const PROTOCOL = (window.location.protocol === 'https:') ? 'wss://' : 'ws://';
-const PORT = window.location.port ? ':' + window.location.port : '';
-const WS_SERVER = PROTOCOL + window.location.hostname + PORT + '/abra';
+const WS_SERVER = `ws://${window.location.host}/abra`;
 
 // From the "game" screen onwards.
 function gameLoop(user) {

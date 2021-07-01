@@ -15,30 +15,18 @@ Here's what it looks like:
 made with :heart: in [Lisbon](https://en.wikipedia.org/wiki/Lisbon)
 
 ## Instructions
-```
-git clone https://github.com/pineman/abra && cd abra
-npm install
-npm run build
-npm start
-```
-nginx conf file and systemd service file are provided in server/config.
+TODO: `npm run start`, bind mounts, dev flag, watch backend?
+`docker-compose up`
 
 ## TODO
+ * Backend clustering
  * TypeScript!
- * Short term objectives
-	* Rewrite using newer ES features (`class`, `import`, etc)
-	* History buttons
-	* Refactor server code a little
-	* Different error color when cursor is red
-	* Prevent players in a room having the same color
-	* Save user name
- * Long term objectives
-	* npm all the things!
-	* `abra-server`
-	* `abra-client`
-	* `abra-client-http`
-	* `abra-client-cli`
-	* Container?
+ * Rewrite using newer ES features (`class`, `import`, etc)
+ * History buttons
+ * Refactor server code a little
+ * Different error color when cursor is red
+ * Prevent players in a room having the same color
+ * Save user name
 
 ## Ideas
  * CLI client using [blessed](https://github.com/chjj/blessed)
