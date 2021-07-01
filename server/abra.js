@@ -7,11 +7,11 @@ const ROOM_STATUS_OPEN = 1;
 const WORD_SIZE = 4;
 
 // Read required files.
-const fs = require('fs');
-const DICT = fs.readFileSync('wordsEn.txt', 'utf8').split('\n');
+import * as fs from 'fs';
+const DICT = fs.readFileSync('server/wordsEn.txt', 'utf8').split('\n');
 const DICT_LENGTH = DICT.length;
 
-const lines = fs.readFileSync('texts.txt', 'utf8').split('\n');
+const lines = fs.readFileSync('server/texts.txt', 'utf8').split('\n');
 const TEXTS = [];
 if (process.argv[2] != "deploy" ) {
 	TEXTS.push("devel test");
@@ -251,10 +251,45 @@ function playerDisconnected(ws) {
 	}
 }
 
-module.exports = {
-	newPlayer,
-	forceStart,
-	playerTyped,
-	playerDone,
-	playerDisconnected
-};
+// In these ws event listeners, 'this' is the websocket itself.
+function wsMessage(data) {
+	try {
+		data = JSON.parse(data);
+	}
+	catch (e) {
+		// Ignore invalid data.
+		return;
+	}
+
+	let e = data.event;
+
+	if (e === 'playerTyped'
+		&& data.pos !== undefined)
+	{
+		playerTyped(this, data);
+	}
+	else if (!this.room
+		&& e === 'newPlayer'
+		&& data.name !== undefined
+		&& data.color !== undefined)
+	{
+		newPlayer(this, data);
+	}
+	else if (this.room
+		&& e === 'forceStart')
+	{
+		forceStart(this);
+	}
+	else if (e === 'playerDone'
+		&& data.time !== undefined
+		&& data.mistakes !== undefined)
+	{
+		playerDone(this, data);
+	}
+}
+
+export function manageEvents(ws) {
+	ws.on('error', console.log);
+	ws.on('close', playerDisconnected);
+	ws.on('message', wsMessage);
+}
