@@ -1,11 +1,11 @@
-FROM node:16.3.0-slim AS builder
+FROM docker.io/node:16.3.0-slim AS builder
 WORKDIR /abra
 COPY package*.json ./
 RUN npm ci
 COPY client client
 RUN npm run build
 
-FROM node:16.3.0-slim
+FROM docker.io/node:16.3.0-slim
 EXPOSE 2272
 WORKDIR /abra
 ENV NODE_ENV=production

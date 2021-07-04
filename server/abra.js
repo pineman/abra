@@ -168,6 +168,10 @@ function playerTyped(ws, data) {
 	}
 }
 
+function removeRoom(room) {
+	rooms.splice(rooms.indexOf(room), 1);
+}
+
 function endGame(rooms, room) {
 	// Generate end of game stats.
 	let stats = room.sockets.map(socket => [
@@ -190,7 +194,7 @@ function endGame(rooms, room) {
 	}
 
 	// Remove room
-	rooms.splice(rooms.indexOf(room), 1);
+	removeRoom(room);
 
 	// Disconnect all sockets in the room.
 	for (let s of room.sockets) {
@@ -217,36 +221,39 @@ function playerDone(ws, data) {
 }
 
 // Handle an unexpected player disconnection
-function playerDisconnected(ws) {
+function playerDisconnected(closeCode) {
 	// Guard against reconnections, sockets without rooms, etc.
-	if (!ws.room) return;
+	if (!this.room) return;
 
 	// Remove the socket from the room.
-	ws.room.sockets.splice(ws.room.sockets.indexOf(ws), 1);
+	this.room.sockets.splice(this.room.sockets.indexOf(this), 1);
 
 	// If the room gets empty, remove it
-	if (ws.room.sockets.length === 0) {
-		rooms.splice(rooms.indexOf(ws.room), 1);
-	} else if (ws.done) {
+	if (this.room.sockets.length === 0) {
+		removeRoom(this.room);
+		return
+	}
+
+	if (this.done) {
 		// If the disconnected player was done, decrement the number
 		// of done players in the room.
-		ws.room.numDone--;
+		this.room.numDone--;
 	}
 
 	// If the room has not already been removed
-	if (ws.room.sockets.length != 0) {
+	if (this.room.sockets.length != 0) {
 		// Inform the remaining players one has disconnected.
-		for (let s of ws.room.sockets) {
+		for (let s of this.room.sockets) {
 			s.send(JSON.stringify({
 				event: 'playerDisconnected',
-				id: ws.id
+				id: this.id
 			}));
 		}
 
 		// If the remaining players are already done,
 		// end the game for them.
-		if (ws.room.numDone === ws.room.sockets.length) {
-			endGame(rooms, ws.room);
+		if (this.room.numDone === this.room.sockets.length) {
+			endGame(rooms, this.room);
 		}
 	}
 }

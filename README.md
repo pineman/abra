@@ -10,15 +10,20 @@ Here's what it looks like:
 
 | Mobile                                                    | Desktop                                                            |
 | --------------------------------------------------------- | ------------------------------------------------------------------ |
-| [![ABRA session GIF](abra.gif)](https://abra.pineman.eu) | [![ABRA session2 GIF](abra_desktop.gif)](https://abra.pineman.eu) |
+| [![ABRA session GIF](abra.gif)](https://abra.pineman.eu)  | [![ABRA session2 GIF](abra_desktop.gif)](https://abra.pineman.eu)  |
 
 made with :heart: in [Lisbon](https://en.wikipedia.org/wiki/Lisbon)
 
 ## Instructions
-TODO: `npm run start`, bind mounts, dev flag, watch backend?
 `docker-compose up`
 
 ## TODO
+ * `npm run start` local env
+ * bind mounts for faster local iteration
+ * dev flag
+ * watch backend
+ * linting
+ * tests
  * Backend clustering
  * TypeScript!
  * Rewrite using newer ES features (`class`, `import`, etc)
