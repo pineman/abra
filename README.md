@@ -10,35 +10,28 @@ Here's what it looks like:
 
 | Mobile                                                    | Desktop                                                            |
 | --------------------------------------------------------- | ------------------------------------------------------------------ |
-| [![ABRA session GIF](abra.gif)](https://abra.pineman.eu) | [![ABRA session2 GIF](abra_desktop.gif)](https://abra.pineman.eu) |
+| [![ABRA session GIF](abra.gif)](https://abra.pineman.eu)  | [![ABRA session2 GIF](abra_desktop.gif)](https://abra.pineman.eu)  |
 
 made with :heart: in [Lisbon](https://en.wikipedia.org/wiki/Lisbon)
 
 ## Instructions
-```
-git clone https://github.com/pineman/abra && cd abra
-npm install
-npm run build
-npm start
-```
-nginx conf file and systemd service file are provided in server/config.
+`docker-compose up`
 
 ## TODO
+ * `npm run start` local env
+ * bind mounts for faster local iteration
+ * dev flag
+ * watch backend
+ * linting
+ * tests
+ * Backend clustering
  * TypeScript!
- * Short term objectives
-	* Rewrite using newer ES features (`class`, `import`, etc)
-	* History buttons
-	* Refactor server code a little
-	* Different error color when cursor is red
-	* Prevent players in a room having the same color
-	* Save user name
- * Long term objectives
-	* npm all the things!
-	* `abra-server`
-	* `abra-client`
-	* `abra-client-http`
-	* `abra-client-cli`
-	* Container?
+ * Rewrite using newer ES features (`class`, `import`, etc)
+ * History buttons
+ * Refactor server code a little
+ * Different error color when cursor is red
+ * Prevent players in a room having the same color
+ * Save user name
 
 ## Ideas
  * CLI client using [blessed](https://github.com/chjj/blessed)

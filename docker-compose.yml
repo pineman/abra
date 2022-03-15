@@ -1,0 +1,8 @@
+services:
+  abra:
+    build: .
+    image: registry.gitlab.com/pineman/images/abra:1.0.0-1
+    container_name: abra
+    init: true
+    ports:
+    - "2272:2272"
