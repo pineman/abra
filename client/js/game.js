@@ -6,7 +6,7 @@ const util = require('./util.js');
 const Player = require('./Prototype.js').Player;
 const Room = require('./Prototype.js').Room;
 
-const WS_SERVER = `ws://${window.location.host}/abra`;
+const WS_SERVER = window.location.origin.replace('http', 'ws') + '/abra';
 
 // From the "game" screen onwards.
 function gameLoop(user) {
