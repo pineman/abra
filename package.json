@@ -1,7 +1,7 @@
 {
   "name": "abra",
   "version": "1.0.0",
-  "description": "Race against others in this new exciting typing game™! https://abra.pineman.eu",
+  "description": "Race against others in this new exciting typing game™! https://abra.fly.dev",
   "keywords": [
     "game",
     "typing"
@@ -35,7 +35,7 @@
     {
       "name": "João Pinheiro",
       "email": "joao.castropinheiro@gmail.com",
-      "url": "https://pineman.eu"
+      "url": "https://pineman.github.io"
     },
     {
       "name": "Diogo Tito",

@@ -4,13 +4,13 @@
 
 ### Catch you the abra for much win!
 ABRA (yes, like the pokémon) is an online browser typing race game.
-[You can play it here](https://abra.pineman.eu).
+[You can play it here](https://abra.fly.dev).
 
 Here's what it looks like:
 
 | Mobile                                                    | Desktop                                                            |
 | --------------------------------------------------------- | ------------------------------------------------------------------ |
-| [![ABRA session GIF](abra.gif)](https://abra.pineman.eu)  | [![ABRA session2 GIF](abra_desktop.gif)](https://abra.pineman.eu)  |
+| [![ABRA session GIF](abra.gif)](https://abra.fly.dev)     | [![ABRA session2 GIF](abra_desktop.gif)](https://abra.fly.dev)     |
 
 made with :heart: in [Lisbon](https://en.wikipedia.org/wiki/Lisbon)
 
