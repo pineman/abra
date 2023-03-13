@@ -1,7 +1,4 @@
 # ABRA
-[![Dependencies Status](https://david-dm.org/pineman/abra/status.svg)](https://david-dm.org/pineman/abra)
-[![Development Dependencies Status](https://david-dm.org/pineman/abra/dev-status.svg)](https://david-dm.org/pineman/abra?type=dev)
-
 ### Catch you the abra for much win!
 ABRA (yes, like the pokémon) is an online browser typing race game.
 [You can play it here](https://abra.fly.dev).
