@@ -14,4 +14,4 @@ RUN npm ci
 COPY main.js .
 COPY server server
 COPY --from=builder /abra/client/bundle client/bundle
-CMD ["node", "main.js"]
+CMD ["node", "main.js", "deploy"]
