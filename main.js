@@ -18,4 +18,4 @@ app.ws(WS_PATH, function(ws, req) {
 app.use(express.static('client/bundle'))
 
 app.listen(PORT);
-console.log(`Abra running on http://localhost:${PORT}`);
+console.log(`Abra running on http://0.0.0.0:${PORT}`);
