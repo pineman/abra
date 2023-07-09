@@ -154,6 +154,10 @@ function showPreGame(room, socket, text, user) {
 		}
 	}, 1000, room);
 
+	let input = document.getElementById("hidden-input");
+	window.addEventListener("touchstart", windowClickListener = function (e) {
+		input.focus();
+	});
 }
 
 function startGame(room, socket, text, user) {
