@@ -1,79 +1,85 @@
 /* General utility functions. */
 
-'use strict';
+"use strict";
 
 const TRANSITION_TIME = 0.25; // in seconds
 
 module.exports = {
-	TRANSITION_TIME,
-	
-	RGB2hex: function (rgb) {
-		rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-		let r = ("0" + parseInt(rgb[1]).toString(16)).slice(-2);
-		let g = ("0" + parseInt(rgb[2]).toString(16)).slice(-2);
-		let b = ("0" + parseInt(rgb[3]).toString(16)).slice(-2);
-		return `#${r}${g}${b}`;
-	},
+  TRANSITION_TIME,
 
-	DOM: {
-		transition: function (fromId, toId) {
-			// TODO: pineman no understand :'(
-			let fromScreen = document.getElementById(fromId),
-				toScreen   = document.getElementById(toId);
+  RGB2hex: function (rgb) {
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    let r = ("0" + parseInt(rgb[1]).toString(16)).slice(-2);
+    let g = ("0" + parseInt(rgb[2]).toString(16)).slice(-2);
+    let b = ("0" + parseInt(rgb[3]).toString(16)).slice(-2);
+    return `#${r}${g}${b}`;
+  },
 
-			document.body.style.overflow = "hidden";
+  DOM: {
+    transition: function (fromId, toId) {
+      // TODO: pineman no understand :'(
+      let fromScreen = document.getElementById(fromId),
+        toScreen = document.getElementById(toId);
 
-			fromScreen.style.transition = TRANSITION_TIME + "s";
-			toScreen.style.transition   = TRANSITION_TIME + "s";
-			fromScreen.classList.add("transition-out");
-			toScreen.classList.add("transition-out");
-			toScreen.style.display = "block";
+      document.body.style.overflow = "hidden";
 
-			setTimeout(function () {
-				fromScreen.style.display = "none";
-				toScreen.classList.remove("transition-out");
-				fromScreen.classList.remove("transition-out");
+      fromScreen.style.transition = TRANSITION_TIME + "s";
+      toScreen.style.transition = TRANSITION_TIME + "s";
+      fromScreen.classList.add("transition-out");
+      toScreen.classList.add("transition-out");
+      toScreen.style.display = "block";
 
-				setTimeout(function () {
-					document.body.style.overflow = "auto";
-				}, TRANSITION_TIME * 1000 + 50);
-			}, TRANSITION_TIME * 1000 + 50);
-		},
+      setTimeout(
+        function () {
+          fromScreen.style.display = "none";
+          toScreen.classList.remove("transition-out");
+          fromScreen.classList.remove("transition-out");
 
-		clear: function (element) {
-			element.innerHTML = '';
-		},
+          setTimeout(
+            function () {
+              document.body.style.overflow = "auto";
+            },
+            TRANSITION_TIME * 1000 + 50,
+          );
+        },
+        TRANSITION_TIME * 1000 + 50,
+      );
+    },
 
-		setTextOpacity: function (opacity) {
-			document.getElementById("text").style.opacity = opacity.toString();
-		},
+    clear: function (element) {
+      element.innerHTML = "";
+    },
 
-		showRoomStatus: function (status) {
-			document.getElementById("status").textContent = status;
-		},
+    setTextOpacity: function (opacity) {
+      document.getElementById("text").style.opacity = opacity.toString();
+    },
 
-		showForceStart: function (onClick) {
-			let link = document.querySelector("#force-start");
-			link.style.display = "inline";
-			if (typeof onClick === "function") {
-				link.addEventListener("click", linkClick);
-				function linkClick(e) {
-					onClick(e);
-					link.removeEventListener("click", linkClick);
-				}
-			}
-		},
+    showRoomStatus: function (status) {
+      document.getElementById("status").textContent = status;
+    },
 
-		hideForceStart: function () {
-			document.querySelector("#force-start").style.display = "none";
-		}
-	},
+    showForceStart: function (onClick) {
+      let link = document.querySelector("#force-start");
+      link.style.display = "inline";
+      if (typeof onClick === "function") {
+        link.addEventListener("click", linkClick);
+        function linkClick(e) {
+          onClick(e);
+          link.removeEventListener("click", linkClick);
+        }
+      }
+    },
 
-	findPlayer: function (id, players) {
-		return players.find(p => p.id === id);
-	},
+    hideForceStart: function () {
+      document.querySelector("#force-start").style.display = "none";
+    },
+  },
 
-	findPlayerIndex: function (id, players) {
-		return players.findIndex(p => p.id === id);
-	}
-}
+  findPlayer: function (id, players) {
+    return players.find((p) => p.id === id);
+  },
+
+  findPlayerIndex: function (id, players) {
+    return players.findIndex((p) => p.id === id);
+  },
+};
